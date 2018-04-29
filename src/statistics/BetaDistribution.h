@@ -48,6 +48,10 @@ public:
         return *this;
     }
 
+    virtual BetaDistribution* Clone() const
+    {
+        return new BetaDistribution(*this);
+    }
     virtual real marginal_pdf(real x) const;
     virtual real pdf(real x) const;
     real log_pdf(real x) const;

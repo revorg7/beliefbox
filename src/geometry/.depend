@@ -1,0 +1,9 @@
+/home/div14/Desktop/beliefbox/src/objs/PointSet.o: PointSet.cc \
+  /home/div14/Desktop/beliefbox/src/geometry/PointSet.h
+/home/div14/Desktop/beliefbox/src/objs/VectorSet.o: VectorSet.cc \
+  /home/div14/Desktop/beliefbox/src/geometry/VectorSet.h \
+  /home/div14/Desktop/beliefbox/src/core/Vector.h \
+  /home/div14/Desktop/beliefbox/src/core/debug.h \
+  /home/div14/Desktop/beliefbox/src/core/real.h \
+  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div14/Desktop/beliefbox/src/core/Object.h

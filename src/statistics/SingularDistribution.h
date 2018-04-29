@@ -44,6 +44,10 @@ public:
     UnknownSingularDistribution();
     UnknownSingularDistribution(const Distribution* prior_);
     virtual ~UnknownSingularDistribution();
+    virtual UnknownSingularDistribution* Clone() const
+    {
+        return new UnknownSingularDistribution(*this);
+    }
     virtual void calculatePosterior(real x);
     virtual real Observe(real x);
     virtual real pdf(real x) const;
