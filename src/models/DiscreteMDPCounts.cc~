@@ -82,7 +82,7 @@ DiscreteMDPCounts::DiscreteMDPCounts(const DiscreteMDPCounts& model) :
 			ER[i] = model.ER[i]->Clone();
 			break;
 		case FIXED:
-			ER[i] = new UnknownSingularDistribution(model.ER[i]->Clone());
+			ER[i] = model.ER[i]->Clone();
 			break;
 		default:
 			Serror("Unknown distribution family %d\n", reward_family);
@@ -182,6 +182,12 @@ int DiscreteMDPCounts::GenerateTransition (int s, int a) const
 real DiscreteMDPCounts::getTransitionProbability (int s, int a, int s2) const
 {
     return transitions.marginal_pdf(s, a, s2);
+}
+
+/// Get the specific reward probability
+real DiscreteMDPCounts::getRewardProbability (int s, int a, real r) const
+{
+    return ER[getID (s, a)]->marginal_pdf(r);
 }
 
 /// Get a vector of transition probabilities

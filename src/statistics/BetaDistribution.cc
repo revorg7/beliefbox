@@ -14,6 +14,8 @@
 #include "SpecialFunctions.h"
 #include "ExponentialDistribution.h"
 
+//#define TBRL_DEBUG
+
 /// Calculate
 /// \f[
 ///  \exp(\log x(\alpha - 1) + \log (1-x)(\beta - 1) - B(\alpha, \beta)
@@ -56,6 +58,7 @@ real BetaDistribution::log_pdf(real x) const
 void BetaDistribution::calculatePosterior(real x)
 {
 	assert (x>=0 && x <= 1);
+	x = 0.1*x;
     alpha += x;
     beta += (1.0-x);
 }
@@ -73,6 +76,9 @@ void BetaDistribution::setVariance(real var)
 
 real BetaDistribution::getMean() const
 {
+#ifdef TBRL_DEBUG
+	printf("alpa:%f beta:%f\n",alpha,beta);
+#endif
     return alpha/(alpha + beta);
 }
 

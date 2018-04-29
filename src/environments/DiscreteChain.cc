@@ -87,12 +87,12 @@ DiscreteMDP* DiscreteChain::getMDP() const
 		#else
 		if (s==0) {
 			mdp->addFixedReward(s, 0, start);
-			mdp->addFixedReward(s, 1, start);
+			mdp->addFixedReward(s, 1, 0);
 		} else if (s == n_states - 1) {
-			mdp->addFixedReward(s, 0, end);
+			mdp->addFixedReward(s, 0, start);
 			mdp->addFixedReward(s, 1, end);
 		} else {
-			mdp->addFixedReward(s, 0, 0);
+			mdp->addFixedReward(s, 0, start);
 			mdp->addFixedReward(s, 1, 0);
 		}
 		#endif

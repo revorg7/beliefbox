@@ -49,14 +49,14 @@ int main(int argc, char** argv) {
     env_rng->manualSeed(982374523);
     int n_states = 5;
     int n_actions = 2;
-    real discounting = 0.95;
-    int n_steps = 10000;
+    real discounting = 0.999;
+    int n_steps = 1000;
 
     //    int n_samples = 2; ///< number of state samples when branching
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 1; 
+    int planning_horizon = 3; 
     int leaf_value = 0; 
     int n_experiments = 1; 
 
@@ -131,13 +131,14 @@ real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
 {
     environment->Reset();
     tree.Reset(environment->getState());
+    real reward = environment->getReward();
     real total_reward = 0;
     for (int t=0; t<n_steps; ++t) {
         int state = environment->getState();
-        real reward = environment->getReward();
         int action = tree.Act(reward, state);
         //			action = 1;
         bool action_OK = environment->Act(action);
+        reward = environment->getReward();
         total_reward += reward;
         printf("%d %d %f  # reward\n", state, action, reward);
         if (!action_OK) {

@@ -92,6 +92,10 @@ public:
     {
         return 0.0;
     }
+    virtual real getRewardProbability (int s, int a, real r) const
+    {
+        return 0.0;
+    }
     virtual real getExpectedReward (int s, int a) const
     {
         return 0.0;

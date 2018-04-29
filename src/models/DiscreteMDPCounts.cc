@@ -27,7 +27,7 @@
 DiscreteMDPCounts::DiscreteMDPCounts (int n_states, int n_actions, real init_transition_count, RewardFamily reward_family_)
     : 
     MDPModel(n_states, n_actions),
-	transitions(n_states, n_actions, 0.5),
+	transitions(n_states, n_actions, init_transition_count),
     mean_mdp(n_states, n_actions, NULL),
     reward_family(reward_family_)
 {
@@ -182,6 +182,12 @@ int DiscreteMDPCounts::GenerateTransition (int s, int a) const
 real DiscreteMDPCounts::getTransitionProbability (int s, int a, int s2) const
 {
     return transitions.marginal_pdf(s, a, s2);
+}
+
+/// Get the specific reward probability
+real DiscreteMDPCounts::getRewardProbability (int s, int a, real r) const
+{
+    return ER[getID (s, a)]->marginal_pdf(r);
 }
 
 /// Get a vector of transition probabilities
