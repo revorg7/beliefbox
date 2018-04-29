@@ -225,6 +225,12 @@ NormalUnknownMeanPrecision::~NormalUnknownMeanPrecision()
 {
 }
 
+NormalUnknownMeanPrecision* NormalUnknownMeanPrecision::Clone() const
+{
+    return new NormalUnknownMeanPrecision(*this);
+}
+
+
 real NormalUnknownMeanPrecision::generate()
 {
     return marginal_mean.generate()(0);

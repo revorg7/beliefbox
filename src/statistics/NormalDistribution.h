@@ -108,6 +108,10 @@ public:
     virtual ~NormalDistributionUnknownMean()
     {
     }
+    virtual NormalDistributionUnknownMean* Clone() const
+    {
+        return new NormalDistributionUnknownMean(*this); 
+    }
     virtual real generate();
     virtual real generate() const;
 	virtual real generateMarginal() const;
@@ -164,6 +168,7 @@ public:
     NormalUnknownMeanPrecision(real mu_0_, real tau_0_);
     void Reset();
     virtual ~NormalUnknownMeanPrecision();
+    virtual NormalUnknownMeanPrecision* Clone() const;
     virtual real LogLikelihood(const std::vector<real>& x, int K) const;
     virtual real LogLikelihoodLogNormal(const std::vector<real>& x, int K) const;
     virtual real generate();

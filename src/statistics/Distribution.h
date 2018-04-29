@@ -89,6 +89,7 @@ public:
     ConjugatePrior() {}
     virtual ~ConjugatePrior() {}
     /// Calculate posterior from some observation x.
+	virtual ConjugatePrior* Clone() const = 0;
     virtual void calculatePosterior(real x) = 0; 
     /// Observe a value, calculate posterior, return prior marginal
     /// likelihood of x.
