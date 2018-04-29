@@ -1,0 +1,1 @@
+"proof_alpha_rate": When running "Strens" paper chain env, with reduced learning rate for reward distribution, H=3 achieves highest score.

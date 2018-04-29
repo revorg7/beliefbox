@@ -68,6 +68,7 @@ public:
     virtual real GenerateReward (int s, int a) const;
     virtual int GenerateTransition (int s, int a) const;
     virtual real getTransitionProbability (int s, int a, int s2) const;
+    virtual real getRewardProbability (int s, int a, real r) const;
     virtual Vector getTransitionProbabilities (int s, int a) const;
     virtual real getExpectedReward (int s, int a) const;
 
