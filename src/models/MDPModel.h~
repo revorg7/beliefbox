@@ -92,6 +92,10 @@ public:
     {
         return 0.0;
     }
+    virtual real getRewardProbability (int s, int a, real r) const
+    {
+        return 0.0;
+    }
     virtual real getExpectedReward (int s, int a) const
     {
         return 0.0;
@@ -109,6 +113,7 @@ public:
     virtual DiscreteMDP* CreateMDP() const;
     virtual DiscreteMDP* generate() const = 0;
     virtual const DiscreteMDP* const getMeanMDP() const = 0;
+    virtual const DiscreteMDP* const CopyMeanMDP(DiscreteMDP* mdp) const = 0;
     virtual void ShowModel() const;
 	virtual void ShowModelStatistics() const
 	{
