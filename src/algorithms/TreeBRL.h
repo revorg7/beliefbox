@@ -76,10 +76,18 @@ public:
                     real r,
                     real p,
                     BeliefState* prev_);
-		~BeliefState();
+	BeliefState(TreeBRL& tree_,
+                    MDPModel* belief_,
+                    int state_,
+                    real prev_total_r,
+                    BeliefState* prev_);
+
+	~BeliefState();
+
         // methods for building the tree
         void ExpandAllActions();
         void SparseExpandAllActions(int n_samples);
+	void SparserExpandAllActions(int n_samples,int K_step);
         // methods for calculating action values in the tree
         real CalculateValues(LeafNodeValue leaf_node);
 		real MeanMDPValue();
@@ -128,6 +136,7 @@ public:
 
     TreeBRL::BeliefState CalculateSparseBeliefTree(int n_samples, int n_TS);
     TreeBRL::BeliefState CalculateBeliefTree();
+    TreeBRL::BeliefState CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS);
 
     
 };

@@ -12,7 +12,7 @@
 #include "TreeBRL.h"
 
 
-#define TBRL_DEBUG2
+//#define TBRL_DEBUG2
 
 TreeBRL::TreeBRL(int n_states_,
                  int n_actions_,
@@ -99,8 +99,10 @@ int TreeBRL::Act(real reward, int next_state)
 	belief->ShowModelStatistics();
 #endif
 
-    //int n_MDP_leaf_samples = 1;
-    BeliefState belief_state = CalculateBeliefTree();
+    int n_MDP_leaf_samples = 1;
+    BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1);
+    //BeliefState belief_state = CalculateSparseBeliefTree(5,1);
+    //BeliefState belief_state = CalculateBeliefTree();
 	
 	//printf("%f %f %f\n", belief_state.CalculateValues(), 
 	//belief_state.CalculateValues(leaf_node_expansion);
@@ -120,7 +122,6 @@ int TreeBRL::Act(real reward, int next_state)
     return current_action;
 }
 
-
     /// Calculate a sparse belief tree where we take n_samples state
     /// samples and use n_TS MDP samples for the upper and lower bounds at
     /// the leaf nodes
@@ -130,6 +131,23 @@ TreeBRL::BeliefState TreeBRL::CalculateSparseBeliefTree(int n_samples, int n_TS)
     // Initialise the root belief state
     BeliefState belief_state(*this, belief, current_state);
     belief_state.SparseExpandAllActions(n_samples);
+    belief_state.CalculateValues(leaf_node_expansion);
+    //belief_state.CalculateLowerBoundValues(n_TS),
+    //belief_state.CalculateUpperBoundValues(n_TS));
+    return belief_state;
+
+}
+
+    /// Calculate a sparse belief tree where we take n_samples optimal-MDP polices
+    /// and run them for K-steps before doing backup.
+    /// We also use n_TS MDP samples for the upper and lower bounds at
+    /// the leaf nodes
+
+TreeBRL::BeliefState TreeBRL::CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS)
+{
+    // Initialise the root belief state
+    BeliefState belief_state(*this, belief, current_state);
+    belief_state.SparserExpandAllActions(n_samples,K_step);
     belief_state.CalculateValues(leaf_node_expansion);
     //belief_state.CalculateLowerBoundValues(n_TS),
     //belief_state.CalculateUpperBoundValues(n_TS));
@@ -197,6 +215,26 @@ TreeBRL::BeliefState::BeliefState(TreeBRL& tree_,
 
 }
 
+// Using this to construct subsequent belief-state for sparser tree
+TreeBRL::BeliefState::BeliefState(TreeBRL& tree_,
+                                  MDPModel* belief_,
+                                  int state_,
+                                  real prev_total_r,
+                                  BeliefState* prev_)
+	: tree(tree_), 
+	  belief(belief_),
+	  state(state_),
+	  prev_reward(prev_total_r), probability(1), prev(prev_), t(prev_->t + 1)
+{
+	
+#ifdef TBRL_DEBUG
+	logmsg("Already cloned belief");
+	belief_->ShowModelStatistics();
+	logmsg("Tree size: %d\n", tree.size);
+#endif
+
+}
+
 TreeBRL::BeliefState::~BeliefState()
 {
 	tree.size--;
@@ -206,6 +244,59 @@ TreeBRL::BeliefState::~BeliefState()
 	delete belief;
 }
 
+// Generate n-sample MDPs, calculate their optimal policy and run them for K_steps before creating new beliefs
+void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
+{
+    if (t >= tree.horizon) {
+        return;
+    }
+    real p = 1 / (real) n_samples;
+
+    real V_next = 0;
+    DiscreteMDP* mean_mdp = belief->getMeanMDP()->Clone();
+    int underlying_state = state;
+    for (int i=0; i<n_samples; ++i) {
+	DiscreteMDP* model = belief->generate();
+	ValueIteration VI(model, tree.gamma);
+	VI.ComputeStateValuesStandard(1e-3);
+	FixedDiscretePolicy* policy = VI.getPolicy();
+	int init_state = underlying_state; 
+	policy->Reset(init_state);
+	mean_mdp->setState(init_state);
+	int next_state;
+	real total_reward = 0;
+	MDPModel* belief_clone = belief->Clone();
+	for (int k=0; k < K_step;++k)
+	{
+	    
+	    //int next_action = ArgMax(policy->getActionProbabilities(state)); //choosing max_prob_action
+	    int next_action = policy->SelectAction();
+	    mean_mdp->Act(next_action);
+	    real r = mean_mdp->getReward();
+	    next_state = mean_mdp->getState();
+
+	    //real prob = 1.0;
+	    //prob *= mean_mdp->getRewardProbability(init_state,next_action,r);
+	    //prob *= mean_mdp->getTransitionProbability(init_state,next_action,next_state);
+
+	    belief_clone->AddTransition(init_state,next_action,r,next_state);
+	    policy->Observe (r, next_state);
+	    total_reward += tree.gamma*r;
+
+	    init_state = next_state;
+	}
+	//PolicyEvaluation PI(policy, model, tree.gamma);
+	//PI.ComputeStateValues(1e-3);
+	//V_next += PI.getValue(state);
+	children.push_back(new BeliefState(tree, belief_clone, next_state, total_reward, this));
+	delete model;
+    }
+    real V = V_next / (real) n_samples;
+
+    for (uint i=0; i<children.size(); ++i) {
+        children[i]->SparseExpandAllActions(n_samples);
+    }
+}
 
 /// Generate transitions from the current state for all
 /// actions. Do this recursively, using the marginal
@@ -220,8 +311,8 @@ void TreeBRL::BeliefState::SparseExpandAllActions(int n_samples)
     for (int k=0; k<n_samples; ++k) {
         for (int a=0; a<tree.n_actions; ++a) {
             int next_state = belief->GenerateTransition(state, a);
-            //real reward = belief->GenerateReward(state, a); 	/too stochastic to generate, without sufficient H
-	      real reward = belief->getExpectedReward(state,a);
+            real reward = belief->GenerateReward(state, a); 	//too stochastic to generate, without sufficient H
+	    //real reward = belief->getExpectedReward(state,a);
             // Generate the new belief state and put it in the tree
             children.push_back(new BeliefState(tree, belief, state, a, next_state, reward, p, this));
         }

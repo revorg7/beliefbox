@@ -58,7 +58,6 @@ real BetaDistribution::log_pdf(real x) const
 void BetaDistribution::calculatePosterior(real x)
 {
 	assert (x>=0 && x <= 1);
-	x = 0.1*x;
     alpha += x;
     beta += (1.0-x);
 }

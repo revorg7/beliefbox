@@ -19,6 +19,9 @@
 
 /// The main thing to test
 #include "TreeBRL.h"
+//for comparision
+#include "MDPModel.h"
+#include "SampleBasedRL.h"
 
 /// The basic environments
 #include "ContextBandit.h"
@@ -30,11 +33,12 @@
 /// STD
 #include <iostream>
 #include <memory>
+#include <algorithm> //for shuffle
 using namespace std;
 
 real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
                    TreeBRL& tree, 
-                   int n_steps);
+                   int n_steps, SampleBasedRL* sampling,unordered_map<int,int> rotator);
 
 int main(int argc, char** argv) {
     // use a high-quality RNG for the main program
@@ -51,6 +55,16 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     real discounting = 0.999;
     int n_steps = 1000;
+
+    // To remove any indexing bias
+    std::vector<int> action_list;
+    for (int i=0;i<n_actions;++i) action_list.push_back(i);
+    std::random_shuffle(action_list.begin(),action_list.end());
+    std::unordered_map<int, int> randomizer;
+    for (int i=0;i<n_actions;++i) randomizer[i]=action_list[i];
+    for (int i=0;i<n_actions;++i) printf("action %d is %d\n",i,randomizer[i]);
+    ///
+
 
     //    int n_samples = 2; ///< number of state samples when branching
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
@@ -106,6 +120,28 @@ int main(int argc, char** argv) {
     DiscreteMDPCounts belief(n_states, n_actions, dirichlet_mass, reward_prior);
 	//NullMDPModel belief(n_states, n_actions);
 	
+
+	// Adding for comparision to USAMPLING
+            DiscreteMDPCounts* discrete_mdp =  new DiscreteMDPCounts(n_states, n_actions,
+                                                  dirichlet_mass,
+                                                  reward_prior);
+            MDPModel* model= (MDPModel*) discrete_mdp;
+
+	    int max_samples = 2;
+	    real epsilon = 0.01;
+            SampleBasedRL* sampling = new SampleBasedRL(n_states,
+                                          n_actions,
+                                          discounting,
+                                          epsilon,
+                                          model,
+                                          rng,
+                                          max_samples,
+                                          true);
+           // if (use_sampling_threshold) {
+           //     sampling->setSamplingThreshold(sampling_threshold);
+           // }
+	////
+
     Vector U(n_experiments);
     for (int experiment=0;
          experiment<n_experiments;
@@ -114,7 +150,7 @@ int main(int argc, char** argv) {
         TreeBRL tree (n_states, n_actions, discounting, &belief, rng, planning_horizon, (TreeBRL::LeafNodeValue) leaf_value);
         // Set state to 0
 
-        real total_reward = RunExperiment(environment, tree, n_steps);
+        real total_reward = RunExperiment(environment, tree, n_steps,sampling,randomizer);
         printf("H:%d,\tV:%d,\tR:%f\n", planning_horizon, leaf_value,total_reward);
         U(experiment) = total_reward;
     }
@@ -127,7 +163,7 @@ int main(int argc, char** argv) {
 
 real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
                    TreeBRL& tree, 
-                   int n_steps)
+                   int n_steps,SampleBasedRL* sampling,unordered_map<int,int> rotater )
 {
     environment->Reset();
     tree.Reset(environment->getState());
@@ -136,7 +172,10 @@ real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
     for (int t=0; t<n_steps; ++t) {
         int state = environment->getState();
         int action = tree.Act(reward, state);
-        //			action = 1;
+
+	//int action = sampling->Act(reward,state);
+	action = rotater[action];
+
         bool action_OK = environment->Act(action);
         reward = environment->getReward();
         total_reward += reward;
