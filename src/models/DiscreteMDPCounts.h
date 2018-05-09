@@ -77,7 +77,7 @@ public:
 	virtual void ShowModelStatistics() const;
 
     virtual DiscreteMDP* generate() const;
-    virtual const DiscreteMDP* const getMeanMDP() const;
+    virtual const DiscreteMDP* getMeanMDP() const;
     //virtual DiscreteMDP* CreateMDP() const;
     virtual void CopyMeanMDP(DiscreteMDP* mdp) const;
     int getNVisits(int s, int a) const

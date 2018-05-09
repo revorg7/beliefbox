@@ -279,7 +279,7 @@ DiscreteMDP* DiscreteMDPCounts::generate() const
 
 
 /// Get a pointer to the mean MDP
-const DiscreteMDP * const DiscreteMDPCounts::getMeanMDP() const
+const DiscreteMDP * DiscreteMDPCounts::getMeanMDP() const
 {
 	//DiscreteMDP* mdp = new DiscreteMDP(n_states, n_actions);
 	//CopyMeanMDP(mdp);

@@ -78,8 +78,10 @@ public:
                     BeliefState* prev_);
 	BeliefState(TreeBRL& tree_,
                     MDPModel* belief_,
+                    int prev_action_,
                     int state_,
                     real prev_total_r,
+                    real p,
                     BeliefState* prev_);
 
 	~BeliefState();

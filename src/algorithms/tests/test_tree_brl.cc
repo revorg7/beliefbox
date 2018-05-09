@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 3; 
+    int planning_horizon = 2; 
     int leaf_value = 0; 
     int n_experiments = 1; 
 
@@ -171,9 +171,9 @@ real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
     real total_reward = 0;
     for (int t=0; t<n_steps; ++t) {
         int state = environment->getState();
-        int action = tree.Act(reward, state);
+        //int action = tree.Act(reward, state);
 
-	//int action = sampling->Act(reward,state);
+	int action = sampling->Act(reward,state);
 	action = rotater[action];
 
         bool action_OK = environment->Act(action);
