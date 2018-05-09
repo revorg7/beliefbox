@@ -12,7 +12,7 @@
 #include "TreeBRL.h"
 
 
-//#define TBRL_DEBUG2
+//#define TBRL_DEBUG5
 
 TreeBRL::TreeBRL(int n_states_,
                  int n_actions_,
@@ -100,8 +100,8 @@ int TreeBRL::Act(real reward, int next_state)
 #endif
 
     int n_MDP_leaf_samples = 1;
-    BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1);
-    //BeliefState belief_state = CalculateSparseBeliefTree(5,1);
+    //BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1);
+    BeliefState belief_state = CalculateSparseBeliefTree(5,1);
     //BeliefState belief_state = CalculateBeliefTree();
 	
 	//printf("%f %f %f\n", belief_state.CalculateValues(), 
@@ -218,19 +218,26 @@ TreeBRL::BeliefState::BeliefState(TreeBRL& tree_,
 // Using this to construct subsequent belief-state for sparser tree
 TreeBRL::BeliefState::BeliefState(TreeBRL& tree_,
                                   MDPModel* belief_,
+				  int prev_action_,
                                   int state_,
                                   real prev_total_r,
+				  real p,
                                   BeliefState* prev_)
 	: tree(tree_), 
 	  belief(belief_),
 	  state(state_),
-	  prev_reward(prev_total_r), probability(1), prev(prev_), t(prev_->t + 1)
+	  prev_action(prev_action_),
+	  prev_reward(prev_total_r), probability(p), prev(prev_), t(prev_->t + 1)
 {
+
+
+	tree.size++;
 	
-#ifdef TBRL_DEBUG
-	logmsg("Already cloned belief");
-	belief_->ShowModelStatistics();
-	logmsg("Tree size: %d\n", tree.size);
+#ifdef TBRL_DEBUG5
+	logmsg("Already cloned belief\n");
+//	belief_->ShowModelStatistics();
+	printf("prev-pointer:%p this-pointer:%p\n",(void*)prev_,(void*)this);
+	logmsg("Tree size: %d t:%d s:%d a:%d\n", tree.size,t,state,prev_action);
 #endif
 
 }
@@ -252,8 +259,14 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
     }
     real p = 1 / (real) n_samples;
 
-    real V_next = 0;
-    DiscreteMDP* mean_mdp = belief->getMeanMDP()->Clone();
+    DiscreteMDP* mean_mdp = new DiscreteMDP(tree.n_states,tree.n_actions);
+    belief->CopyMeanMDP(mean_mdp);
+#ifdef TBRL_DEBUG4
+	printf("t: %d\n",t);
+	belief->ShowModel();
+//	printf("MeanMDP:\n");
+//	mean_mdp->ShowModel();
+#endif
     int underlying_state = state;
     for (int i=0; i<n_samples; ++i) {
 	DiscreteMDP* model = belief->generate();
@@ -263,14 +276,15 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 	int init_state = underlying_state; 
 	policy->Reset(init_state);
 	mean_mdp->setState(init_state);
-	int next_state;
+	int next_state,first_action;
+	int next_action = policy->SelectAction();
+	first_action = next_action;
 	real total_reward = 0;
 	MDPModel* belief_clone = belief->Clone();
 	for (int k=0; k < K_step;++k)
 	{
 	    
 	    //int next_action = ArgMax(policy->getActionProbabilities(state)); //choosing max_prob_action
-	    int next_action = policy->SelectAction();
 	    mean_mdp->Act(next_action);
 	    real r = mean_mdp->getReward();
 	    next_state = mean_mdp->getState();
@@ -280,21 +294,28 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 	    //prob *= mean_mdp->getTransitionProbability(init_state,next_action,next_state);
 
 	    belief_clone->AddTransition(init_state,next_action,r,next_state);
+#ifdef TBRL_DEBUG4
+	printf("%d %d %d %f\n",init_state,next_action,r,next_state);
+#endif
 	    policy->Observe (r, next_state);
 	    total_reward += tree.gamma*r;
 
 	    init_state = next_state;
+	    next_action = policy->SelectAction();
 	}
 	//PolicyEvaluation PI(policy, model, tree.gamma);
 	//PI.ComputeStateValues(1e-3);
 	//V_next += PI.getValue(state);
-	children.push_back(new BeliefState(tree, belief_clone, next_state, total_reward, this));
+#ifdef TBRL_DEBUG4
+//	belief_clone->ShowModel();
+#endif
+	children.push_back(new BeliefState(tree, belief_clone, first_action, next_state, total_reward, p, this));
 	delete model;
     }
-    real V = V_next / (real) n_samples;
+    delete mean_mdp;
 
     for (uint i=0; i<children.size(); ++i) {
-        children[i]->SparseExpandAllActions(n_samples);
+        children[i]->SparserExpandAllActions(n_samples,K_step);
     }
 }
 

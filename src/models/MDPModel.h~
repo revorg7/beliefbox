@@ -112,8 +112,14 @@ public:
     virtual void Reset() = 0;
     virtual DiscreteMDP* CreateMDP() const;
     virtual DiscreteMDP* generate() const = 0;
-    virtual const DiscreteMDP* const getMeanMDP() const = 0;
-    virtual const DiscreteMDP* const CopyMeanMDP(DiscreteMDP* mdp) const = 0;
+    virtual const DiscreteMDP* getMeanMDP() const = 0;
+
+    /** Copy method should be implmented in suitable case
+    */
+    virtual void CopyMeanMDP(DiscreteMDP* mdp)
+    {
+	// does nothing
+    }
     virtual void ShowModel() const;
 	virtual void ShowModelStatistics() const
 	{
@@ -167,7 +173,7 @@ public:
 	{
 		return NULL;
 	}
-    virtual const DiscreteMDP* const getMeanMDP() const
+    virtual const DiscreteMDP* getMeanMDP() const
 	{
 		return NULL;
 	}
