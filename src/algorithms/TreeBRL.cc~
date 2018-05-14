@@ -100,7 +100,7 @@ int TreeBRL::Act(real reward, int next_state)
 #endif
 
     int n_MDP_leaf_samples = 1;
-    BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1);
+    BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1, 0);
     //BeliefState belief_state = CalculateSparseBeliefTree(5,1);
     //BeliefState belief_state = CalculateBeliefTree();
 	
@@ -143,11 +143,14 @@ TreeBRL::BeliefState TreeBRL::CalculateSparseBeliefTree(int n_samples, int n_TS)
     /// We also use n_TS MDP samples for the upper and lower bounds at
     /// the leaf nodes
 
-TreeBRL::BeliefState TreeBRL::CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS)
+TreeBRL::BeliefState TreeBRL::CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS, int policy_select)
 {
     // Initialise the root belief state
     BeliefState belief_state(*this, belief, current_state);
-    belief_state.SparserExpandAllActions(n_samples,K_step);
+
+    if (policy_select==0) belief_state.SparserExpandAllActions(n_samples,K_step);
+    else if (policy_select==1) belief_state.SparserRandomExpandAllActions(n_samples,K_step);
+
     belief_state.CalculateValues(leaf_node_expansion);
     //belief_state.CalculateLowerBoundValues(n_TS),
     //belief_state.CalculateUpperBoundValues(n_TS));
@@ -268,8 +271,7 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 //	mean_mdp->ShowModel();
 #endif
     int underlying_state = state;
-    real discount_factor = 1.0;
-    real total_reward = 0.0;
+    real discount_factor,total_reward;
     real gamma = tree.gamma;
     for (int i=0; i<n_samples; ++i) {
 	DiscreteMDP* model = belief->generate();
@@ -321,6 +323,60 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 
     for (uint i=0; i<children.size(); ++i) {
         children[i]->SparserExpandAllActions(n_samples,K_step);
+    }
+}
+
+
+// Generate n-sample MDPs and run random policy in mean-mdp for K_steps before creating new beliefs
+void TreeBRL::BeliefState::SparserRandomExpandAllActions(int n_samples,int K_step)
+{
+    if (t >= tree.horizon) {
+        return;
+    }
+    real p = 1 / (real) n_samples;
+
+    DiscreteMDP* mean_mdp = new DiscreteMDP(tree.n_states,tree.n_actions);
+    belief->CopyMeanMDP(mean_mdp);
+
+
+    int underlying_state = state;
+    real discount_factor,total_reward;
+    real gamma = tree.gamma;
+    DiscreteRandomPolicy* policy = new DiscreteRandomPolicy(tree.n_actions,tree.rng);
+    for (int i=0; i<n_samples; ++i) {
+
+
+	int init_state = underlying_state; 
+	policy->Reset();
+	mean_mdp->setState(init_state);
+	int next_state,first_action;
+	int next_action = policy->SelectAction();
+	first_action = next_action;
+	total_reward = 0.0;
+	discount_factor = 1.0;
+	MDPModel* belief_clone = belief->Clone();
+	for (int k=0; k < K_step;++k)
+	{
+	    
+	    mean_mdp->Act(next_action);
+	    real r = mean_mdp->getReward();
+	    next_state = mean_mdp->getState();
+
+	    policy->Observe (r, next_state);
+	    total_reward += discount_factor*r;
+
+	    init_state = next_state;
+	    next_action = policy->SelectAction();
+	    discount_factor *= gamma;
+	}
+
+
+	children.push_back(new BeliefState(tree, belief_clone, first_action, next_state, total_reward, p, this));
+    }
+    delete mean_mdp;
+
+    for (uint i=0; i<children.size(); ++i) {
+        children[i]->SparserRandomExpandAllActions(n_samples,K_step);
     }
 }
 
