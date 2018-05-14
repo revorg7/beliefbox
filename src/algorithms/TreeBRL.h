@@ -22,6 +22,7 @@
 #include "MultiMDPValueIteration.h"
 #include "ValueIteration.h"
 #include "PolicyEvaluation.h"
+#include "RandomPolicy.h"
 #include <vector>
 #include <memory>
 
@@ -90,6 +91,7 @@ public:
         void ExpandAllActions();
         void SparseExpandAllActions(int n_samples);
 	void SparserExpandAllActions(int n_samples,int K_step);
+	void SparserRandomExpandAllActions(int n_samples,int K_step);
         // methods for calculating action values in the tree
         real CalculateValues(LeafNodeValue leaf_node);
 		real MeanMDPValue();
@@ -138,7 +140,7 @@ public:
 
     TreeBRL::BeliefState CalculateSparseBeliefTree(int n_samples, int n_TS);
     TreeBRL::BeliefState CalculateBeliefTree();
-    TreeBRL::BeliefState CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS);
+    TreeBRL::BeliefState CalculateSparserBeliefTree(int n_samples,int K_step, int n_TS, int policy_select);
 
     
 };

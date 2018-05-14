@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 2; 
+    int planning_horizon = 3; 
     int leaf_value = 0; 
     int n_experiments = 1; 
 

@@ -22,6 +22,7 @@
 #include "MultiMDPValueIteration.h"
 #include "ValueIteration.h"
 #include "PolicyEvaluation.h"
+#include "RandomPolicy.h"
 #include <vector>
 #include <memory>
 
@@ -81,6 +82,7 @@ public:
                     int prev_action_,
                     int state_,
                     real prev_total_r,
+                    real p,
                     BeliefState* prev_);
 
 	~BeliefState();
@@ -89,6 +91,7 @@ public:
         void ExpandAllActions();
         void SparseExpandAllActions(int n_samples);
 	void SparserExpandAllActions(int n_samples,int K_step);
+	void SparserRandomExpandAllActions(int n_samples,int K_step);
         // methods for calculating action values in the tree
         real CalculateValues(LeafNodeValue leaf_node);
 		real MeanMDPValue();
