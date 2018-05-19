@@ -65,10 +65,6 @@ public:
         return mdp->getTransitionProbability(state, action, next_state);
     }
 
-    virtual real getReward() const
-    {
-        return mdp->getReward();
-    }
     virtual real getExpectedReward(const int& state, const int& action) const
     {
         return mdp->getExpectedReward(state, action);

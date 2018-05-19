@@ -1,113 +1,113 @@
-/home/div14/Desktop/beliefbox/src/objs/AbstractGraph.o: AbstractGraph.cc \
-  /home/div14/Desktop/beliefbox/src/core/AbstractGraph.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/SmartAssert.h
-/home/div14/Desktop/beliefbox/src/objs/BasisSet.o: BasisSet.cc /home/div14/Desktop/beliefbox/src/core/BasisSet.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/Grid.h
-/home/div14/Desktop/beliefbox/src/objs/ConnectivityMatrix.o: ConnectivityMatrix.cc \
-  /home/div14/Desktop/beliefbox/src/core/ConnectivityMatrix.h \
-  /home/div14/Desktop/beliefbox/src/core/Graph.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/SparseGraph.h
-/home/div14/Desktop/beliefbox/src/objs/CoverTree.o: CoverTree.cc \
-  /home/div14/Desktop/beliefbox/src/core/CoverTree.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/Matrix.h \
-  /home/div14/Desktop/beliefbox/src/statistics/Random.h \
-  /home/div14/Desktop/beliefbox/src/core/BasisSet.h \
-  /home/div14/Desktop/beliefbox/src/core/Grid.h \
-  /home/div14/Desktop/beliefbox/src/statistics/BayesianMultivariateRegression.h \
-  /home/div14/Desktop/beliefbox/src/statistics/iWishart.h \
-  /home/div14/Desktop/beliefbox/src/statistics/Distribution.h \
-  /home/div14/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
-  /home/div14/Desktop/beliefbox/src/statistics/MultivariateNormal.h \
-  /home/div14/Desktop/beliefbox/src/statistics/NormalDistribution.h \
-  /home/div14/Desktop/beliefbox/src/statistics/Student.h
-/home/div14/Desktop/beliefbox/src/objs/Graph.o: Graph.cc /home/div14/Desktop/beliefbox/src/core/Graph.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/SmartAssert.h
-/home/div14/Desktop/beliefbox/src/objs/Grid.o: Grid.cc /home/div14/Desktop/beliefbox/src/core/Grid.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/GridTree.o: GridTree.cc /home/div14/Desktop/beliefbox/src/core/GridTree.h \
-  /home/div14/Desktop/beliefbox/src/core/Grid.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/KDTree.o: KDTree.cc /home/div14/Desktop/beliefbox/src/core/KDTree.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/OrderedFixedList.h
-/home/div14/Desktop/beliefbox/src/objs/KFold.o: KFold.cc /home/div14/Desktop/beliefbox/src/core/Matrix.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/KFold.h \
-  /home/div14/Desktop/beliefbox/src/statistics/MersenneTwister.h \
-  /home/div14/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
-  /home/div14/Desktop/beliefbox/src/statistics/Random.h
-/home/div14/Desktop/beliefbox/src/objs/MathFunctions.o: MathFunctions.cc \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h
-/home/div14/Desktop/beliefbox/src/objs/Matrix.o: Matrix.cc /home/div14/Desktop/beliefbox/src/core/Matrix.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/MatrixNorm.o: MatrixNorm.cc \
-  /home/div14/Desktop/beliefbox/src/core/MatrixNorm.h \
-  /home/div14/Desktop/beliefbox/src/core/Matrix.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/Object.o: Object.cc /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/ReadFile.o: ReadFile.cc /home/div14/Desktop/beliefbox/src/core/ReadFile.h \
-  /home/div14/Desktop/beliefbox/src/core/Matrix.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h
-/home/div14/Desktop/beliefbox/src/objs/SmartAssert.o: SmartAssert.cc
-/home/div14/Desktop/beliefbox/src/objs/SparseGraph.o: SparseGraph.cc \
-  /home/div14/Desktop/beliefbox/src/core/SparseGraph.h \
-  /home/div14/Desktop/beliefbox/src/core/Graph.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h
-/home/div14/Desktop/beliefbox/src/objs/SpecialFunctions.o: SpecialFunctions.cc \
-  /home/div14/Desktop/beliefbox/src/core/SpecialFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h
-/home/div14/Desktop/beliefbox/src/objs/TilingSet.o: TilingSet.cc \
-  /home/div14/Desktop/beliefbox/src/core/TilingSet.h
-/home/div14/Desktop/beliefbox/src/objs/Tree.o: Tree.cc /home/div14/Desktop/beliefbox/src/core/Tree.h
-/home/div14/Desktop/beliefbox/src/objs/Vector.o: Vector.cc /home/div14/Desktop/beliefbox/src/core/Vector.h \
-  /home/div14/Desktop/beliefbox/src/core/debug.h \
-  /home/div14/Desktop/beliefbox/src/core/real.h \
-  /home/div14/Desktop/beliefbox/src/core/MathFunctions.h \
-  /home/div14/Desktop/beliefbox/src/core/Object.h \
-  /home/div14/Desktop/beliefbox/src/core/Matrix.h
+/home/div/Desktop/beliefbox/src/objs/AbstractGraph.o: AbstractGraph.cc \
+  /home/div/Desktop/beliefbox/src/core/AbstractGraph.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/SmartAssert.h
+/home/div/Desktop/beliefbox/src/objs/BasisSet.o: BasisSet.cc /home/div/Desktop/beliefbox/src/core/BasisSet.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Grid.h
+/home/div/Desktop/beliefbox/src/objs/ConnectivityMatrix.o: ConnectivityMatrix.cc \
+  /home/div/Desktop/beliefbox/src/core/ConnectivityMatrix.h \
+  /home/div/Desktop/beliefbox/src/core/Graph.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/SparseGraph.h
+/home/div/Desktop/beliefbox/src/objs/CoverTree.o: CoverTree.cc \
+  /home/div/Desktop/beliefbox/src/core/CoverTree.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/statistics/Random.h \
+  /home/div/Desktop/beliefbox/src/core/BasisSet.h \
+  /home/div/Desktop/beliefbox/src/core/Grid.h \
+  /home/div/Desktop/beliefbox/src/statistics/BayesianMultivariateRegression.h \
+  /home/div/Desktop/beliefbox/src/statistics/iWishart.h \
+  /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
+  /home/div/Desktop/beliefbox/src/statistics/MultivariateNormal.h \
+  /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/Student.h
+/home/div/Desktop/beliefbox/src/objs/Graph.o: Graph.cc /home/div/Desktop/beliefbox/src/core/Graph.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/SmartAssert.h
+/home/div/Desktop/beliefbox/src/objs/Grid.o: Grid.cc /home/div/Desktop/beliefbox/src/core/Grid.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/GridTree.o: GridTree.cc /home/div/Desktop/beliefbox/src/core/GridTree.h \
+  /home/div/Desktop/beliefbox/src/core/Grid.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/KDTree.o: KDTree.cc /home/div/Desktop/beliefbox/src/core/KDTree.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/OrderedFixedList.h
+/home/div/Desktop/beliefbox/src/objs/KFold.o: KFold.cc /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/KFold.h \
+  /home/div/Desktop/beliefbox/src/statistics/MersenneTwister.h \
+  /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
+  /home/div/Desktop/beliefbox/src/statistics/Random.h
+/home/div/Desktop/beliefbox/src/objs/MathFunctions.o: MathFunctions.cc \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/real.h
+/home/div/Desktop/beliefbox/src/objs/Matrix.o: Matrix.cc /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/MatrixNorm.o: MatrixNorm.cc \
+  /home/div/Desktop/beliefbox/src/core/MatrixNorm.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/Object.o: Object.cc /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/ReadFile.o: ReadFile.cc /home/div/Desktop/beliefbox/src/core/ReadFile.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h
+/home/div/Desktop/beliefbox/src/objs/SmartAssert.o: SmartAssert.cc
+/home/div/Desktop/beliefbox/src/objs/SparseGraph.o: SparseGraph.cc \
+  /home/div/Desktop/beliefbox/src/core/SparseGraph.h \
+  /home/div/Desktop/beliefbox/src/core/Graph.h \
+  /home/div/Desktop/beliefbox/src/core/real.h
+/home/div/Desktop/beliefbox/src/objs/SpecialFunctions.o: SpecialFunctions.cc \
+  /home/div/Desktop/beliefbox/src/core/SpecialFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h
+/home/div/Desktop/beliefbox/src/objs/TilingSet.o: TilingSet.cc \
+  /home/div/Desktop/beliefbox/src/core/TilingSet.h
+/home/div/Desktop/beliefbox/src/objs/Tree.o: Tree.cc /home/div/Desktop/beliefbox/src/core/Tree.h
+/home/div/Desktop/beliefbox/src/objs/Vector.o: Vector.cc /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h

@@ -100,7 +100,7 @@ int TreeBRL::Act(real reward, int next_state)
 #endif
 
     int n_MDP_leaf_samples = 1;
-    BeliefState belief_state = CalculateSparserBeliefTree(5 , 3 , 1, 1);
+    BeliefState belief_state = CalculateSparserBeliefTree(4 , 3 , 1, 0);
     //BeliefState belief_state = CalculateSparseBeliefTree(5,1);
     //BeliefState belief_state = CalculateBeliefTree();
 	
@@ -270,14 +270,53 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 //	printf("MeanMDP:\n");
 //	mean_mdp->ShowModel();
 #endif
+
+    std::vector<DiscreteMDP*> models;
+    std::vector<PolicyIteration*> PI_objects;
+    for (int i=0; i<n_samples; ++i) {
+	DiscreteMDP* model = belief->generate();
+	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
+	//delete model;		//cant delete as PI_objects depend on it
+	models[i] = model;	//So have to collect here to delete them later 
+    }
+
+    // Creating n_samples policy
+    std::vector<FixedDiscretePolicy*> policies;
+
+    #pragma omp parallel for 
+    for (int i=0; i<n_samples; ++i) {
+	//DiscreteMDP* model = belief->generate();
+	//ValueIteration VI(model, tree.gamma);
+	//VI.ComputeStateValuesStandard(1e-1);
+	//FixedDiscretePolicy* policy = VI.getPolicy();
+
+	//PolicyIteration PI(model, tree.gamma);
+	PI_objects[i]->ComputeStateValues(1e-1);
+	//delete model;
+    }
+
+    // Deleting pointers and adding policies
+    for (int i=0; i<n_samples; ++i) {
+	policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
+	delete PI_objects[i];
+	//delete models[i];	//even deleting here says "illegal instruction" error
+    }
+
+
     int underlying_state = state;
     real discount_factor,total_reward;
     real gamma = tree.gamma;
     for (int i=0; i<n_samples; ++i) {
-	DiscreteMDP* model = belief->generate();
-	ValueIteration VI(model, tree.gamma);
-	VI.ComputeStateValuesStandard(1e-3);
-	FixedDiscretePolicy* policy = VI.getPolicy();
+	//DiscreteMDP* model = belief->generate();
+	//ValueIteration VI(model, tree.gamma);
+	//VI.ComputeStateValuesStandard(1e-1);
+	//FixedDiscretePolicy* policy = VI.getPolicy();
+
+	//PolicyIteration PI(model, tree.gamma);
+	//PI.ComputeStateValues(1e-1);
+	//FixedDiscretePolicy* policy = PI.policy;
+	FixedDiscretePolicy* policy = policies[i];
+
 	int init_state = underlying_state; 
 	policy->Reset(init_state);
 	mean_mdp->setState(init_state);
@@ -317,7 +356,12 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 //	belief_clone->ShowModel();
 #endif
 	children.push_back(new BeliefState(tree, belief_clone, first_action, next_state, total_reward, p, this));
-	delete model;
+	//delete model;
+    }
+
+    // Delete pointers
+    for (int i=0; i<n_samples; ++i) {
+	delete policies[i];
     }
     delete mean_mdp;
 

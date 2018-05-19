@@ -24,10 +24,13 @@
 #include "SampleBasedRL.h"
 
 /// The basic environments
-#include "ContextBandit.h"
+//#include "ContextBandit.h"
 #include "DiscreteChain.h"
-#include "Blackjack.h"
-#include "InventoryManagement.h"
+//#include "DoubleLoop.h"
+//#include "Blackjack.h"
+//#include "InventoryManagement.h"
+//#include "OptimisticTask.h"
+#include "Gridworld.h"
 #include "RandomMDP.h"
 
 /// STD
@@ -54,7 +57,7 @@ int main(int argc, char** argv) {
     int n_states = 5;
     int n_actions = 2;
     real discounting = 0.999;
-    int n_steps = 1000;
+    int n_steps = 2000;
 
     // To remove any indexing bias
     std::vector<int> action_list;
@@ -92,7 +95,12 @@ int main(int argc, char** argv) {
 	
     printf("# Making environment\n");
     shared_ptr<DiscreteEnvironment> environment;
-    environment = make_shared<DiscreteChain>(n_states);
+    //environment = make_shared<DiscreteChain>(n_states);
+    //environment = make_shared<DoubleLoop>();
+    //environment = make_shared<OptimisticTask>(0.1,0.7); //2nd argument is success probablity of transition
+    environment = make_shared<Gridworld>("../../../dat/maze01");
+
+    n_states = environment->getNStates();
     //environment = make_shared<ContextBandit>(n_states, n_actions, env_rng, false);
     //environment = make_shared<Blackjack>(env_rng);
     //environment = make_shared<RandomMDP>(n_states, n_actions, 0.1, -0.1, -1, 1, env_rng);
@@ -171,12 +179,13 @@ real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
     real total_reward = 0;
     for (int t=0; t<n_steps; ++t) {
         int state = environment->getState();
-        int action = tree.Act(reward, state);
+        //int action = tree.Act(reward, state);
 
-	//int action = sampling->Act(reward,state);
-	action = rotater[action];
+	int action = sampling->Act(reward,state);
+	//action = rotater[action];	//rotater should be implemented after env calls
 
         bool action_OK = environment->Act(action);
+        //reward = environment->getExpectedReward(state,action);
         reward = environment->getReward();
         total_reward += reward;
         printf("%d %d %f  # reward\n", state, action, reward);
