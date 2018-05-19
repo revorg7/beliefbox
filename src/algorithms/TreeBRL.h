@@ -21,8 +21,10 @@
 #include "MDPModel.h"
 #include "MultiMDPValueIteration.h"
 #include "ValueIteration.h"
+#include "PolicyIteration.h"
 #include "PolicyEvaluation.h"
 #include "RandomPolicy.h"
+#include <omp.h>
 #include <vector>
 #include <memory>
 
