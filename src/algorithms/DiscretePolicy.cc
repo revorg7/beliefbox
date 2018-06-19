@@ -169,7 +169,7 @@ real FixedDiscretePolicy::getActionProbability(const int& state, const int& acti
 void FixedDiscretePolicy::Show()
 {
     for (int i=0; i != (int) p.size(); ++i) {
-        //printf ("%d ", i);
+        printf ("state: %d prob: ", i);
         for (int j=0; j<p[i].Size(); ++j) {
             printf ("%f ", getActionProbability(i, j));
         }

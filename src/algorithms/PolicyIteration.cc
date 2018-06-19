@@ -70,6 +70,7 @@ PolicyIteration::~PolicyIteration()
 {
     delete _evaluation;
     delete policy;
+    delete mdp;		//V bad hack, shouldn't do it
 }
 
 /** ComputeStateValues

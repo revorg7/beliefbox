@@ -20,7 +20,7 @@ ContextBandit::ContextBandit(uint n_states_,
     : DiscreteEnvironment(n_states_, n_actions_),
       rng(rng_)
 { 
-    logmsg ("Making bandit with %d states, %d actions\n", n_states, n_actions);
+//    logmsg ("Making bandit with %d states, %d actions\n", n_states, n_actions);
     mdp = new DiscreteMDP (n_states, n_actions, NULL);
     assert(rng);
     state = 0;
@@ -36,9 +36,9 @@ ContextBandit::ContextBandit(uint n_states_,
             }
             mdp->setRewardDistribution(s, a, reward_dist);
             rewards.push_back(reward_dist);
-            printf ("%d %d %f # E[r|s,a]\n",
-                    s, a,
-                    mdp->getExpectedReward(s, a));
+//            printf ("%d %d %f # E[r|s,a]\n",
+  //                  s, a,
+    //                mdp->getExpectedReward(s, a));
         }
     }
 
