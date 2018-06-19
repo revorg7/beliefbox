@@ -12,7 +12,7 @@
 #include "TreeBRL.h"
 
 
-//#define TBRL_DEBUG5
+//#define TBRL_DEBUG6
 
 TreeBRL::TreeBRL(int n_states_,
                  int n_actions_,
@@ -33,8 +33,9 @@ TreeBRL::TreeBRL(int n_states_,
 	  leaf_node_expansion(leaf_node)
 {
 	const char* leaf_value_name[] = {"None", "V_Min", "V_Max", "V_mean", "V_U", "V_L"};
+#ifdef TBRL_DEBUG2
     logmsg("Starting Tree-Bayes-RL with %d states, %d actions, %d horizon, %s bounds\n", n_states, n_actions, horizon, leaf_value_name[leaf_node]);
-
+#endif
     current_state = -1;
 
 }
@@ -99,8 +100,8 @@ int TreeBRL::Act(real reward, int next_state)
 	belief->ShowModelStatistics();
 #endif
 
-    int n_MDP_leaf_samples = 1;
-    BeliefState belief_state = CalculateSparserBeliefTree(4 , 3 , 1, 0);
+    //int n_MDP_leaf_samples = 1;
+    BeliefState belief_state = CalculateSparserBeliefTree(3 , 3 , 1, 1);
     //BeliefState belief_state = CalculateSparseBeliefTree(5,1);
     //BeliefState belief_state = CalculateBeliefTree();
 	
@@ -117,7 +118,7 @@ int TreeBRL::Act(real reward, int next_state)
 #ifdef TBRL_DEBUG2
 	printf("action values are a0:%f a1:%f \n",Qs(0),Qs(1));
 #endif
-
+    printf("tree-size%d\n",size);
     current_action = next_action;
     return current_action;
 }
@@ -264,20 +265,24 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 
     DiscreteMDP* mean_mdp = new DiscreteMDP(tree.n_states,tree.n_actions);
     belief->CopyMeanMDP(mean_mdp);
-#ifdef TBRL_DEBUG4
+#ifdef TBRL_DEBUG6
 	printf("t: %d\n",t);
-	belief->ShowModel();
+//	belief->ShowModel();
 //	printf("MeanMDP:\n");
 //	mean_mdp->ShowModel();
 #endif
 
-    std::vector<DiscreteMDP*> models;
+//    std::vector<DiscreteMDP*> models;
     std::vector<PolicyIteration*> PI_objects;
     for (int i=0; i<n_samples; ++i) {
 	DiscreteMDP* model = belief->generate();
+#ifdef TBRL_DEBUG6
+	printf("sample no.%d \n",i);
+	model->ShowModel();
+#endif
 	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 	//delete model;		//cant delete as PI_objects depend on it
-	models[i] = model;	//So have to collect here to delete them later 
+//	models[i] = model;	//So have to collect here to delete them later 
     }
 
     // Creating n_samples policy
@@ -285,6 +290,7 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 
     #pragma omp parallel for 
     for (int i=0; i<n_samples; ++i) {
+//	printf("Threads: %d \n",omp_get_num_threads());
 	//DiscreteMDP* model = belief->generate();
 	//ValueIteration VI(model, tree.gamma);
 	//VI.ComputeStateValuesStandard(1e-1);
@@ -379,8 +385,8 @@ void TreeBRL::BeliefState::SparserRandomExpandAllActions(int n_samples,int K_ste
     }
     real p = 1 / (real) n_samples;
 
-    DiscreteMDP* mean_mdp = new DiscreteMDP(tree.n_states,tree.n_actions);
-    belief->CopyMeanMDP(mean_mdp);
+//    DiscreteMDP* mean_mdp = new DiscreteMDP(tree.n_states,tree.n_actions);
+//    belief->CopyMeanMDP(mean_mdp);
 
 
     int underlying_state = state;
@@ -392,7 +398,7 @@ void TreeBRL::BeliefState::SparserRandomExpandAllActions(int n_samples,int K_ste
 
 	int init_state = underlying_state; 
 	policy->Reset();
-	mean_mdp->setState(init_state);
+//	mean_mdp->setState(init_state);
 	int next_state,first_action;
 	int next_action = policy->SelectAction();
 	first_action = next_action;
@@ -402,9 +408,12 @@ void TreeBRL::BeliefState::SparserRandomExpandAllActions(int n_samples,int K_ste
 	for (int k=0; k < K_step;++k)
 	{
 	    
-	    mean_mdp->Act(next_action);
-	    real r = mean_mdp->getReward();
-	    next_state = mean_mdp->getState();
+//	    mean_mdp->Act(next_action);
+//	    real r = mean_mdp->getReward();
+//	    next_state = mean_mdp->getState();
+
+	    next_state = belief_clone->GenerateTransition(init_state,next_action);
+	    real r = belief_clone->GenerateReward(next_state,next_action);
 
 	    policy->Observe (r, next_state);
 	    total_reward += discount_factor*r;
@@ -417,7 +426,7 @@ void TreeBRL::BeliefState::SparserRandomExpandAllActions(int n_samples,int K_ste
 
 	children.push_back(new BeliefState(tree, belief_clone, first_action, next_state, total_reward, p, this));
     }
-    delete mean_mdp;
+//    delete mean_mdp;
 
     for (uint i=0; i<children.size(); ++i) {
         children[i]->SparserRandomExpandAllActions(n_samples,K_step);
@@ -531,18 +540,41 @@ real TreeBRL::BeliefState::CalculateValues(LeafNodeValue leaf_node)
 /// Return the values using an upper bound
 real TreeBRL::BeliefState::UTSValue()
 {
-	int n_samples = 2;
+	const int n_samples = 2;
 	real V = 0;
+    std::vector<ValueIteration*> VI_objects;
 	for (int i=0; i<n_samples; ++i) {
 		DiscreteMDP* model = belief->generate();
-		ValueIteration VI(model, tree.gamma);
-		VI.ComputeStateValuesStandard(1e-3);
-		V += VI.getValue(state);
-		delete model;
+		VI_objects.push_back(new ValueIteration(model, tree.gamma));
+	}
+    #pragma omp parallel for num_threads(n_samples)
+	for (int i=0; i<n_samples; ++i) {
+//	printf("Threads: %d \n",omp_get_num_threads());
+		VI_objects[i]->ComputeStateValuesStandard(1e-2);
+	}
+	for (int i=0; i<n_samples; ++i) {
+		V += VI_objects[i]->getValue(state);
+		delete VI_objects[i];
 	}
 	V /=  (real) n_samples;
 	return V;
 }
+
+//real TreeBRL::BeliefState::UTSValue()
+//{
+//	int n_samples = 2;
+//	real V = 0;
+//	for (int i=0; i<n_samples; ++i) {
+//		DiscreteMDP* model = belief->generate();
+//		ValueIteration VI(model, tree.gamma);
+//		VI.ComputeStateValuesStandard(1e-3);
+//		V += VI.getValue(state);
+//		delete model;
+//	}
+//	V /=  (real) n_samples;
+//	return V;
+//}
+
 
 /// Return the values using a lower bound
 real TreeBRL::BeliefState::LTSValue()

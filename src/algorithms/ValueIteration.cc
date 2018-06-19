@@ -56,6 +56,7 @@ void ValueIteration::Reset()
 
 ValueIteration::~ValueIteration()
 {
+	delete mdp;
 }
 
 /** Compute state values using value iteration.

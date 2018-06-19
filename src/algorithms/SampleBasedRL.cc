@@ -43,25 +43,25 @@ SampleBasedRL::SampleBasedRL(int n_states_,
 	if (gamma < 1.0 && update_interval > 1.0 / (1.0 - gamma)) {
 		update_interval = 1.0 / (1.0 - gamma);
 	}
-    printf("# Starting Sample-Based-RL with %d states, %d actions, %d samples, update interval %d\n", n_states, n_actions, max_samples, update_interval);
+//    printf("# Starting Sample-Based-RL with %d states, %d actions, %d samples, update interval %d\n", n_states, n_actions, max_samples, update_interval);
 
     current_state = -1;
 
     real w_i = 1.0 / (real) max_samples;
     mdp_list.resize(max_samples);
     value_iteration.resize(max_samples);
-    printf("# Generating mean MDP\n");
+  //  printf("# Generating mean MDP\n");
     //mdp_list[0] = model->getMeanMDP();
     for (int i=0; i<max_samples; ++i) {
-        printf("# Generating sampled MDP\n");
+    //    printf("# Generating sampled MDP\n");
         mdp_list[i] = model->generate();
         weights[i] = w_i;
         value_iteration[i] = new ValueIteration(mdp_list[i], gamma);
     }
 
-    printf ("# Setting up MultiMPDValueIteration\n");
+ //   printf ("# Setting up MultiMPDValueIteration\n");
     multi_value_iteration = new MultiMDPValueIteration(weights, mdp_list, gamma);
-    printf ("# Testing MultiMPDValueIteration\n");
+//    printf ("# Testing MultiMPDValueIteration\n");
     multi_value_iteration->ComputeStateActionValues(0,1);
 }
 SampleBasedRL::~SampleBasedRL()
@@ -228,7 +228,7 @@ int SampleBasedRL::Act(real reward, int next_state)
         }
     }
     if (do_update) {    
-      printf("# update: %d\n", T);
+  //    printf("# update: %d\n", T);
         //model->ShowModel();
         update_interval += 1;//(int) (ceil)(1.01*(double) T);
         next_update = T + update_interval;
