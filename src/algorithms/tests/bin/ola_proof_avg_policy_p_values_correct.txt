@@ -1,0 +1,12 @@
+# Creating DiscreteMDPCounts with 5 states and 2 actions
+# Creating DiscreteMDPCounts with 5 states and 2 actions
+# Starting Tree-Bayes-RL with 5 states, 2 actions, 1 horizon, None bounds
+t:0 s:0 i:0 a:0 p:0.250000 s2:2, r:7.648275 v:0.000000
+t:0 s:0 i:1 a:0 p:0.250000 s2:3, r:7.658948 v:0.000000
+t:0 s:0 i:2 a:0 p:0.250000 s2:3, r:2.863155 v:0.000000
+t:0 s:0 i:3 a:0 p:0.250000 s2:1, r:7.648275 v:0.000000
+t:0 s:0 i:4 a:1 p:0.500000 s2:4, r:3.814624 v:0.000000
+t:0 s:0 i:5 a:1 p:0.500000 s2:2, r:1.903517 v:0.000000
+0 0 0.200000 0 # s a r next_s
+H:1,	V:0,	R:0.200000
+L:0.200000,	M:0.200000,	U:0.200000
