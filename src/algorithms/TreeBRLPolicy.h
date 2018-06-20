@@ -40,10 +40,12 @@ public:
 	enum LeafNodeValue {
 		NONE = 0x0, V_MIN, V_MAX, V_MEAN, V_UTS, V_LTS
 	};
+	enum WhichAlgo {
+		PLCAVG = 0x0, PLC, WRNGPLCAVG, FULL, SPARSE, RANDOM
+	};
 protected:
     const int n_states; ///< number of states
     const int n_actions; ///< number of actions
-    const int n_policies; ///< number of policies sampled in algorithm 
     real gamma; ///< discount factor
     real epsilon; ///< randomness
     int current_state; ///< current state
@@ -55,7 +57,11 @@ protected:
     int size; ///< size of tree
     Vector Qs; ///< caching the value of the actions for the current state
     LeafNodeValue leaf_node_expansion; ///< how to expand the leaf node
+    WhichAlgo algorithm; //< which algorithm to use
     std::vector<FixedDiscretePolicy*> root_policies;///< polcies sampled at the root
+    const int n_policies; ///< number of policies sampled in algorithm 
+    const int n_samples;
+    const int K_step;
 public:
     class BeliefState
     {
@@ -95,9 +101,10 @@ public:
         void ExpandAllActions();
         void SparseExpandAllActions(int n_samples);
 	void SparserExpandAllActions(int n_samples,int n_policies, int K_step);
+	void SparserAverageExpandAllActions(int n_samples,int n_policies, int K_step);
 	void SparserRandomExpandAllActions(int n_samples,int n_policies,int K_step);
         // methods for calculating action values in the tree
-        real CalculateValues(LeafNodeValue leaf_node);
+        real CalculateValues(LeafNodeValue leaf_node, int buffer);
 		real MeanMDPValue();
         real UTSValue();
         real LTSValue();
@@ -107,12 +114,15 @@ public:
     };
     TreeBRLPolicy(int n_states_, ///< number of states
             int n_actions_, ///< number of actions
-	    int n_policies_, ///< number of policies sampled in the algorithm
             real gamma_, ///< discount factor
             MDPModel* belief_, ///< belief about the MDP
             RandomNumberGenerator* rng_, ///< the RNG
             int horizon_ = 1,
-			LeafNodeValue leaf_node_expansion = NONE);
+			LeafNodeValue leaf_node_expansion = NONE,
+			WhichAlgo algorithm = PLCAVG,
+		        int n_policies_ = 3,
+			int n_samples_ = 2,
+			int K_step_ = 10);
     virtual ~TreeBRLPolicy();
     virtual void Reset();
     virtual void Reset(int state);
@@ -145,7 +155,7 @@ public:
 
     TreeBRLPolicy::BeliefState CalculateSparseBeliefTree(int n_samples, int n_TS);
     TreeBRLPolicy::BeliefState CalculateBeliefTree();
-    TreeBRLPolicy::BeliefState CalculateSparserBeliefTree(int n_samples, int K_step, int n_TS, int policy_select);
+    TreeBRLPolicy::BeliefState CalculateSparserBeliefTree(int n_samples, int K_step, int n_TS);
 
     
 };

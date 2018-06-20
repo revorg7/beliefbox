@@ -30,7 +30,7 @@
 //#include "Blackjack.h"
 //#include "InventoryManagement.h"
 //#include "OptimisticTask.h"
-//#include "Gridworld.h"
+#include "Gridworld.h"
 #include "RandomMDP.h"
 
 /// STD
@@ -79,6 +79,7 @@ int main(int argc, char** argv) {
     // ---- user options ---- //
     int planning_horizon = 2; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
+    int algorithm = TreeBRLPolicy::WhichAlgo::PLCAVG;
     int n_experiments = 10;
 
 	if (argc > 1) {
@@ -159,7 +160,7 @@ int main(int argc, char** argv) {
          experiment<n_experiments;
          experiment++) {
         
-        TreeBRLPolicy tree (n_states, n_actions, n_policies, discounting, &belief, rng, planning_horizon, (TreeBRLPolicy::LeafNodeValue) leaf_value);
+        TreeBRLPolicy tree (n_states, n_actions, discounting, &belief, rng, planning_horizon, (TreeBRLPolicy::LeafNodeValue) leaf_value,(TreeBRLPolicy::WhichAlgo) algorithm);
         // Set state to 0
 
         real total_reward = RunExperiment(environment, tree, n_steps,sampling,randomizer); ///<This real leaks memory
