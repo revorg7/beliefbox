@@ -1,0 +1,265 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 62.50      0.45     0.45                             TransitionDistribution<int, int>::GetTransition(int, int, int) const
+  9.72      0.52     0.07                             PolicyEvaluation::getValue(int, int) const
+  8.33      0.58     0.06                             std::_Rb_tree_node<int>* std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_copy<std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node>(std::_Rb_tree_node<int> const*, std::_Rb_tree_node_base*, std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node&)
+  5.56      0.62     0.04                             MDP<int, int>::getNextStates(int, int) const
+  5.56      0.66     0.04                             std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*)
+  2.78      0.68     0.02                             Vector::operator[](int) const
+  1.39      0.69     0.01                             DiscreteSpaceRewardDistribution::setFixedReward(int, int, double)
+  1.39      0.70     0.01                             std::__detail::_Map_base<StateAction<int, int>, std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > >, std::allocator<std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > > >, std::__detail::_Select1st, std::equal_to<StateAction<int, int> >, std::hash<StateAction<int, int> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](StateAction<int, int> const&)
+  0.69      0.71     0.01                             TransitionDistribution<int, int>::pdf(int, int, int) const
+  0.69      0.71     0.01                             TransitionDistribution<int, int>::generate(int, int) const
+  0.69      0.72     0.01                             MDP<int, int>::getRewardProbability(int const&, int const&, double) const
+  0.69      0.72     0.01                             MDP<int, int>::getTransitionProbability(int const&, int const&, int const&) const
+  0.00      0.72     0.00        2     0.00     0.00  std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<int const, int>, false>*, unsigned long)
+  0.00      0.72     0.00        2     0.00     0.00  _init
+  0.00      0.72     0.00        1     0.00     0.00  RunExperiment(std::shared_ptr<Environment<int, int> >, TreeBRLPolicy&, int, SampleBasedRL*, std::unordered_map<int, int, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, int> > >)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::BeliefState::~BeliefState()
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::Act(double, int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::Reset(int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::TreeBRLPolicy(int, int, double, MDPModel*, RandomNumberGenerator*, int, TreeBRLPolicy::LeafNodeValue, TreeBRLPolicy::WhichAlgo, int, int, int)
+  0.00      0.72     0.00        1     0.00     0.00  TreeBRLPolicy::~TreeBRLPolicy()
+  0.00      0.72     0.00        1     0.00     0.00  void std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign<std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1}>(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&, std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1} const&)
+  0.00      0.72     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00      0.72     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00      0.72     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 1.39% of 0.72 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     62.5    0.45    0.00                 TransitionDistribution<int, int>::GetTransition(int, int, int) const [1]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]      9.7    0.07    0.00                 PolicyEvaluation::getValue(int, int) const [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]      8.3    0.06    0.00                 std::_Rb_tree_node<int>* std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_copy<std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node>(std::_Rb_tree_node<int> const*, std::_Rb_tree_node_base*, std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node&) [3]
+-----------------------------------------------
+                                                 <spontaneous>
+[4]      5.6    0.04    0.00                 MDP<int, int>::getNextStates(int, int) const [4]
+-----------------------------------------------
+                                                 <spontaneous>
+[5]      5.6    0.04    0.00                 std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*) [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[6]      2.8    0.02    0.00                 Vector::operator[](int) const [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[7]      1.4    0.01    0.00                 DiscreteSpaceRewardDistribution::setFixedReward(int, int, double) [7]
+-----------------------------------------------
+                                                 <spontaneous>
+[8]      1.4    0.01    0.00                 std::__detail::_Map_base<StateAction<int, int>, std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > >, std::allocator<std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > > >, std::__detail::_Select1st, std::equal_to<StateAction<int, int> >, std::hash<StateAction<int, int> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](StateAction<int, int> const&) [8]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]      0.7    0.01    0.00                 TransitionDistribution<int, int>::pdf(int, int, int) const [9]
+-----------------------------------------------
+                                                 <spontaneous>
+[10]     0.7    0.01    0.00                 TransitionDistribution<int, int>::generate(int, int) const [10]
+-----------------------------------------------
+                                                 <spontaneous>
+[11]     0.7    0.01    0.00                 MDP<int, int>::getRewardProbability(int const&, int const&, double) const [11]
+-----------------------------------------------
+                                                 <spontaneous>
+[12]     0.7    0.01    0.00                 MDP<int, int>::getTransitionProbability(int const&, int const&, int const&) const [12]
+-----------------------------------------------
+                0.00    0.00       2/2           main [18]
+[20]     0.0    0.00    0.00       2         std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<int const, int>, false>*, unsigned long) [20]
+-----------------------------------------------
+                0.00    0.00       2/2           __libc_csu_init [691]
+[21]     0.0    0.00    0.00       2         _init [21]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[22]     0.0    0.00    0.00       1         RunExperiment(std::shared_ptr<Environment<int, int> >, TreeBRLPolicy&, int, SampleBasedRL*, std::unordered_map<int, int, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, int> > >) [22]
+                0.00    0.00       1/1           TreeBRLPolicy::Reset(int) [28]
+                0.00    0.00       1/1           TreeBRLPolicy::Act(double, int) [27]
+-----------------------------------------------
+                                  42             TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int) [23]
+                0.00    0.00       1/1           TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int) [26]
+[23]     0.0    0.00    0.00       1+42      TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int) [23]
+                                  42             TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int) [23]
+-----------------------------------------------
+                                  42             TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int) [24]
+                0.00    0.00       1/1           TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int) [26]
+[24]     0.0    0.00    0.00       1+42      TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int) [24]
+                                  42             TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int) [24]
+-----------------------------------------------
+                                  42             TreeBRLPolicy::BeliefState::~BeliefState() [25]
+                0.00    0.00       1/1           TreeBRLPolicy::Act(double, int) [27]
+[25]     0.0    0.00    0.00       1+42      TreeBRLPolicy::BeliefState::~BeliefState() [25]
+                                  42             TreeBRLPolicy::BeliefState::~BeliefState() [25]
+-----------------------------------------------
+                0.00    0.00       1/1           TreeBRLPolicy::Act(double, int) [27]
+[26]     0.0    0.00    0.00       1         TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int) [26]
+                0.00    0.00       1/1           TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int) [24]
+                0.00    0.00       1/1           TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int) [23]
+-----------------------------------------------
+                0.00    0.00       1/1           RunExperiment(std::shared_ptr<Environment<int, int> >, TreeBRLPolicy&, int, SampleBasedRL*, std::unordered_map<int, int, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, int> > >) [22]
+[27]     0.0    0.00    0.00       1         TreeBRLPolicy::Act(double, int) [27]
+                0.00    0.00       1/1           TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int) [26]
+                0.00    0.00       1/1           TreeBRLPolicy::BeliefState::~BeliefState() [25]
+-----------------------------------------------
+                0.00    0.00       1/1           RunExperiment(std::shared_ptr<Environment<int, int> >, TreeBRLPolicy&, int, SampleBasedRL*, std::unordered_map<int, int, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, int> > >) [22]
+[28]     0.0    0.00    0.00       1         TreeBRLPolicy::Reset(int) [28]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[29]     0.0    0.00    0.00       1         TreeBRLPolicy::TreeBRLPolicy(int, int, double, MDPModel*, RandomNumberGenerator*, int, TreeBRLPolicy::LeafNodeValue, TreeBRLPolicy::WhichAlgo, int, int, int) [29]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[30]     0.0    0.00    0.00       1         TreeBRLPolicy::~TreeBRLPolicy() [30]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[31]     0.0    0.00    0.00       1         void std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign<std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1}>(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&, std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1} const&) [31]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[32]     0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [32]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[33]     0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [33]
+-----------------------------------------------
+                0.00    0.00       1/1           main [18]
+[34]     0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&) [34]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [22] RunExperiment(std::shared_ptr<Environment<int, int> >, TreeBRLPolicy&, int, SampleBasedRL*, std::unordered_map<int, int, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, int> > >) [7] DiscreteSpaceRewardDistribution::setFixedReward(int, int, double) [20] std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<int const, int>, false>*, unsigned long)
+  [23] TreeBRLPolicy::BeliefState::CalculateValues(TreeBRLPolicy::LeafNodeValue, int) [2] PolicyEvaluation::getValue(int, int) const [31] void std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign<std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1}>(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&, std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_assign(std::_Hashtable<int, std::pair<int const, int>, std::allocator<std::pair<int const, int> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> > const&)::{lambda(std::__detail::_Hash_node<std::pair<int const, int>, false> const*)#1} const&)
+  [24] TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int, int, int) [1] TransitionDistribution<int, int>::GetTransition(int, int, int) const [32] std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [25] TreeBRLPolicy::BeliefState::~BeliefState() [9] TransitionDistribution<int, int>::pdf(int, int, int) const [33] std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [26] TreeBRLPolicy::CalculateSparserBeliefTree(int, int, int) [10] TransitionDistribution<int, int>::generate(int, int) const [34] std::_Sp_counted_ptr_inplace<Gridworld, std::allocator<Gridworld>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+  [27] TreeBRLPolicy::Act(double, int) [4] MDP<int, int>::getNextStates(int, int) const [3] std::_Rb_tree_node<int>* std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_copy<std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node>(std::_Rb_tree_node<int> const*, std::_Rb_tree_node_base*, std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node&)
+  [28] TreeBRLPolicy::Reset(int) [11] MDP<int, int>::getRewardProbability(int const&, int const&, double) const [5] std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_erase(std::_Rb_tree_node<int>*)
+  [29] TreeBRLPolicy::TreeBRLPolicy(int, int, double, MDPModel*, RandomNumberGenerator*, int, TreeBRLPolicy::LeafNodeValue, TreeBRLPolicy::WhichAlgo, int, int, int) [12] MDP<int, int>::getTransitionProbability(int const&, int const&, int const&) const [8] std::__detail::_Map_base<StateAction<int, int>, std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > >, std::allocator<std::pair<StateAction<int, int> const, std::set<int, std::less<int>, std::allocator<int> > > >, std::__detail::_Select1st, std::equal_to<StateAction<int, int> >, std::hash<StateAction<int, int> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](StateAction<int, int> const&)
+  [30] TreeBRLPolicy::~TreeBRLPolicy() [6] Vector::operator[](int) const [21] _init

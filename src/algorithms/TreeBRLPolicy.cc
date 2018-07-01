@@ -16,7 +16,7 @@
 // and after that adding V(pi_1)+V(pi_2) = V(action) and then comparing it with the remaing value function, which is V(pi_3). hence it becomes V(pi_1)+V(pi_2) vs V(pi_3).
 
 
-//#define TBRL_DEBUG2
+//#define TBRL_DEBUG8
 
 TreeBRLPolicy::TreeBRLPolicy(int n_states_,
                  int n_actions_,
@@ -59,9 +59,16 @@ TreeBRLPolicy::TreeBRLPolicy(int n_states_,
 TreeBRLPolicy::~TreeBRLPolicy()
 {
     //printf(" # destroying tree of size %d\n", size);
-    for (int i=0; i<n_policies; ++i) {
-	delete root_policies[i];
-    }
+#ifdef TBRL_DEBUG8
+	printf("no. of root policies is:%d \n",root_policies.size());
+#endif
+
+// Ideally, this should not be here at all
+//    if (root_policies.size()){
+//    	for (int i=0; i<n_policies; ++i) {
+//		delete root_policies[i];
+//    	}
+//    }
 }
 
 void TreeBRLPolicy::Reset()
@@ -156,6 +163,16 @@ int TreeBRLPolicy::Act(real reward, int next_state)
 #ifdef TBRL_DEBUG7
     printf("tree-size%d\n",size);
 #endif
+#ifdef TBRL_DEBUG8
+	printf("no. of root policies here is:%d \n",root_policies.size());
+#endif
+
+    if (algorithm == PLC){
+    	for (int i=0; i<n_policies; ++i) {
+		delete root_policies[i];
+    	}
+    	root_policies.clear();
+    }
     current_action = next_action;
     return current_action;
 }
@@ -427,7 +444,9 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 	printf("t: %d\n",t);
 //	belief->ShowModel();
 #endif
-
+#ifdef TBRL_DEBUG9
+	printf("\nPolicy iteration called\n");
+#endif
     std::vector<PolicyIteration*> PI_objects;
     for (int i=0; i<n_policies; ++i) {
 	DiscreteMDP* model = belief->generate();
@@ -440,6 +459,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
+//if (t==0){
     #pragma omp parallel for 
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
@@ -449,17 +469,11 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-1);
+	PI_objects[i]->ComputeStateValues(1e-0);
 	//delete model;
     }
+//}
 
-
-    // Saving policies if they are at the root
-    if (t == 0) {
-	    for (int i=0; i<n_policies; ++i) {
-		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
-	    }
-    }
 
     // Creating n_policies policy
     std::vector<FixedDiscretePolicy*> policies;
