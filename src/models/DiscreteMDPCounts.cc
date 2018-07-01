@@ -16,6 +16,9 @@
 
 #include <stdexcept>
 
+//#define TBRL_DEBUG
+
+
 /** Create a counting model of an MDP.
 	
 	\arg n_states the number of MDP states
@@ -108,6 +111,73 @@ DiscreteMDPCounts* DiscreteMDPCounts::Clone () const
 }
 
 
+DiscreteMDPCounts::DiscreteMDPCounts (int n_states, int n_actions,std::vector<DiscreteMDPCounts*> beliefs) :
+	MDPModel(n_states, n_actions),
+	use_sampling(false),
+	transitions(n_states,n_actions,0.0),
+	mean_mdp(n_states,n_actions,NULL),
+//	reward_family(model.reward_family),
+	N(n_states * n_actions)
+{
+
+	int n_beliefs = beliefs.size();
+	reward_family = beliefs[0]->reward_family;
+
+	//Creating average belief
+	for (int s=0; s<n_states; s++) {
+		for (int a=0; a<n_actions; a++) {
+			DiscreteStateAction SA(s,a);
+			Vector counts(n_states);
+			for (unsigned i=0; i < n_beliefs; i++) {
+				Vector v = beliefs[i]->transitions.getParameters(s, a);
+				counts += v;
+				//std::printf("v: %f %f \n",v[0],v[1]);
+			}
+			counts /= n_beliefs;
+			//std::printf("counts: %f %f \n",counts[0],counts[1]);
+			#ifdef TBRL_DEBUG
+			if (got == transitions.P.end()){std::printf("inside DiscreteMDPCounts\n");}
+			#endif
+			transitions.P.insert(std::make_pair(SA, DirichletDistribution(n_states, 0.0)));
+			auto got = transitions.P.find(SA);
+			got->second.update(&counts);
+			//std::printf("final %f %f \n",transitions.getParameters(s, a)[0],transitions.getParameters(s, a)[1]);
+		}
+
+	}
+
+
+
+	// Setting up ER which will always be Beta Distribution here
+	ER.resize(N);
+	for (int i=0; i<N; ++i) {
+		real alpha=0;
+		real beta=0;
+		for (unsigned j=0; j < n_beliefs; j++) {
+			
+			alpha += beliefs[j]->ER[i]->marginal_pdf(1.0);
+			beta += beliefs[j]->ER[i]->marginal_pdf(0.0);
+			//std::printf("alpha,beta %f %f\n",beliefs[j]->ER[i]->marginal_pdf(1.0),beliefs[j]->ER[i]->marginal_pdf(0.0) );
+		}
+		alpha /= n_beliefs;
+		beta /= n_beliefs;
+		//std::printf("alpha,beta %f %f\n",alpha,beta);
+		ER[i] = new BetaDistribution(alpha, beta);
+	}
+
+	//Setting up mean_mdp
+	for (int s=0; s<n_states; s++) {
+		for (int a=0; a<n_actions; a++) {
+			for (int s_next=0; s_next<n_states; s_next++) {
+				real p = transitions.marginal_pdf(s, a, s_next);
+				mean_mdp.setTransitionProbability(s, a, s_next, p);
+				real expected_reward = getExpectedReward(s,a);
+				mean_mdp.reward_distribution.setFixedReward(s, a, expected_reward);
+			}
+		}
+	}
+
+}
 
 DiscreteMDPCounts::~DiscreteMDPCounts()
 {

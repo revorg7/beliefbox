@@ -79,8 +79,8 @@ int main(int argc, char** argv) {
     // ---- user options ---- //
     int planning_horizon = 2; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
-    int algorithm = TreeBRLPolicy::WhichAlgo::PLCAVG;
-    int n_experiments = 10;
+    int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
+    int n_experiments = 5;
 
 	if (argc > 1) {
 		planning_horizon = atoi(argv[1]);

@@ -61,6 +61,9 @@ public:
 	}
 	// copy constructor
 	DiscreteMDPCounts(const DiscreteMDPCounts& model);
+	// Get MeanBelief
+	DiscreteMDPCounts(int n_states, int n_actions,std::vector<DiscreteMDPCounts*> beliefs);
+	// Clone
 	virtual DiscreteMDPCounts* Clone() const;
     virtual ~DiscreteMDPCounts();
     virtual void AddTransition(int s, int a, real r, int s2);
@@ -75,7 +78,6 @@ public:
     virtual void Reset();
     virtual void ShowModel() const;
 	virtual void ShowModelStatistics() const;
-
     virtual DiscreteMDP* generate() const;
     virtual const DiscreteMDP* getMeanMDP() const;
     //virtual DiscreteMDP* CreateMDP() const;

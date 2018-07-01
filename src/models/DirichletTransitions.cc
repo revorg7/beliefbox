@@ -12,6 +12,8 @@
 #include "DirichletTransitions.h"
 #include "Distribution.h"
 
+//#define TBRL_DEBUG2
+ 
 DirichletTransitions::DirichletTransitions(int n_states_,
 										   int n_actions_,
 										   real prior_mass_,
@@ -21,6 +23,30 @@ DirichletTransitions::DirichletTransitions(int n_states_,
 		  prior_mass(prior_mass_),
 		  uniform_unknown(uniform_unknown_)
 {
+
+#ifdef TBRL_DEBUG2
+	std::printf("Size of dirichlet transitions map is: %d \n",P.size());
+#endif
+//	NOT A GOOD IDEA, SINCE IT CAN BE VERY LARGE
+//	if (uniform_unknown) {
+//	    for (int s=0; s<n_states; ++s) {
+//		for (int a=0; a<n_actions; ++a) {
+//
+//		    DiscreteStateAction SA(s, a);
+//		    P.insert(std::make_pair(SA, DirichletDistribution(n_states, prior_mass)));
+//		}
+//	    }
+//	} else {
+//	    for (int s=0; s<n_states; ++s) {
+//		for (int a=0; a<n_actions; ++a) {
+//		    real zero = 0.0;
+//		    Vector v(n_states,&zero);
+//		    v[s] = 1.0;
+//		    DiscreteStateAction SA(s, a);
+//		    P.insert(std::make_pair(SA, v));
+//		  }
+//	    }
+//	}
 }
 
 DirichletTransitions::~DirichletTransitions()
@@ -60,6 +86,9 @@ Vector DirichletTransitions::generate(int state, int action) const
 {
 	auto got = P.find(DiscreteStateAction(state, action));
 	if (got == P.end()) {
+#ifdef TBRL_DEBUG2
+std::printf("inside dirichlet transitions - 1\n");
+#endif
 		Vector p(n_states);
 		if (uniform_unknown) {
 			real z = 1.0 / (real) n_states;
@@ -71,6 +100,9 @@ Vector DirichletTransitions::generate(int state, int action) const
 		}
 		return p;
 	} 
+#ifdef TBRL_DEBUG2
+std::printf("inside dirichlet transitions - 2\n");
+#endif
 	return got->second.generate();
 }
 
