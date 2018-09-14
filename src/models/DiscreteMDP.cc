@@ -24,7 +24,7 @@ DiscreteMDP::MDP (int n_states_, int n_actions_, real** initial_transitions)
       n_actions(n_actions_),
       N(n_states * n_actions),
 	  reward_distribution(n_states, n_actions),
-      transition_distribution(n_states, n_states)
+      transition_distribution(n_states, n_actions)
 {   
 	if (initial_transitions) {
 		Serror("Not implemented\n");

@@ -20,6 +20,8 @@
 #include <cstdio>
 #include <map>
 #include <unordered_map>
+#include <tsl/hopscotch_map.h>
+
 
 template <typename StateType, typename ActionType>
 class TransitionDistribution

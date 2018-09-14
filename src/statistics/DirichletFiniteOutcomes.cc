@@ -13,18 +13,45 @@
 #include "DirichletFiniteOutcomes.h"
 #include "ranlib.h"
 #include "SpecialFunctions.h"
+#include <cmath>
+#include <random>
+#include <algorithm>
+
 
 /// Create a placeholder Dirichlet
 DirichletFiniteOutcomes::DirichletFiniteOutcomes()
-    : DirichletDistribution(), n_seen_symbols(0)
+    : n_observations(0), n_seen_symbols(0), prior_alpha(0.25),type_of_prior(0),prior_constant(0.25)
 {
+    Swarning("Invalid Constructor, Alphabet Size needed\n");
+    n = 0;
+    alpha_sum = 1.0;
+    m_k = Vector(n);
+    unseen_symbols.Resize(n);
+    for (int i=0;i<n;i++) unseen_symbols[i] = i;
 }
 
 /// Create a Dirichlet with uniform parameters
 DirichletFiniteOutcomes::DirichletFiniteOutcomes(int n, real p)
-    : DirichletDistribution(n, 0.0), prior_alpha(p), n_seen_symbols(0)
+    : n_observations(0),n_seen_symbols(0),prior_alpha(p),type_of_prior(0),prior_constant(0.25)
 {
-    alpha_sum = p;
+//    alpha_sum = p;
+    resize(n,p);
+    for (int i=0; i<n; ++i) {
+        alpha(i) = p;
+    }
+    alpha_sum = (real) n * p;
+
+    m_k = Vector(n);
+    unseen_symbols.Resize(n);
+    for (int i=0;i<n;i++) unseen_symbols[i] = i;
+}
+
+
+/// Initialise parameters from an object
+DirichletFiniteOutcomes::DirichletFiniteOutcomes(const DirichletFiniteOutcomes& obj) 
+    : n(obj.n), alpha(obj.alpha), alpha_sum(obj.alpha_sum), n_observations(obj.n_observations), n_seen_symbols(obj.n_seen_symbols), prior_alpha(obj.prior_alpha), type_of_prior(obj.type_of_prior),
+	prior_constant(obj.prior_constant), m_k(obj.m_k), unseen_symbols(obj.unseen_symbols)
+{
 }
 
 
@@ -32,6 +59,15 @@ DirichletFiniteOutcomes::DirichletFiniteOutcomes(int n, real p)
 DirichletFiniteOutcomes::~DirichletFiniteOutcomes()
 {
 }
+
+/// Striling approx. used
+real DirichletFiniteOutcomes::stirling(real x)
+{
+//    if (x == 0) return 0.0;
+//    else return x*log(x) - x + 1.0/6.0 * log(4*pow(x,2)*(2*x+1) + x + 1.0/30) + 0.5*log(pi);
+    return logGamma(x+1);
+}
+
 
 /// Generate a multinomial vector
 Vector DirichletFiniteOutcomes::generate() const
@@ -41,40 +77,27 @@ Vector DirichletFiniteOutcomes::generate() const
     return x;
 }
 
+
 /// Generate a multinomial vector in-place
 void DirichletFiniteOutcomes::generate(Vector& y) const
 {
-    real N_t = (real) n_seen_symbols;
-    //real Z = (1 + N) * prior_alpha + S; // total dirichlet mass
 
-    // generate probability of observing a new symbol
-    real ha_0 = gengam(1.0, alpha_sum);
-    real ha_1 = gengam(1.0, (1.0 + N_t) * prior_alpha);
-    real p_old = ha_0 / (ha_0 + ha_1);
-    
-    real sum_0 = 0.0;
-    real sum_1 = 0.0;
-    for (int i=0; i<n; i++) {
-        if (alpha(i) > 0) {
+
+    //Generating the new symbols with equal probability
+    real sum = 0.0;
+    for (int i=0;i<n;i++) {
+        if (alpha(i) > prior_alpha) {
             y(i) = gengam(1.0, alpha(i));
-            sum_0 += y(i);
-        } else {
-            y(i) = gengam(1.0, 1.0);
-            sum_1 += y(i);
-        }
+            sum += y(i);
+	}
     }
-    real is0 = p_old / sum_0;
-    real is1 = (1.0 - p_old) / sum_1;
-
-    for (int i=0; i<n; i++) {
-        if (alpha(i) > 0) {
-            y(i) *= is0;
-        } else {
-            y(i) *= is1;
-        }
+    for (int i=0;i<k-n_seen_symbols;i++) {
+	y(unseen_symbols[i]) = gengam(1.0, prior_alpha); 
+            sum += y(i);
     }
 
-    assert(fabs(y.Sum() - 1.0) < 1e-6);
+    real invsum = 1.0 / sum;
+    y *= invsum;
 
 }
 
@@ -121,45 +144,150 @@ real DirichletFiniteOutcomes::log_pdf(const Vector& x) const
 
 void DirichletFiniteOutcomes::update(Vector* x)
 {
+
+    bool condition = false;
+    real tmp = 0;
+    int j,temp;
     for (int i=0; i<n; ++i) {
         real xi = (*x)(i);
-        if (xi > 0 && alpha(i) == 0) {
+        if (xi > 0 && alpha(i) == prior_alpha) {
+	    condition = true;
+	    for (j=0; j<n-n_seen_symbols; j++) {
+	        if (int(unseen_symbols[j]) == i) {
+		    temp = unseen_symbols[j]; unseen_symbols[j] = unseen_symbols[n-n_seen_symbols-1]; unseen_symbols[n-n_seen_symbols-1] = temp;
+		    break;
+	        }
+	    }
             n_seen_symbols++;
         }
         alpha(i) += xi;
         alpha_sum += xi;
+	tmp += xi;
     }
+    n_observations += (int) tmp;
+
+    //Recalculating m_k, this can be avoided if N >> n_seen and n_seen doesnt changes (not implemented but see paper)
+    Vector logs(n);
+    real sum = 0.0;
+    for (int i=n_seen_symbols-1; i<logs.Size(); i++) {
+	real k = i+1;
+	logs(i) = k*log(prior_constant) + stirling(k) - stirling(k-n_seen_symbols) + stirling(k*prior_alpha - 1) - stirling(k*prior_alpha + n_observations - 1);
+    }
+    real base_value = logs(n_seen_symbols-1);
+    sum = 1.0;
+    for (int i=n_seen_symbols; i < logs.Size(); i++) {
+	if (base_value - logs(i) < 16.13) sum += exp(logs(i) - base_value);
+    }
+    real factor = 1.0/sum;
+    for (int i=0; i < n; i++) {
+	if (i < n_seen_symbols-1) m_k(i) = 0;
+	else {
+	    if (base_value - logs(i) < 16.13) {
+	        m_k(i) = factor / exp(base_value - logs(i)); 
+	    }
+	    else m_k(i) = 0;
+	}
+    }
+
+    assert(fabs(m_k.Sum() - 1.0) < 1e-6);
+
+    //Shuffling here
+    if (condition) shuffle();
+
 }
 
 /// When there is only one observation, give it directly.
 real DirichletFiniteOutcomes::Observe(int i)
 {
-    real p = getMarginal()(i);
-    if (alpha(i) == 0) {
+//    real p = getMarginal()(i);
+    bool condition = false;
+    if (alpha(i) == prior_alpha) {
+	condition = true;
+	for (int j=0; j<n-n_seen_symbols; j++) {
+	    if (int(unseen_symbols[j]) == i) {
+		int temp = unseen_symbols[j]; unseen_symbols[j] = unseen_symbols[n-n_seen_symbols-1]; unseen_symbols[n-n_seen_symbols-1] = temp;
+		break;
+	    }
+	}
         n_seen_symbols++;
     }
     alpha(i) += 1.0;
     alpha_sum += 1.0;
-    return p;
+    n_observations+=1;
+
+    //Recalculating m_k, this can be avoided if N >> n_seen and n_seen doesnt changes (not implemented but see paper)
+    Vector logs(n);
+    real sum = 0.0;
+    for (int i=n_seen_symbols-1; i<logs.Size(); i++) {
+	real k = i+1;
+	logs(i) = k*log(prior_constant) + stirling(k) - stirling(k-n_seen_symbols) + stirling(k*prior_alpha - 1) - stirling(k*prior_alpha + n_observations - 1);
+    }
+    real base_value = logs(n_seen_symbols-1);
+    sum = 1.0;
+    for (int i=n_seen_symbols; i < logs.Size(); i++) {
+	if (base_value - logs(i) < 16.13) sum += exp(logs(i) - base_value);
+    }
+    real factor = 1.0/sum;
+    for (int i=0; i < n; i++) {
+	if (i < n_seen_symbols-1) m_k(i) = 0;
+	else {
+	    if (base_value - logs(i) < 16.13) {
+	        m_k(i) = factor / exp(base_value - logs(i)); 
+	    }
+	    else m_k(i) = 0;
+	}
+    }
+
+    assert(fabs(m_k.Sum() - 1.0) < 1e-6);
+
+    //Shuffling here
+    if (condition) shuffle();
+
+
+    return 0.0;		//This is wrong, but getting marginal is expensive as well
+}
+
+///Shuffling
+void DirichletFiniteOutcomes::shuffle()
+{
+    //Generating random length k for k dimensional dirichlet-distr
+    real number = ranf();
+    real sum = 0.0;
+    k = n;
+    for (int i=0; i<n; ++i) {
+        sum += m_k[i];
+	if (number < sum){ k = i+1; break;}
+    }
+    //Randomly selecting k-k0 new symbols
+    if (k-n_seen_symbols > 0) {
+	int len = n - n_seen_symbols;
+	for (int i=0; i<k-n_seen_symbols; i++) {
+            int r = i + (rand() % (len-i)); // Random remaining position.
+            int temp = unseen_symbols[i]; unseen_symbols[i] = unseen_symbols[r]; unseen_symbols[r] = temp;
+        }
+    }
 }
 
 
 /// Return the marginal probabilities
 Vector DirichletFiniteOutcomes::getMarginal() const
 {
-    real N_t = (real) n_seen_symbols;
-    real Z = (1 + N_t) * prior_alpha + alpha_sum; // total dirichlet mass
-    Vector P = (alpha + prior_alpha) / Z;
-
-    // distributed the remaining mass equally across unobserved outcomes
-    real n_zero_outcomes = n - N_t;
-    if (n_zero_outcomes > 0) {
-        real SA = 1.0 / n_zero_outcomes;
-        for (int i=0; i<n; ++i) {
-            if (alpha(i)==0) {
-                P(i) *= SA;
-            }
-        }
+    Vector P(n);
+    real C_dl = 0;
+    real const_num = n_seen_symbols*prior_alpha + n_observations;
+    for (int i=n_seen_symbols-1; i<n; ++i) {
+	C_dl += ( const_num / ( (i+1)*prior_alpha + n_observations) )*m_k[i];
+    }
+    for (int i=0; i<n; ++i) {
+	if (alpha(i)>prior_alpha) {
+	    P(i) = ( alpha(i)/ (n_seen_symbols*prior_alpha + n_observations) ) *C_dl;
+	}
+    }
+    real remaining_probability = (1.0 - P.Sum())/ (n-n_seen_symbols);
+    for (int i=0; i<n; ++i) {
+	if (alpha(i)<=prior_alpha) {
+	    P(i) = remaining_probability;
+	}
     }
     return P;
 }
@@ -170,4 +298,27 @@ void DirichletFiniteOutcomes::resize(int n, real p)
     prior_alpha = p;
     alpha.Resize(n);
     alpha.Clear();
+}
+
+/// Return the marginal probabilities
+real DirichletFiniteOutcomes::marginal_pdf(int i) const
+{
+	return getMarginal()(i);
+}
+
+void DirichletFiniteOutcomes::printParams() const
+{
+	printf("\nn_seen: %d,prior_alpha: %f,prior_constant:%f ",n_seen_symbols,prior_alpha,prior_constant);
+	printf("\nalpha ");
+	for (int i=0;i<alpha.Size();i++) printf("%f ",alpha[i]);
+	printf("\n");
+	printf("m_k ");
+	for (int i=0;i<n;i++) printf("%f ",m_k[i]);
+	printf("\n");
+	printf("unseen_symbols ");
+	for (int i=0;i<n-n_seen_symbols;i++) printf("%f ",unseen_symbols[i]);
+	printf("\nseen_symbols ");
+	for (int i=n-n_seen_symbols;i<n;i++) printf("%f ",unseen_symbols[i]);
+	printf("\n");
+
 }

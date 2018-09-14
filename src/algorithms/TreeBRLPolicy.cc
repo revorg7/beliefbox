@@ -16,7 +16,7 @@
 // and after that adding V(pi_1)+V(pi_2) = V(action) and then comparing it with the remaing value function, which is V(pi_3). hence it becomes V(pi_1)+V(pi_2) vs V(pi_3).
 
 
-//#define TBRL_DEBUG8
+//#define TBRL_DEBUG6
 
 TreeBRLPolicy::TreeBRLPolicy(int n_states_,
                  int n_actions_,
@@ -109,11 +109,13 @@ real TreeBRLPolicy::Observe (real reward, int next_state, int next_action)
 /// it calls Observe as a side-effect.
 int TreeBRLPolicy::Act(real reward, int next_state)
 {
+printf("\nFirst acting in tre\n"); asdasd a
     assert(next_state >= 0 && next_state < n_states);
 
     T++;
     if (current_state >= 0 && current_action >= 0) {
         belief->AddTransition(current_state, current_action, reward, next_state);
+    if (algorithm == PLC) delete root_policy;
     }
 
     current_state = next_state;
@@ -133,6 +135,7 @@ int TreeBRLPolicy::Act(real reward, int next_state)
     BeliefState belief_state = CalculateSparserBeliefTree(n_samples , K_step, n_policies);
     int policy_index = ArgMax(Qs);
     FixedDiscretePolicy* policy = root_policies[policy_index];
+    root_policy = new FixedDiscretePolicy(n_states,n_actions,policy->p);
     //policy->Reset( current_state );
     //int next_action = policy->SelectAction();
 
@@ -339,7 +342,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
-    #pragma omp parallel for 
+//    #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 	//DiscreteMDP* model = belief->generate();
@@ -460,7 +463,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
     }
 
 //if (t==0){
-    #pragma omp parallel for 
+//    #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 	//DiscreteMDP* model = belief->generate();
@@ -752,7 +755,7 @@ real TreeBRLPolicy::BeliefState::UTSValue()
 		DiscreteMDP* model = belief->generate();
 		VI_objects.push_back(new ValueIteration(model, tree.gamma));
 	}
-    #pragma omp parallel for num_threads(n_samples)
+//    #pragma omp parallel for num_threads(n_samples)
 	for (int i=0; i<n_samples; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 		VI_objects[i]->ComputeStateValuesStandard(1e-2);
