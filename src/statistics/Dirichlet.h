@@ -31,6 +31,7 @@ public:
     DirichletDistribution();
     DirichletDistribution(int n, real p = 1.0);
     DirichletDistribution(const Vector& x);
+//    DirichletDistribution(const DirichletDistribution& obj);	//Dont need it, since non of internal variables are pointer-based
     virtual ~DirichletDistribution();
     virtual void generate(Vector& x) const;
     virtual Vector generate() const;

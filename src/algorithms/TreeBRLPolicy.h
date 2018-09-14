@@ -27,6 +27,7 @@
 #include <omp.h>
 #include <vector>
 #include <memory>
+#include "PolicyEvaluation.h"		//for warm-start PI
 
 /// \ingroup ReinforcementLearning
 /// @{
@@ -50,7 +51,6 @@ protected:
     real epsilon; ///< randomness
     int current_state; ///< current state
     int current_action; ///< current action
-    MDPModel* belief; ///< pointer to the base MDP model
     RandomNumberGenerator* rng; ///< random number generator to draw samples from
     int horizon; ///< maximum number of samples to take
     int T; ///< time passed
@@ -61,8 +61,10 @@ protected:
     std::vector<FixedDiscretePolicy*> root_policies;///< polcies sampled at the root
     const int n_policies; ///< number of policies sampled in algorithm 
     const int n_samples;
-    const int K_step;
 public:
+    MDPModel* belief; ///< pointer to the base MDP model
+    const int K_step;
+    FixedDiscretePolicy* root_policy;	//used for taking multiple-steps in real environment in PSRL style
     class BeliefState
     {
     protected:
@@ -119,10 +121,10 @@ public:
             RandomNumberGenerator* rng_, ///< the RNG
             int horizon_ = 1,
 			LeafNodeValue leaf_node_expansion = NONE,
-			WhichAlgo algorithm = PLCAVG,
-		        int n_policies_ = 4,
-			int n_samples_ = 2,
-			int K_step_ = 10);
+			WhichAlgo algorithm = PLC,
+		        int n_policies_ = 1,
+			int n_samples_ = 1,
+			int K_step_ = 1);
     virtual ~TreeBRLPolicy();
     virtual void Reset();
     virtual void Reset(int state);

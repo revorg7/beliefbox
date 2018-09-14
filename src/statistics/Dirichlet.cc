@@ -33,6 +33,16 @@ DirichletDistribution::DirichletDistribution(int n, real p)
 	alpha_sum = n * p;
 }
 
+/*
+DirichletDistribution::DirichletDistribution(const DirichletDistribution& obj)
+{
+    n = obj.n;
+    real alpha_sum = obj.alpha_sum;
+    n_observations = obj.n_observations;
+    Vector alpha(obj.alpha);
+
+}
+*/
 /// Initialise parameters from a vector
 DirichletDistribution::DirichletDistribution(const Vector& x) : n(x.Size()), alpha(x), n_observations(0)
 {

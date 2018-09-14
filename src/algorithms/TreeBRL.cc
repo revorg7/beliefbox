@@ -118,7 +118,6 @@ int TreeBRL::Act(real reward, int next_state)
 #ifdef TBRL_DEBUG2
 	printf("action values are a0:%f a1:%f \n",Qs(0),Qs(1));
 #endif
-    printf("tree-size%d\n",size);
     current_action = next_action;
     return current_action;
 }
