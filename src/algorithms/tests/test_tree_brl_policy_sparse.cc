@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.99;
-    int n_steps = 1;
+    int n_steps = 60;
 
     // To remove any indexing bias
     std::vector<int> action_list;
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 0; 
+    int planning_horizon = 2; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
     int n_experiments = 1;
@@ -134,22 +134,21 @@ int main(int argc, char** argv) {
 	
 
 	// Adding for comparision to USAMPLING
-            DiscreteMDPCountsSparse* discrete_mdp =  new DiscreteMDPCountsSparse(n_states, n_actions,
-                                                  dirichlet_mass,
-                                                  reward_prior);
-            MDPModel* model= (MDPModel*) discrete_mdp;
+//            DiscreteMDPCountsSparse* discrete_mdp =  new DiscreteMDPCountsSparse(n_states, n_actions,
+//                                                  dirichlet_mass,
+//                                                  reward_prior);
+//            MDPModel* model= (MDPModel*) discrete_mdp;
 
 	    int max_samples = 2;
 	    real epsilon = 0.01;
-/*            SampleBasedRL* sampling = new SampleBasedRL(n_states, ///<this leaks memory too
-                                          n_actions,
-                                          discounting,
-                                          epsilon,
-                                          model,
-                                          rng,
-                                          max_samples,
-                                          true);
-*/
+//            SampleBasedRL* sampling = new SampleBasedRL(n_states, ///<this leaks memory too
+//                                          n_actions,
+//                                          discounting,
+//                                          epsilon,
+//                                          model,
+//                                          rng,
+//                                          max_samples,
+//                                          true);
           //  if (use_sampling_threshold) {
           //      sampling->setSamplingThreshold(sampling_threshold);
           //  }
@@ -165,7 +164,6 @@ int main(int argc, char** argv) {
 
 //        real total_reward = RunExperiment(environment, tree, n_steps,sampling,randomizer); ///<This real leaks memory
         real total_reward = RunExperiment(environment, tree, n_steps,randomizer); ///<This real leaks memory
-
         printf("H:%d,\tV:%d,\tR:%f\n", planning_horizon, leaf_value,total_reward);
         U(experiment) = total_reward;
     }

@@ -20,10 +20,11 @@
 
 /// Create a placeholder Dirichlet
 DirichletFiniteOutcomes::DirichletFiniteOutcomes()
-    : n_observations(0), n_seen_symbols(0), prior_alpha(0.25),type_of_prior(0),prior_constant(0.25)
+    : n_observations(0),n_seen_symbols(0), prior_alpha(0.25),type_of_prior(0),prior_constant(0.25)
 {
     Swarning("Invalid Constructor, Alphabet Size needed\n");
     n = 0;
+    k = n;
     alpha_sum = 1.0;
     m_k = Vector(n);
     unseen_symbols.Resize(n);
@@ -32,7 +33,7 @@ DirichletFiniteOutcomes::DirichletFiniteOutcomes()
 
 /// Create a Dirichlet with uniform parameters
 DirichletFiniteOutcomes::DirichletFiniteOutcomes(int n, real p)
-    : n_observations(0),n_seen_symbols(0),prior_alpha(p),type_of_prior(0),prior_constant(0.25)
+    : n_observations(0),k(n),n_seen_symbols(0),prior_alpha(p),type_of_prior(0),prior_constant(0.25)
 {
 //    alpha_sum = p;
     resize(n,p);
@@ -49,7 +50,7 @@ DirichletFiniteOutcomes::DirichletFiniteOutcomes(int n, real p)
 
 /// Initialise parameters from an object
 DirichletFiniteOutcomes::DirichletFiniteOutcomes(const DirichletFiniteOutcomes& obj) 
-    : n(obj.n), alpha(obj.alpha), alpha_sum(obj.alpha_sum), n_observations(obj.n_observations), n_seen_symbols(obj.n_seen_symbols), prior_alpha(obj.prior_alpha), type_of_prior(obj.type_of_prior),
+    : n(obj.n), alpha(obj.alpha), alpha_sum(obj.alpha_sum), n_observations(obj.n_observations), k(obj.k), n_seen_symbols(obj.n_seen_symbols), prior_alpha(obj.prior_alpha), type_of_prior(obj.type_of_prior),
 	prior_constant(obj.prior_constant), m_k(obj.m_k), unseen_symbols(obj.unseen_symbols)
 {
 }
@@ -81,8 +82,6 @@ Vector DirichletFiniteOutcomes::generate() const
 /// Generate a multinomial vector in-place
 void DirichletFiniteOutcomes::generate(Vector& y) const
 {
-
-
     //Generating the new symbols with equal probability
     real sum = 0.0;
     for (int i=0;i<n;i++) {
@@ -170,8 +169,8 @@ void DirichletFiniteOutcomes::update(Vector* x)
     Vector logs(n);
     real sum = 0.0;
     for (int i=n_seen_symbols-1; i<logs.Size(); i++) {
-	real k = i+1;
-	logs(i) = k*log(prior_constant) + stirling(k) - stirling(k-n_seen_symbols) + stirling(k*prior_alpha - 1) - stirling(k*prior_alpha + n_observations - 1);
+	real k_dash = i+1;
+	logs(i) = k_dash*log(prior_constant) + stirling(k_dash) - stirling(k_dash-n_seen_symbols) + stirling(k_dash*prior_alpha - 1) - stirling(k_dash*prior_alpha + n_observations - 1);
     }
     real base_value = logs(n_seen_symbols-1);
     sum = 1.0;
@@ -219,8 +218,8 @@ real DirichletFiniteOutcomes::Observe(int i)
     Vector logs(n);
     real sum = 0.0;
     for (int i=n_seen_symbols-1; i<logs.Size(); i++) {
-	real k = i+1;
-	logs(i) = k*log(prior_constant) + stirling(k) - stirling(k-n_seen_symbols) + stirling(k*prior_alpha - 1) - stirling(k*prior_alpha + n_observations - 1);
+	real k_dash = i+1;
+	logs(i) = k_dash*log(prior_constant) + stirling(k_dash) - stirling(k_dash-n_seen_symbols) + stirling(k_dash*prior_alpha - 1) - stirling(k_dash*prior_alpha + n_observations - 1);
     }
     real base_value = logs(n_seen_symbols-1);
     sum = 1.0;
