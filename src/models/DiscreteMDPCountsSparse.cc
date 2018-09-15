@@ -31,7 +31,6 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse (int n_states, int n_actions, r
     : 
     MDPModel(n_states, n_actions),
 	transitions(n_states, n_actions, init_transition_count),
-    mean_mdp(n_states, n_actions, NULL),
     reward_family(reward_family_)
 {
     logmsg("Creating DiscreteMDPCountsSparse with %d states and %d actions\n",  n_states, n_actions);
@@ -52,16 +51,6 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse (int n_states, int n_actions, r
             Serror("Unknown distribution family %d\n", reward_family);
         }
     }
-    for (int s=0; s<n_states; s++) {
-		for (int a=0; a<n_actions; a++) {
-			for (int s_next=0; s_next<n_states; s_next++) {
-				real p = transitions.marginal_pdf(s, a, s_next);
-				mean_mdp.setTransitionProbability(s, a, s_next, p);
-				real expected_reward = getExpectedReward(s,a);
-				mean_mdp.reward_distribution.setFixedReward(s, a, expected_reward);
-			}
-		}
-	}
 }
 
 
@@ -69,7 +58,6 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse(const DiscreteMDPCountsSparse& 
 	MDPModel(model.n_states, model.n_actions),
 //	use_sampling(model.use_sampling),
 	transitions(model.transitions),
-	mean_mdp(model.mean_mdp),
 	reward_family(model.reward_family),
 	N(model.N)
 {
@@ -89,21 +77,6 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse(const DiscreteMDPCountsSparse& 
 			break;
 		default:
 			Serror("Unknown distribution family %d\n", reward_family);
-		}
-	}
-	for (int s=0; s<n_states; s++) {
-		for (int a=0; a<n_actions; a++) {
-#ifdef SPARSE_DEBUG
-printf("S,A: %d,%d",s,a);
-auto got = transitions.P.find(DiscreteStateAction(s, a));
-if (got != transitions.P.end()) got->second.printParams();
-#endif
-			for (int s_next=0; s_next<n_states; s_next++) {
-				real p = transitions.marginal_pdf(s, a, s_next);
-				mean_mdp.setTransitionProbability(s, a, s_next, p);
-				real expected_reward = getExpectedReward(s,a);
-				mean_mdp.reward_distribution.setFixedReward(s, a, expected_reward);
-			}
 		}
 	}
 }
@@ -146,7 +119,6 @@ void DiscreteMDPCountsSparse::setFixedRewards(const Matrix& rewards)
             delete ER[ID];
             ER[ID] = new UnknownSingularDistribution();
             ER[ID]->Observe(rewards(s,a));
-            mean_mdp.reward_distribution.setFixedReward(s, a, rewards(s,a));
 			//printf("R: %d %d %f -> %f\n",
 			//	   s, a, rewards(s,a), ER[ID]->getMean());
         }
@@ -161,11 +133,6 @@ void DiscreteMDPCountsSparse::AddTransition(int s, int a, real r, int s2)
     ER[ID]->Observe(r);
 
     real expected_reward = getExpectedReward(s,a);
-    mean_mdp.reward_distribution.setFixedReward(s, a, expected_reward);
-    for (int s_next=0; s_next<n_states; s_next++) {
-		real p = transitions.marginal_pdf(s, a, s_next);
-        mean_mdp.setTransitionProbability(s, a, s_next, p);
-    }
     
 }
 
@@ -292,30 +259,8 @@ const DiscreteMDP * DiscreteMDPCountsSparse::getMeanMDP() const
 	//DiscreteMDP* mdp = new DiscreteMDP(n_states, n_actions);
 	//CopyMeanMDP(mdp);
     //    return mdp;
-    return &mean_mdp;
+    return nullptr;
 }
 
-void DiscreteMDPCountsSparse::CopyMeanMDP(DiscreteMDP* mdp) const
-{
-    if (mdp->getNStates() != n_states) {
-        throw std::runtime_error("incorrect number of states");
-    }
-
-    if (mdp->getNActions() != n_actions) {
-        throw std::runtime_error("incorrect number of actions");
-    }
-
-    for (int s=0; s<n_states; s++) {
-        for (int a=0; a<n_actions; a++) {
-            Vector C =  transitions.getMarginal(s, a);
-            real expected_reward = getExpectedReward(s,a);
-            mdp->reward_distribution.addFixedReward(s, a, expected_reward);
-            for (int s2=0; s2<n_states; s2++) {
-                mdp->setTransitionProbability(s, a, s2, C[s2]);
-            }
-        }
-    }
-    
-}
 
 

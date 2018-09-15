@@ -40,7 +40,7 @@ protected:
     DirichletTransitionsSparse transitions; 
 	/// Vector of estimators on ER.
     std::vector<ConjugatePrior*> ER; 
-    DiscreteMDP mean_mdp; ///< a model of the mean MDP
+//    DiscreteMDP mean_mdp; ///< a model of the mean MDP
 //    DiscreteMDP* sampled_mdp; ///< a model of the mean MDP 
     RewardFamily reward_family; ///< reward family to be used
     int N;
@@ -80,7 +80,6 @@ public:
     virtual DiscreteMDP* generate() const;
     virtual const DiscreteMDP* getMeanMDP() const;
     //virtual DiscreteMDP* CreateMDP() const;
-    virtual void CopyMeanMDP(DiscreteMDP* mdp) const;
     int getNVisits(int s, int a) const
     {
 		return transitions.getCounts(s, a);

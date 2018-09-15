@@ -122,9 +122,9 @@ public:
             int horizon_ = 1,
 			LeafNodeValue leaf_node_expansion = NONE,
 			WhichAlgo algorithm = PLC,
-		        int n_policies_ = 1,
-			int n_samples_ = 1,
-			int K_step_ = 1);
+		        int n_policies_ = 4,
+			int n_samples_ = 2,
+			int K_step_ = 10);
     virtual ~TreeBRLPolicy();
     virtual void Reset();
     virtual void Reset(int state);

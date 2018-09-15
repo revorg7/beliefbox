@@ -37,7 +37,6 @@ TreeBRLPolicy::TreeBRLPolicy(int n_states_,
       horizon(horizon_),
       T(0),
       size(0),
-      Qs(n_actions),
 	  leaf_node_expansion(leaf_node),
 	 algorithm(algo),
 	n_policies(n_policies_),
@@ -50,6 +49,11 @@ TreeBRLPolicy::TreeBRLPolicy(int n_states_,
     logmsg("Starting Tree-Bayes-RL with %d states, %d actions, %d horizon, %s bounds\n", n_states, n_actions, horizon, leaf_value_name[leaf_node]);
 #endif
     current_state = -1;
+
+    switch(algorithm) {
+	case PLC:  Qs(n_policies); break;
+	default: Qs(n_actions); break;
+	}
 
 }
 
@@ -109,7 +113,6 @@ real TreeBRLPolicy::Observe (real reward, int next_state, int next_action)
 /// it calls Observe as a side-effect.
 int TreeBRLPolicy::Act(real reward, int next_state)
 {
-printf("\nFirst acting in tre\n"); asdasd a
     assert(next_state >= 0 && next_state < n_states);
 
     T++;
@@ -134,12 +137,19 @@ printf("\nFirst acting in tre\n"); asdasd a
     else if (algorithm == PLC){
     BeliefState belief_state = CalculateSparserBeliefTree(n_samples , K_step, n_policies);
     int policy_index = ArgMax(Qs);
-    FixedDiscretePolicy* policy = root_policies[policy_index];
-    root_policy = new FixedDiscretePolicy(n_states,n_actions,policy->p);
-    //policy->Reset( current_state );
-    //int next_action = policy->SelectAction();
 
-    next_action = ArgMax( policy->getActionProbabilities(current_state) ) ;
+        if (root_policies.size()) {
+    	    FixedDiscretePolicy* policy = root_policies[policy_index];
+    	    root_policy = new FixedDiscretePolicy(n_states,n_actions,policy->p);
+    	    //policy->Reset( current_state );
+    	    //int next_action = policy->SelectAction();
+
+    	    next_action = ArgMax( policy->getActionProbabilities(current_state) ) ;
+	}
+	else {
+	    Swarning("root_policies size = 0\n");
+	    next_action = 0;
+	}
     }
     else if (algorithm == FULL){
     BeliefState belief_state = CalculateBeliefTree();
@@ -170,7 +180,8 @@ printf("\nFirst acting in tre\n"); asdasd a
 	printf("no. of root policies here is:%d \n",root_policies.size());
 #endif
 
-    if (algorithm == PLC){
+    //Deleting root_policies after every-step
+    if (algorithm == PLC && root_policies.size()){
     	for (int i=0; i<n_policies; ++i) {
 		delete root_policies[i];
     	}

@@ -101,7 +101,7 @@ std::printf("inside dirichlet transitions - 1\n");
 		return p;
 	} 
 #ifdef TBRL_DEBUG2
-std::printf("inside dirichlet transitions - 2\n");
+std::printf("inside dirichlet transitions - 2 with s,a: %d,%d\n",state,action);
 #endif
 	return got->second.generate();
 }
@@ -149,7 +149,6 @@ real DirichletTransitionsSparse::marginal_pdf(int state, int action, int next_st
 	auto got = P.find(DiscreteStateAction(state, action));
 	if (got == P.end()) {
 		if (uniform_unknown) {
-printf("\nreturning this %d\n",n_states); disco
 			return 1.0 / n_states;
 		} else {
 			if (next_state == state) {
@@ -159,7 +158,6 @@ printf("\nreturning this %d\n",n_states); disco
 			}
 		}
 	} 
-printf("\nreturning that\n");what ever
 	return got->second.marginal_pdf(next_state);
 }
 
