@@ -56,11 +56,11 @@ int main(int argc, char** argv) {
     RandomNumberGenerator* env_rng = (RandomNumberGenerator*) &default_rng;
     rng->seed();
     env_rng->manualSeed(982374523);
-    int n_states = 2;
+    int n_states = 5;
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.99;
-    int n_steps = 60;
+    int n_steps = 50;
 
     // To remove any indexing bias
     std::vector<int> action_list;

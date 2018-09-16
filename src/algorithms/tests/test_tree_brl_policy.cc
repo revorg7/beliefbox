@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.99;
-    int n_steps = 10;
+    int n_steps = 50;
 
     // To remove any indexing bias
     std::vector<int> action_list;

@@ -31,7 +31,7 @@ protected:
     real alpha_sum; ///< sum of the vector
     int n_observations; ///< number of observations seen so far
 
-    int k;///< current sampled length of probable symbols, should be > n_seen_symbols
+    real C_dl;///< current C_dl
     int n_seen_symbols;
     Vector unseen_symbols; //last elements are seen_symbols, leading elements are unseen, on which random_permutations are performed according to Fisher-Yates_shuffle (//https://stackoverflow.com/questions/9345087/choose-m-elements-randomly-from-a-vector-containing-n-elements)
     real prior_alpha;
@@ -39,7 +39,6 @@ protected:
     real prior_constant;
     real stirling(real x);
     Vector m_k;		//unlike paper, m_k refers to normalized values
-    void shuffle();
   public:
     DirichletFiniteOutcomes();
     DirichletFiniteOutcomes(int n, real p = 1.0);
