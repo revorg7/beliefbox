@@ -15,6 +15,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/FactoredPredictor.h \
@@ -112,6 +115,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
@@ -139,6 +145,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
@@ -167,6 +176,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
@@ -197,6 +209,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -254,6 +269,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/statistics/Dirichlet.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
   /home/div/Desktop/beliefbox/src/core/Object.h \
@@ -263,6 +281,24 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/statistics/MultinomialDistribution.h \
   /home/div/Desktop/beliefbox/src/statistics/DirichletFiniteOutcomes.h
+/home/div/Desktop/beliefbox/src/objs/DirichletTransitionsSparse.o: DirichletTransitionsSparse.cc \
+  /home/div/Desktop/beliefbox/src/models/DirichletTransitionsSparse.h \
+  /home/div/Desktop/beliefbox/src/models/TransitionDistribution.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
+  /home/div/Desktop/beliefbox/src/models/StateAction.h \
+  /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
+  /home/div/Desktop/beliefbox/src/statistics/DirichletFiniteOutcomes.h \
+  /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
+  /home/div/Desktop/beliefbox/src/statistics/Random.h
 /home/div/Desktop/beliefbox/src/objs/DiscreteMDP.o: DiscreteMDP.cc \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
   /home/div/Desktop/beliefbox/src/models/MDP.h \
@@ -272,6 +308,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -300,6 +339,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/models/DirichletTransitions.h \
@@ -332,6 +374,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/models/DirichletTransitions.h \
@@ -364,11 +409,44 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/models/DirichletTransitions.h \
   /home/div/Desktop/beliefbox/src/statistics/Dirichlet.h \
   /home/div/Desktop/beliefbox/src/statistics/MultinomialDistribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/DirichletFiniteOutcomes.h \
+  /home/div/Desktop/beliefbox/src/statistics/MeanEstimator.h \
+  /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/Student.h \
+  /home/div/Desktop/beliefbox/src/statistics/BetaDistribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/SingularDistribution.h
+/home/div/Desktop/beliefbox/src/objs/DiscreteMDPCountsSparse.o: DiscreteMDPCountsSparse.cc \
+  /home/div/Desktop/beliefbox/src/models/DiscreteMDPCountsSparse.h \
+  /home/div/Desktop/beliefbox/src/models/MDPModel.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/core/SmartAssert.h \
+  /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
+  /home/div/Desktop/beliefbox/src/statistics/Random.h \
+  /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
+  /home/div/Desktop/beliefbox/src/models/MDP.h \
+  /home/div/Desktop/beliefbox/src/models/TransitionDistribution.h \
+  /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
+  /home/div/Desktop/beliefbox/src/models/StateAction.h \
+  /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
+  /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/models/DirichletTransitionsSparse.h \
   /home/div/Desktop/beliefbox/src/statistics/DirichletFiniteOutcomes.h \
   /home/div/Desktop/beliefbox/src/statistics/MeanEstimator.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
@@ -385,6 +463,9 @@
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
   /home/div/Desktop/beliefbox/src/models/TransitionDistribution.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Object.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
@@ -552,6 +633,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -572,6 +656,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/SingularDistribution.h
@@ -613,6 +700,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/algorithms/Demonstrations.h \
@@ -629,6 +719,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -659,6 +752,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -743,6 +839,9 @@
   /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/algorithms/DiscretePolicy.h \
@@ -760,6 +859,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Object.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \

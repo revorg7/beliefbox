@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.99;
-    int n_steps = 50;
+    int n_steps = 1000;
 
     // To remove any indexing bias
     std::vector<int> action_list;
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     int planning_horizon = 2; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
-    int n_experiments = 1;
+    int n_experiments = 5;
 
 	if (argc > 1) {
 		planning_horizon = atoi(argv[1]);

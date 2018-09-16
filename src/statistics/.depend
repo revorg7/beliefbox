@@ -276,6 +276,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
@@ -314,7 +317,6 @@
   /home/div/Desktop/beliefbox/src/core/SpecialFunctions.h
 /home/div/Desktop/beliefbox/src/objs/DirichletFiniteOutcomes.o: DirichletFiniteOutcomes.cc \
   /home/div/Desktop/beliefbox/src/statistics/DirichletFiniteOutcomes.h \
-  /home/div/Desktop/beliefbox/src/statistics/Dirichlet.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
   /home/div/Desktop/beliefbox/src/core/real.h \
   /home/div/Desktop/beliefbox/src/core/Object.h \
@@ -323,7 +325,6 @@
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
-  /home/div/Desktop/beliefbox/src/statistics/MultinomialDistribution.h \
   /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/core/SpecialFunctions.h
 /home/div/Desktop/beliefbox/src/objs/DiscreteBN.o: DiscreteBN.cc \
@@ -554,6 +555,9 @@
   /home/div/Desktop/beliefbox/src/models/StateAction.h \
   /home/div/Desktop/beliefbox/src/core/HashCombine.h \
   /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
   /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
   /home/div/Desktop/beliefbox/src/core/Vector.h \
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h
