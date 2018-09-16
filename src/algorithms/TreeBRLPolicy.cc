@@ -353,7 +353,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
-//    #pragma omp parallel for num_threads(n_policies)
+    #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 	//DiscreteMDP* model = belief->generate();
@@ -474,7 +474,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
     }
 
 //if (t==0){
-//    #pragma omp parallel for num_threads(n_policies)
+    #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 	//DiscreteMDP* model = belief->generate();
@@ -766,7 +766,7 @@ real TreeBRLPolicy::BeliefState::UTSValue()
 		DiscreteMDP* model = belief->generate();
 		VI_objects.push_back(new ValueIteration(model, tree.gamma));
 	}
-//    #pragma omp parallel for num_threads(n_samples)
+    #pragma omp parallel for num_threads(n_samples)
 	for (int i=0; i<n_samples; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
 		VI_objects[i]->ComputeStateValuesStandard(1e-2);
