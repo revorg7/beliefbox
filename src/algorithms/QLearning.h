@@ -39,7 +39,6 @@ protected:
     real gamma; ///< discount factor
     real lambda; ///< eligibility trace decay rate
     real alpha; ///< learning rate 
-    VFExplorationPolicy* exploration_policy; ///< exploration policy
     real initial_value; ///< initial value for Q values
     real baseline; ///< baseline reward
 
@@ -49,6 +48,7 @@ protected:
     int state; ///< current state
     int action; ///< current action
 public:
+    VFExplorationPolicy* exploration_policy; ///< exploration policy
     QLearning(int n_states_,
               int n_actions_,
               real gamma_,

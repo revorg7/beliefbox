@@ -80,6 +80,7 @@ public:
     /// freed by the user!
     virtual MDP<S, A>* getMDP() const
     {
+		Serror("Not implemented\n");
         return NULL;
     }
     virtual const char* Name() const

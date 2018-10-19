@@ -307,6 +307,9 @@ void Gridworld::Reset()
         x = state % height;
         y = (state - x) / width;
     } while(whatIs(x, y) != GRID);
+state=0;
+x=0;
+y=0;
     ox = x;
     oy = y;
     reward = 0.0;

@@ -17,10 +17,11 @@
 #include <random>
 #include <algorithm>
 
+//		PRIOR_CONST IS 0.2 IN GUEZ CODE, I USED 0.8
 
 /// Create a placeholder Dirichlet
 DirichletFiniteOutcomes::DirichletFiniteOutcomes()
-    : n_observations(0),C_dl(-1),n_seen_symbols(0), prior_alpha(0.25),type_of_prior(0),prior_constant(0.8)
+    : n_observations(0),C_dl(-1),n_seen_symbols(0), prior_alpha(0.25),type_of_prior(0),prior_constant(0.2)
 {
     Swarning("Invalid Constructor, Alphabet Size needed\n");
     n = 0;
@@ -32,7 +33,7 @@ DirichletFiniteOutcomes::DirichletFiniteOutcomes()
 
 /// Create a Dirichlet with uniform parameters
 DirichletFiniteOutcomes::DirichletFiniteOutcomes(int n, real p)
-    : n_observations(0),C_dl(-1),n_seen_symbols(0),prior_alpha(p),type_of_prior(0),prior_constant(0.8)
+    : n_observations(0),C_dl(-1),n_seen_symbols(0),prior_alpha(p),type_of_prior(0),prior_constant(0.2)
 {
 //    alpha_sum = p;
     resize(n,p);

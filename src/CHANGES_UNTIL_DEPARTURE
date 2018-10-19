@@ -1,0 +1,8 @@
+
+Change random sampling in DiscreteMDP::generateState(const int& s, const int& a) as MersenneTwister implementation was not threadsafe
+
+created DiscreteTransitionDistribution::GetTransitions for the purpose of improving VI, not saving this in though, as no potential benefit seen
+
+Added qlearning instance to TreeBRLPolicy for leaf-node approximation (similar to BAMCP), didn't really help though
+
+Other codes that are saved on Desktop and maybe small changes in other files

@@ -25,7 +25,7 @@ DiscreteMDP::MDP (int n_states_, int n_actions_, real** initial_transitions)
       N(n_states * n_actions),
 	  reward_distribution(n_states, n_actions),
       transition_distribution(n_states, n_actions)
-{   
+{  
 	if (initial_transitions) {
 		Serror("Not implemented\n");
 	}
@@ -194,7 +194,8 @@ int DiscreteMDP::generateState (const int& s, const int& a) const
 {
     //int ID = getID (s,a);
     real sum = 0.0f;
-    real X = urandom();
+//    real X = urandom();	//has some issue of thread-safety because of underlying MersenneTwister (specifically the line *next++ )
+	real X = ranf();	//so using this-one from ranlib.h instead
 
     int select = 0;
     for (int i=0; i<n_states; i++) {

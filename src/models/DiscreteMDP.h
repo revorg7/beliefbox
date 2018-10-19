@@ -24,6 +24,7 @@
 #include "DiscreteStateSet.h"
 #include <vector>
 #include <set>
+#include "ranlib.h"
 
 
 

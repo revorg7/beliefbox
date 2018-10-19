@@ -46,6 +46,7 @@ UCRL2::UCRL2(int n_states_,
 UCRL2::~UCRL2()
 {
     delete value_iteration;
+	delete model;
 }
 void UCRL2::Reset()
 {

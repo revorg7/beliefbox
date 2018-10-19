@@ -22,7 +22,10 @@
 #include "MultiMDPValueIteration.h"
 #include "ValueIteration.h"
 #include "PolicyIteration.h"
+#include "RTDP.h"
 #include "PolicyEvaluation.h"
+#include "QLearning.h"
+#include "ExplorationPolicy.h"
 #include "RandomPolicy.h"
 #include <omp.h>
 #include <vector>
@@ -39,12 +42,13 @@ class TreeBRLPolicy : public OnlineAlgorithm<int, int>
 {
 public:
 	enum LeafNodeValue {
-		NONE = 0x0, V_MIN, V_MAX, V_MEAN, V_UTS, V_LTS
+		NONE = 0x0, V_MIN, V_MAX, V_MEAN, V_UTS, V_LTS, Q_LEARNING
 	};
 	enum WhichAlgo {
 		PLCAVG = 0x0, PLC, WRNGPLCAVG, FULL, SPARSE, RANDOM
 	};
 protected:
+	std::shared_ptr<DiscreteEnvironment> environment;
     const int n_states; ///< number of states
     const int n_actions; ///< number of actions
     real gamma; ///< discount factor
@@ -62,6 +66,7 @@ protected:
     const int n_policies; ///< number of policies sampled in algorithm 
     const int n_samples;
 public:
+	QLearning* qlearning;
     MDPModel* belief; ///< pointer to the base MDP model
     const int K_step;
     FixedDiscretePolicy* root_policy;	//used for taking multiple-steps in real environment in PSRL style
@@ -111,10 +116,12 @@ public:
         real UTSValue();
         real LTSValue();
 		void print() const;
+		real Qlearning();
         // methods for adaptively building the tree while calculating values (TODO)
         // real StochasticBranchAndBound(int n_samples);
     };
-    TreeBRLPolicy(int n_states_, ///< number of states
+    TreeBRLPolicy(std::shared_ptr<DiscreteEnvironment> environment_,
+			int n_states_, ///< number of states
             int n_actions_, ///< number of actions
             real gamma_, ///< discount factor
             MDPModel* belief_, ///< belief about the MDP
@@ -123,8 +130,8 @@ public:
 			LeafNodeValue leaf_node_expansion = NONE,
 			WhichAlgo algorithm = PLC,
 		        int n_policies_ = 4,
-			int n_samples_ = 2,
-			int K_step_ = 10);
+			int n_samples_ = 4,
+			int K_step_ = 13);
     virtual ~TreeBRLPolicy();
     virtual void Reset();
     virtual void Reset(int state);
@@ -158,7 +165,6 @@ public:
     TreeBRLPolicy::BeliefState CalculateSparseBeliefTree(int n_samples, int n_TS);
     TreeBRLPolicy::BeliefState CalculateBeliefTree();
     TreeBRLPolicy::BeliefState CalculateSparserBeliefTree(int n_samples, int K_step, int n_TS);
-
     
 };
 
