@@ -83,24 +83,25 @@ void OptimisticValueIteration::ComputeStateValuesAugmentedMDP(real delta,
         }
     }
 
-    augmented_mdp.Check();
+//    augmented_mdp.Check();
 
-    ValueIteration vi(&augmented_mdp, gamma);
-    vi.ComputeStateValues(threshold, max_iter);
+    ValueIteration* vi = new ValueIteration(&augmented_mdp, gamma);
+    vi->ComputeStateValues(threshold, max_iter);
     for (int s=0; s<n_states; s++) {
         int a_aug = 0;
         V(s) = -INF;
         for (int a=0; a<n_actions; a++) {
-            real Qaug_max = vi.getValue(s, a_aug);
+            real Qaug_max = vi->getValue(s, a_aug);
             for (int k=0; k<n_states; ++k, a_aug++) {
                 //printf("%d %f\n", k, vi.getValue(s, a_aug));
-                Qaug_max = std::max(Qaug_max, vi.getValue(s, a_aug));
+                Qaug_max = std::max(Qaug_max, vi->getValue(s, a_aug));
             }
             Q(s,a) = Qaug_max;
             V(s) = std::max(V(s), Q(s,a));
             //printf("Q(%d, %d) = %f\n", s, a, Q(s,a));
         }
-    }            
+    }
+//	delete vi;            
 }
 
 

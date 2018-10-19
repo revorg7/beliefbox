@@ -112,6 +112,7 @@ public:
 class VFExplorationPolicy
 {
 public:
+	virtual VFExplorationPolicy* Clone() = 0;
     virtual ~VFExplorationPolicy()
     {}
     virtual void Observe(real reward, int state) = 0;
@@ -139,7 +140,18 @@ public:
         assert(n_actions > 0);
         assert(epsilon >= 0 && epsilon <= 1);
     }
+	virtual EpsilonGreedy* Clone()
+	{
+		EpsilonGreedy* newpol = new EpsilonGreedy(n_actions,epsilon);
+		newpol->setValueMatrix(Q);
+		if (use_geometric_schedule) {
+			newpol->use_geometric_schedule = true;
+			newpol->setGeometricSchedule(alpha,beta);
+		}
+		else newpol->use_geometric_schedule = false;
 
+		return newpol;
+	}
     virtual ~EpsilonGreedy()
     {
     }
@@ -215,7 +227,10 @@ public:
         assert(n_actions > 0);
         assert(beta >= 0);
     }
-
+	virtual SoftmaxPolicy* Clone()
+	{
+        Serror ("Not implemented\n");		
+	}
     virtual ~SoftmaxPolicy()
     {
     }
@@ -276,6 +291,10 @@ public:
         assert(n_actions > 0);
         assert(beta >= 0);
     }
+	virtual MaxSoftmaxPolicy* Clone()
+	{
+        Serror ("Not implemented\n");		
+	}
 
     virtual ~MaxSoftmaxPolicy()
     {

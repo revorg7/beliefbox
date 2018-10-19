@@ -64,6 +64,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
   /home/div/Desktop/beliefbox/src/statistics/SingularDistribution.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
@@ -112,6 +113,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
   /home/div/Desktop/beliefbox/src/statistics/Student.h
@@ -133,6 +135,8 @@
   /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
   /home/div/Desktop/beliefbox/src/core/Object.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h
+/home/div/Desktop/beliefbox/src/objs/DeardenMaze.o: DeardenMaze.cc \
+  /home/div/Desktop/beliefbox/src/environments/DeardenMaze.h
 /home/div/Desktop/beliefbox/src/objs/DiscreteChain.o: DiscreteChain.cc \
   /home/div/Desktop/beliefbox/src/environments/DiscreteChain.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
@@ -154,7 +158,8 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
-  /home/div/Desktop/beliefbox/src/core/Matrix.h
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h
 /home/div/Desktop/beliefbox/src/objs/DiscretisedContinuousChain.o: DiscretisedContinuousChain.cc \
   /home/div/Desktop/beliefbox/src/environments/DiscretisedContinuousChain.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
@@ -194,7 +199,8 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
-  /home/div/Desktop/beliefbox/src/core/Matrix.h
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h
 /home/div/Desktop/beliefbox/src/objs/Gridworld.o: Gridworld.cc \
   /home/div/Desktop/beliefbox/src/environments/Gridworld.h \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
@@ -216,6 +222,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
   /home/div/Desktop/beliefbox/src/statistics/SingularDistribution.h
 /home/div/Desktop/beliefbox/src/objs/InventoryManagement.o: InventoryManagement.cc \
@@ -239,6 +246,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
   /home/div/Desktop/beliefbox/src/core/SpecialFunctions.h
 /home/div/Desktop/beliefbox/src/objs/LinearContextBandit.o: LinearContextBandit.cc \
@@ -262,6 +270,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
   /home/div/Desktop/beliefbox/src/statistics/NormalDistribution.h \
   /home/div/Desktop/beliefbox/src/statistics/Student.h \
@@ -286,6 +295,30 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/statistics/RandomSourceRNG.h \
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h
+/home/div/Desktop/beliefbox/src/objs/Mazeworld.o: Mazeworld.cc \
+  /home/div/Desktop/beliefbox/src/environments/Mazeworld.h \
+  /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
+  /home/div/Desktop/beliefbox/src/models/MDP.h \
+  /home/div/Desktop/beliefbox/src/core/real.h \
+  /home/div/Desktop/beliefbox/src/models/TransitionDistribution.h \
+  /home/div/Desktop/beliefbox/src/models/DiscreteStateSet.h \
+  /home/div/Desktop/beliefbox/src/models/StateAction.h \
+  /home/div/Desktop/beliefbox/src/core/HashCombine.h \
+  /home/div/Desktop/beliefbox/src/core/debug.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_map.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_hash.h \
+  /home/div/Downloads/hopscotch-map-master/include/tsl/hopscotch_growth_policy.h \
+  /home/div/Desktop/beliefbox/src/models/RewardDistribution.h \
+  /home/div/Desktop/beliefbox/src/core/Vector.h \
+  /home/div/Desktop/beliefbox/src/core/MathFunctions.h \
+  /home/div/Desktop/beliefbox/src/core/Object.h \
+  /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
+  /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
+  /home/div/Desktop/beliefbox/src/statistics/Random.h \
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
+  /home/div/Desktop/beliefbox/src/environments/Environment.h \
+  /home/div/Desktop/beliefbox/src/statistics/SingularDistribution.h
 /home/div/Desktop/beliefbox/src/objs/MountainCar.o: MountainCar.cc \
   /home/div/Desktop/beliefbox/src/environments/MountainCar.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
@@ -364,7 +397,8 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
-  /home/div/Desktop/beliefbox/src/core/Matrix.h
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h
 /home/div/Desktop/beliefbox/src/objs/POMDPGridworld.o: POMDPGridworld.cc \
   /home/div/Desktop/beliefbox/src/environments/POMDPGridworld.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \
@@ -387,6 +421,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/models/DiscretePOMDP.h
 /home/div/Desktop/beliefbox/src/objs/Pendulum.o: Pendulum.cc \
   /home/div/Desktop/beliefbox/src/environments/Pendulum.h \
@@ -457,6 +492,7 @@
   /home/div/Desktop/beliefbox/src/statistics/RandomNumberGenerator.h \
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h
 /home/div/Desktop/beliefbox/src/objs/RiverSwim.o: RiverSwim.cc \
   /home/div/Desktop/beliefbox/src/environments/RiverSwim.h \
@@ -479,7 +515,8 @@
   /home/div/Desktop/beliefbox/src/statistics/Random.h \
   /home/div/Desktop/beliefbox/src/models/DiscreteMDP.h \
   /home/div/Desktop/beliefbox/src/statistics/Distribution.h \
-  /home/div/Desktop/beliefbox/src/core/Matrix.h
+  /home/div/Desktop/beliefbox/src/core/Matrix.h \
+  /home/div/Desktop/beliefbox/src/export/inc/ranlib.h
 /home/div/Desktop/beliefbox/src/objs/SinModel.o: SinModel.cc \
   /home/div/Desktop/beliefbox/src/environments/SinModel.h \
   /home/div/Desktop/beliefbox/src/environments/Environment.h \

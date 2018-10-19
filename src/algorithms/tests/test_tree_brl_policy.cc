@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.99;
-    int n_steps = 1000;
+    int n_steps = 10;
 
     // To remove any indexing bias
     std::vector<int> action_list;
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     int planning_horizon = 2; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
-    int n_experiments = 5;
+    int n_experiments = 1;
 
 	if (argc > 1) {
 		planning_horizon = atoi(argv[1]);
@@ -99,10 +99,10 @@ int main(int argc, char** argv) {
 	
     //printf("# Making environment\n");
     shared_ptr<DiscreteEnvironment> environment;
-    environment = make_shared<DiscreteChain>(n_states);
+    //environment = make_shared<DiscreteChain>(n_states);
     //environment = make_shared<DoubleLoop>();
     //environment = make_shared<OptimisticTask>(0.1,0.7); //2nd argument is success probablity of transition
-    //environment = make_shared<Gridworld>("../../../dat/maze02");
+    environment = make_shared<Gridworld>("../../../dat/maze02");
 
     
     //environment = make_shared<ContextBandit>(n_states, n_actions, env_rng, false);

@@ -18,7 +18,8 @@
 
 //#define TBRL_DEBUG6
 
-TreeBRLPolicy::TreeBRLPolicy(int n_states_,
+TreeBRLPolicy::TreeBRLPolicy(std::shared_ptr<DiscreteEnvironment> environment_,
+				int n_states_,
                  int n_actions_,
                  real gamma_,
 				 MDPModel* belief_,
@@ -43,6 +44,8 @@ TreeBRLPolicy::TreeBRLPolicy(int n_states_,
 	n_samples(n_samples_),
 	K_step(K_step_)
 {
+qlearning = new QLearning(n_states,n_actions,gamma,0.3,0.2,new EpsilonGreedy(n_actions,0.3));
+environment = environment_;
 
 	const char* leaf_value_name[] = {"None", "V_Min", "V_Max", "V_mean", "V_U", "V_L"};
 #ifdef TBRL_DEBUG2
@@ -62,6 +65,7 @@ TreeBRLPolicy::TreeBRLPolicy(int n_states_,
 // anything here. But on the other hand, this is inefficient.
 TreeBRLPolicy::~TreeBRLPolicy()
 {
+delete qlearning;
     //printf(" # destroying tree of size %d\n", size);
 #ifdef TBRL_DEBUG8
 	printf("no. of root policies is:%d \n",root_policies.size());
@@ -117,8 +121,10 @@ int TreeBRLPolicy::Act(real reward, int next_state)
 
     T++;
     if (current_state >= 0 && current_action >= 0) {
+		qlearning->Observe(reward,current_state,current_action);
         belief->AddTransition(current_state, current_action, reward, next_state);
-    if (algorithm == PLC) delete root_policy;
+//printf("adding transtion %d %d %f %d and deleting root policy\n",current_state, current_action, reward, next_state);
+    if (algorithm == PLC) delete root_policy; //this is not a good place to delete root_policy here
     }
 
     current_state = next_state;
@@ -340,8 +346,9 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 	printf("t: %d\n",t);
 //	belief->ShowModel();
 #endif
-
-    std::vector<PolicyIteration*> PI_objects;
+	
+//	std::vector<RTDP*> PI_objects;
+	std::vector<PolicyIteration*> PI_objects;
     for (int i=0; i<n_policies; ++i) {
 	DiscreteMDP* model = belief->generate();
 #ifdef TBRL_DEBUG6
@@ -349,6 +356,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 	model->ShowModel();
 #endif
 	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
+//	PI_objects.push_back(new RTDP(model, tree.gamma, state));
 	//delete model;		//cant delete as PI_objects depend on it
 //	models[i] = model;	//So have to collect here to delete them later 
     }
@@ -366,10 +374,10 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 	//delete model;
     }
 
-
     // Saving policies if they are at the root
     if (t == 0) {
 	    for (int i=0; i<n_policies; ++i) {
+//		tree.root_policies.push_back(PI_objects[i]->getPolicy());
 		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
 	    }
     }
@@ -380,6 +388,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
     // Deleting pointers and adding policies
     for (int i=0; i<n_policies; ++i) {
 	policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
+//	policies.push_back(PI_objects[i]->getPolicy());
 	delete PI_objects[i];
 #ifdef TBRL_DEBUG
 	printf("depth of tree is %d\n",t);
@@ -416,8 +425,15 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 //		    real r = mean_mdp->getReward();
 //		    next_state = mean_mdp->getState();
 
+/*	PREVIOUSLY HOW I DID IT, UNTIL 16/10/2018
 		    next_state = belief_clone->GenerateTransition(next_state,next_action);
-		    real r = belief_clone->GenerateReward(next_state,next_action);
+//		    real r = belief_clone->GenerateReward(next_state,next_action);
+			real r = tree.environment->getExpectedReward(next_state,next_action);
+*/
+
+		    next_state = belief_clone->GenerateTransition(init_state,next_action);
+//		    real r = belief_clone->GenerateReward(next_state,next_action);
+			real r = tree.environment->getExpectedReward(init_state,next_action);
 
 
 		    belief_clone->AddTransition(init_state,next_action,r,next_state);
@@ -442,7 +458,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
     }
 
     for (uint i=0; i<children.size(); ++i) {
-        children[i]->SparserExpandAllActions(n_samples,n_policies,K_step);
+        children[i]->SparserExpandAllActions(n_samples*2,n_policies,K_step*2);
     }
 }
 
@@ -541,8 +557,12 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 //		    real r = mean_mdp->getReward();
 //		    next_state = mean_mdp->getState();
 
+/*	PREVIOUSLY HOW I DID IT, UNTIL 16/10/2018
 		    next_state = belief_clone->GenerateTransition(next_state,next_action);
 		    real r = belief_clone->GenerateReward(next_state,next_action);
+*/
+		    next_state = belief_clone->GenerateTransition(init_state,next_action);
+		    real r = belief_clone->GenerateReward(init_state,next_action);
 
 
 		    belief_clone->AddTransition(init_state,next_action,r,next_state);
@@ -740,6 +760,7 @@ real TreeBRLPolicy::BeliefState::CalculateValues(LeafNodeValue leaf_node, int bu
     } else {
 		switch(leaf_node) {
 		case NONE: V = 0; break;
+		case Q_LEARNING: V = Qlearning(); break;
 		case V_MIN: V = 0; break;
 		case V_MAX: V = 1.0 / (1.0 - discount); break;
 		case V_MEAN: V = MeanMDPValue(); break;
@@ -827,6 +848,49 @@ real TreeBRLPolicy::BeliefState::MeanMDPValue()
 	return VI.getValue(state);
 }
         
+/// Return the values using the mean MDP
+real TreeBRLPolicy::BeliefState::Qlearning()
+{
+	VFExplorationPolicy* policy = tree.qlearning->exploration_policy->Clone();
+	int n_samples = tree.n_samples;
+	n_samples = 1;
+	Vector vals(n_samples);
+	for (int i=0; i<n_samples; ++i) {
+
+		policy->Observe(0,state);
+		
+		int init_state,next_state,K_step,next_action;
+		K_step = 80 - int(t*tree.K_step);
+		init_state = state;
+		next_action = policy->SelectAction();
+
+	    real total_reward = 0.0;
+	    real discount_factor = 1.0;
+		real gamma = tree.gamma;
+	    MDPModel* belief_clone = belief->Clone();
+	    for (int k=0; k < K_step;++k)
+	        {
+		    next_state = belief_clone->GenerateTransition(init_state,next_action);
+//		    real r = belief_clone->GenerateReward(init_state,next_action);
+/*	PREVIOUSLY HOW I DID IT, UNTIL 16/10/2018
+			real r = tree.environment->getExpectedReward(next_state,next_action);
+*/
+			real r = tree.environment->getExpectedReward(init_state,next_action);
+
+		    belief_clone->AddTransition(init_state,next_action,r,next_state);
+		    policy->Observe (r, next_state);
+		    total_reward += discount_factor*r;
+
+		    init_state = next_state;
+		    next_action = policy->SelectAction();
+		    discount_factor *= gamma;
+		}
+		delete belief_clone;
+		vals[i] = total_reward;
+	}
+	delete policy;
+	return vals.Sum()/n_samples;
+}
 
 
 
