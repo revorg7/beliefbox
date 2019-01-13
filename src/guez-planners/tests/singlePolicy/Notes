@@ -1,0 +1,4 @@
+Hypothesis: Single candidate root Policy RTDP give different results wrt different horizon but PI candidate policy does not, because of the way both are calculated.
+Trying with 1 horizon, 50 exp only. 
+
+Another conclusion is that myopic policies work sufficienly well, but this conclusion doesnt come from these particular experiments.

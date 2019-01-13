@@ -88,6 +88,20 @@ DiscreteMDPCountsSparse* DiscreteMDPCountsSparse::Clone () const
 	return clone;
 }
 
+real DiscreteMDPCountsSparse::CalculateDistance(MDPModel* target_belief,int s, int a) const
+{			
+	Vector v1 = getTransitionProbabilities (s, a);
+	Vector v2 = target_belief->getTransitionProbabilities (s, a);
+
+	real min_ratio = 1.0;
+	real max_ratio = 0.0;
+    	for (int s_n=0; s_n<n_states; s_n++) {
+			if ( v2[s_n]/v1[s_n] > max_ratio) max_ratio = v2[s_n]/v1[s_n];
+			if ( v2[s_n]/v1[s_n] < min_ratio) min_ratio = v2[s_n]/v1[s_n];
+		}
+
+	return log(max_ratio) - log(min_ratio);
+}
 
 
 DiscreteMDPCountsSparse::~DiscreteMDPCountsSparse()

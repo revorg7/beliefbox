@@ -23,6 +23,7 @@
 #include "ValueIteration.h"
 #include "PolicyIteration.h"
 #include "RTDP.h"
+#include "RTDP1.h"
 #include "PolicyEvaluation.h"
 #include "QLearning.h"
 #include "ExplorationPolicy.h"
@@ -67,6 +68,7 @@ protected:
     const int n_samples;
 public:
 	QLearning* qlearning;
+	bool Use_RTDP = false;
     MDPModel* belief; ///< pointer to the base MDP model
     const int K_step;
     FixedDiscretePolicy* root_policy;	//used for taking multiple-steps in real environment in PSRL style
@@ -79,6 +81,7 @@ public:
         int prev_action; ///< action taken to arrive here
         real prev_reward; ///< reward received to arrive here
         real probability; ///< probability of arriving here given previous state and action
+		real discount_factor; ///< discount_factor due to non-constant no. of steps from parent to child
         std::vector<BeliefState*> children; ///< next belief states
         BeliefState* prev; ///< previous belief state
         int t; ///< time
@@ -100,7 +103,8 @@ public:
                     int state_,
                     real prev_total_r,
                     real p,
-                    BeliefState* prev_);
+                    BeliefState* prev_,
+					real discount_factor_);
 
 	~BeliefState();
 
@@ -108,6 +112,7 @@ public:
         void ExpandAllActions();
         void SparseExpandAllActions(int n_samples);
 	void SparserExpandAllActions(int n_samples,int n_policies, int K_step);
+	void RTSparserExpandAllActions(int n_samples,int n_policies, int K_step);
 	void SparserAverageExpandAllActions(int n_samples,int n_policies, int K_step);
 	void SparserRandomExpandAllActions(int n_samples,int n_policies,int K_step);
         // methods for calculating action values in the tree
@@ -129,9 +134,10 @@ public:
             int horizon_ = 1,
 			LeafNodeValue leaf_node_expansion = NONE,
 			WhichAlgo algorithm = PLC,
-		        int n_policies_ = 4,
-			int n_samples_ = 4,
-			int K_step_ = 13);
+		        int n_policies_ = 2,
+			int n_samples_ = 2,
+			int K_step_ = 40,
+			bool useRTDP = false);
     virtual ~TreeBRLPolicy();
     virtual void Reset();
     virtual void Reset(int state);

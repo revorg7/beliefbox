@@ -17,6 +17,13 @@
 #include <iostream>
 #include <fstream>
 
+// ----> X
+// |
+// |
+// |
+// |Y
+
+
 Gridworld::Gridworld(const char* fname,
                      real random_,
                      real pit_,

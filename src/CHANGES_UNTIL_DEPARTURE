@@ -6,3 +6,7 @@ created DiscreteTransitionDistribution::GetTransitions for the purpose of improv
 Added qlearning instance to TreeBRLPolicy for leaf-node approximation (similar to BAMCP), didn't really help though
 
 Other codes that are saved on Desktop and maybe small changes in other files
+
+-------------------------After including guez library-----24/12/2018
+
+Extra flags that can be added to "make-default.mk" file for Guez library "-mfpmath=sse -msse -msse2 -msse3 -mtune=native -ftree-vectorize -ffast-math"

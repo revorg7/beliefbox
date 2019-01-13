@@ -541,3 +541,6 @@
   /home/div/Desktop/beliefbox/src/core/Matrix.h \
   /home/div/Desktop/beliefbox/src/statistics/Student.h \
   /home/div/Desktop/beliefbox/src/statistics/RandomSourceRNG.h
+/home/div/Desktop/beliefbox/src/objs/rng.o: rng.cc /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/utils.o: utils.cc /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h

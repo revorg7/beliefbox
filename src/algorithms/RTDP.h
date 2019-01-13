@@ -33,7 +33,7 @@ public:
     int n_actions; ///< number of actions
 	int init_state; ///< intial state
 	Vector V; ///< state values
-    Vector pV; ///< previous statate value
+    Vector pV; ///< Used here to keep state-visit counts
     Matrix Q; ///< state-action value
     Matrix pQ; ///< previous state-action values
     real Delta;
