@@ -1,7 +1,7 @@
 #	$Id: Makefile,v 1.3 2006/11/06 23:42:32 olethros Exp olethros $	
 # My packages
 
-PACKAGES = core algorithms geometry models statistics environments #florian
+PACKAGES = core algorithms geometry models statistics environments guez-utils guez-env guez-samplers guez-planners #florian
 # Compiler and Linker
 CC = clang++ # - some people may have to use clang instead
 CXX = clang++ 
@@ -15,8 +15,7 @@ DEP = clang -MM -D__DEPEND__
 LIBS_EXPORT=$(SMPL_DIR)/export/lib
 INCS_EXPORT=$(SMPL_DIR)/export/inc
 MYLIBS = -L$(LIBS_EXPORT)
-MYINCS = -I$(INCS_EXPORT) -I/home/div/Downloads/hopscotch-map-master/include
-
+MYINCS = -I$(INCS_EXPORT) -I/home/div/Downloads/hopscotch-map-master/include 
 # Flags
 
 ## Use DBG to compile a debug version.
@@ -50,7 +49,7 @@ LIBS_DIR = $(SMPL_DIR)/$(LIB_DIR_NAME)
 OBJS_DIR = $(SMPL_DIR)/$(OBJ_DIR_NAME)
 LIBSMPL = $(LIBS_DIR)/libsmpl.a
 LIBSMPLXX = $(LIBS_DIR)/libsmpl++.a
-LIBS = -L$(LIBS_DIR) $(MYLIBS) -latlas -lcblas -lgsl
+LIBS = -L$(LIBS_DIR) $(MYLIBS) -latlas -lcblas -lgsl -lboost_system
 EXPORTED_LIBS = -lranlib
 MAIN_LIB = -lsmpl
 INCS := -I$(SMPL_DIR)/core $(MYINCS)

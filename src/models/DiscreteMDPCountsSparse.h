@@ -73,7 +73,7 @@ public:
     virtual real getRewardProbability (int s, int a, real r) const;
     virtual Vector getTransitionProbabilities (int s, int a) const;
     virtual real getExpectedReward (int s, int a) const;
-
+	virtual real CalculateDistance(MDPModel* target_belief,int s, int a) const;
     virtual void Reset();
     virtual void ShowModel() const;
 	virtual void ShowModelStatistics() const;

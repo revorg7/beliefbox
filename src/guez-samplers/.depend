@@ -1,0 +1,84 @@
+/home/div/Desktop/beliefbox/src/objs/DoorSampler.o: DoorSampler.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/DoorSampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-env/mazedoor.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h
+/home/div/Desktop/beliefbox/src/objs/DoorSamplerFactory.o: DoorSamplerFactory.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/DoorSamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/FDMTransitionSampler.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/DoorSampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/mazedoor.h
+/home/div/Desktop/beliefbox/src/objs/FDMTransitionSampler.o: FDMTransitionSampler.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/FDMTransitionSampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h
+/home/div/Desktop/beliefbox/src/objs/FDMsamplerFactory.o: FDMsamplerFactory.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/FDMsamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/FDMTransitionSampler.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/LazyMDPSampler.o: LazyMDPSampler.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/LazyMDPSampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/FDMsamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-env/lazyMDP.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h
+/home/div/Desktop/beliefbox/src/objs/LazySamplerFactory.o: LazySamplerFactory.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/LazySamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/LazyMDPSampler.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/SFDMTransitionSampler.o: SFDMTransitionSampler.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/SFDMTransitionSampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/SFDMsamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h
+/home/div/Desktop/beliefbox/src/objs/SFDMsamplerFactory.o: SFDMsamplerFactory.cc \
+  /home/div/Desktop/beliefbox/src/guez-samplers/SFDMsamplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/SFDMTransitionSampler.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h

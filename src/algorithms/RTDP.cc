@@ -45,7 +45,7 @@ void RTDP::Reset()
 		real max = mdp->getExpectedReward(s, 0);
         for (int a=0; a<n_actions; a++) {
 			real val = mdp->getExpectedReward(s, a);
-            Q(s, a) = 0.0;
+            Q(s, a) = 0.0; ///< Not need to be initialzed to expected value in this version
             pQ(s, a) = 0.0;
 			if (val > max) max = val;
         }
@@ -56,7 +56,7 @@ void RTDP::Reset()
 
 void RTDP::ComputeStateValues(real threshold, int max_iter)
 {
-	ComputeStateValues(20, n_states);
+	ComputeStateValues(10, n_states);
 }
 
 void RTDP::ComputeStateValues(int n_runs, int max_depth)
@@ -80,7 +80,7 @@ void RTDP::ComputeStateValues(int n_runs, int max_depth)
 			//Selecting best-action
             for (int a=0; a<n_actions; a++) {
                 real V_next_sa = 0.0;
-                const DiscreteStateSet& next = mdp->getNextStates(s, a);
+                const DiscreteStateSet& next = mdp->getNextStates(s, a); ///< Changing it to mdp->generateState(s,a) is not going to help, I've already tried
                 for (DiscreteStateSet::iterator i=next.begin();
                      i!=next.end();
                      ++i) {
@@ -106,7 +106,8 @@ void RTDP::ComputeStateValues(int n_runs, int max_depth)
 			//Acting in MDP
 //printf(" action taken is:%d ran is:%f\n",actions[index],ran);
 //			mdp->Reset((s+1)%5);
-			if (run > int(0.7*n_runs)){
+			if (run < -1){
+//			if (run > int(0.7*n_runs)){
 //				real ran = rand() / double(RAND_MAX);
 //				if(ran<0.3) mdp->Act(rand()%n_actions);
 //				else mdp->Act(actions[index]);

@@ -92,6 +92,11 @@ public:
     {
         return 0.0;
     }
+	//THOUGH NOT A GOOD IDEA TO RETURN VECTOR IN THIS BASE CLASS
+    virtual Vector getTransitionProbabilities (int s, int a) const
+    {
+        return Vector();
+    }
     virtual real getRewardProbability (int s, int a, real r) const
     {
         return 0.0;
@@ -107,7 +112,7 @@ public:
     */
     virtual void setFixedRewards (const Matrix& rewards)
     {
-        // does nothing
+        logmsg("setFixedRewards Not Implemented\n");
     }
     virtual void Reset() = 0;
     virtual DiscreteMDP* CreateMDP() const;
@@ -120,6 +125,12 @@ public:
     {
 	// does nothing
     }
+
+	virtual real CalculateDistance(MDPModel* target_belief,int s, int a) const
+	{
+		return -1.0;
+	}
+
     virtual void ShowModel() const;
 	virtual void ShowModelStatistics() const
 	{

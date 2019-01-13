@@ -1,0 +1,160 @@
+/home/div/Desktop/beliefbox/src/objs/MDPutils.o: MDPutils.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/bamcp.o: bamcp.cc /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/node.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/value.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-env/banditSim.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h
+/home/div/Desktop/beliefbox/src/objs/bauct.o: bauct.cc /home/div/Desktop/beliefbox/src/guez-planners/bauct.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/node.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/value.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-env/banditSim.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/guez-env/basicMDP.h
+/home/div/Desktop/beliefbox/src/objs/beb.o: beb.cc /home/div/Desktop/beliefbox/src/guez-planners/beb.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h
+/home/div/Desktop/beliefbox/src/objs/bfs3.o: bfs3.cc /home/div/Desktop/beliefbox/src/guez-planners/bfs3.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/node3.h
+/home/div/Desktop/beliefbox/src/objs/boss.o: boss.cc /home/div/Desktop/beliefbox/src/guez-planners/boss.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h
+/home/div/Desktop/beliefbox/src/objs/experiment.o: experiment.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/experiment_bauct.o: experiment_bauct.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment_bauct.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bauct.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h
+/home/div/Desktop/beliefbox/src/objs/experiment_beb.o: experiment_beb.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment_beb.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/beb.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h
+/home/div/Desktop/beliefbox/src/objs/experiment_bfs3.o: experiment_bfs3.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment_bfs3.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bfs3.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h
+/home/div/Desktop/beliefbox/src/objs/experiment_boss.o: experiment_boss.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment_boss.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/boss.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h
+/home/div/Desktop/beliefbox/src/objs/experiment_sboss.o: experiment_sboss.cc \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment_sboss.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/sboss.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/experiment.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/bamcp.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/statistic.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h
+/home/div/Desktop/beliefbox/src/objs/node.o: node.cc /home/div/Desktop/beliefbox/src/guez-planners/node.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/value.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/history.h
+/home/div/Desktop/beliefbox/src/objs/node3.o: node3.cc /home/div/Desktop/beliefbox/src/guez-planners/node3.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h
+/home/div/Desktop/beliefbox/src/objs/sboss.o: sboss.cc /home/div/Desktop/beliefbox/src/guez-planners/sboss.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h \
+  /home/div/Desktop/beliefbox/src/guez-planners/MDPutils.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/sampler.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/guez-samplers/samplerFactory.h

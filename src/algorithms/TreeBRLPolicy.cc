@@ -16,7 +16,7 @@
 // and after that adding V(pi_1)+V(pi_2) = V(action) and then comparing it with the remaing value function, which is V(pi_3). hence it becomes V(pi_1)+V(pi_2) vs V(pi_3).
 
 
-//#define TBRL_DEBUG6
+//#define TBRL_DEBUG9
 
 TreeBRLPolicy::TreeBRLPolicy(std::shared_ptr<DiscreteEnvironment> environment_,
 				int n_states_,
@@ -29,7 +29,8 @@ TreeBRLPolicy::TreeBRLPolicy(std::shared_ptr<DiscreteEnvironment> environment_,
 		 enum WhichAlgo algo,
 		 int n_policies_,
 		 int n_samples_,
-		 int K_step_)
+		 int K_step_,
+		 bool useRTDP)
     : n_states(n_states_),
       n_actions(n_actions_),
       gamma(gamma_),
@@ -42,7 +43,8 @@ TreeBRLPolicy::TreeBRLPolicy(std::shared_ptr<DiscreteEnvironment> environment_,
 	 algorithm(algo),
 	n_policies(n_policies_),
 	n_samples(n_samples_),
-	K_step(K_step_)
+	K_step(K_step_),
+	Use_RTDP(useRTDP)
 {
 qlearning = new QLearning(n_states,n_actions,gamma,0.3,0.2,new EpsilonGreedy(n_actions,0.3));
 environment = environment_;
@@ -305,12 +307,13 @@ TreeBRLPolicy::BeliefState::BeliefState(TreeBRLPolicy& tree_,
                                   int state_,
                                   real prev_total_r,
 				  real p,
-                                  BeliefState* prev_)
+                                  BeliefState* prev_,
+				real discount_factor_				)
 	: tree(tree_), 
 	  belief(belief_),
 	  state(state_),
 	  prev_action(prev_action_),
-	  prev_reward(prev_total_r), probability(p), prev(prev_), t(prev_->t + 1)
+	  prev_reward(prev_total_r), probability(p), prev(prev_), t(prev_->t + 1), discount_factor(discount_factor_)
 {
 
 
@@ -334,6 +337,91 @@ TreeBRLPolicy::BeliefState::~BeliefState()
 	delete belief;
 }
 
+// Generate n-sample MDPs, calculate their RT optimal policy and run them for K_steps before creating new beliefs
+void TreeBRLPolicy::BeliefState::RTSparserExpandAllActions(int n_samples,int n_policies, int K_step)
+{
+    if (t >= tree.horizon) {
+        return;
+    }
+    real p = 1 / (real) (n_samples); /// < should be '*n_policies', no 'n_samples' is fine, since each K-step macro action is taken n_samples time
+	
+	std::vector<RTDP1*> PI_objects;
+    for (int i=0; i<n_policies; ++i) {
+	DiscreteMDP* model = belief->generate();
+for (int i=0; i<tree.n_states; i++) for (int j=0;j<tree.n_actions;j++) model->setFixedReward(i, j, tree.environment->getExpectedReward(i,j));
+	PI_objects.push_back(new RTDP1(model, tree.gamma, state));
+    }
+
+
+    const int underlying_state = state;
+    real discount_factor,total_reward;
+    real gamma = tree.gamma;
+    for (int j=0; j<n_policies; ++j) {
+	RTDP1* policy = PI_objects[j];
+
+	for (int i=0; i<n_samples; ++i) {
+	int init_state = underlying_state;
+	#ifdef TBRL_DEBUG
+		printf("init state: %d\n",init_state);
+	#endif
+	    int next_state = init_state;
+	    //int next_action = policy->SelectAction();
+    	int next_action = policy->Act(init_state);
+	    int initial_action = next_action; 
+	    total_reward = 0.0;
+	    discount_factor = 1.0;
+	    MDPModel* belief_clone = belief->Clone();
+		real belief_dist = 0.0;
+bool cond = true;
+	    for (int k=0; k < K_step;++k)
+	        {
+	    
+//		    next_state = policy->mdp->generateState(init_state,next_action);
+//		    next_state = belief_clone->GenerateTransition(init_state,next_action);
+//		    real r = belief_clone->GenerateReward(init_state,next_action);
+			real r = tree.environment->getExpectedReward(init_state,next_action);
+
+
+		    belief_clone->AddTransition(init_state,next_action,r,next_state);
+	#ifdef TBRL_DEBUG
+		printf("%d %d %d %f\n",init_state,next_action,r,next_state);
+	#endif
+	#ifdef TBRL_DEBUG9
+			belief_dist += belief->CalculateDistance(belief_clone,init_state,next_action);
+	#endif
+		    total_reward += discount_factor*r;
+
+		    init_state = next_state;
+		    next_action = policy->Act(init_state);
+		    discount_factor *= gamma;
+	#ifdef TBRL_DEBUG9
+			if (belief_dist >= 1.0){ cond = false; break;}
+	#endif
+		}
+		policy->Reset();
+//if (cond) printf("not reached\n");
+        if (tree.algorithm == PLC){ children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this, discount_factor)); }
+	else if (WRNGPLCAVG) { children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor)); }
+    	}	    
+    }
+
+    // Saving policies if they are at the root
+    if (t == 0) {
+	    for (int i=0; i<n_policies; ++i) {
+		tree.root_policies.push_back(PI_objects[i]->getPolicy());
+	    }
+    }
+
+    // Delete pointers
+    for (int i=0; i<n_policies; ++i) {
+	delete PI_objects[i];
+    }
+
+    for (uint i=0; i<children.size(); ++i) {
+        children[i]->RTSparserExpandAllActions(n_samples*2,n_policies,K_step*2);
+    }
+}
+
 // Generate n-sample MDPs, calculate their optimal policy and run them for K_steps before creating new beliefs
 void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_policies, int K_step)
 {
@@ -347,20 +435,23 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 //	belief->ShowModel();
 #endif
 	
-//	std::vector<RTDP*> PI_objects;
-	std::vector<PolicyIteration*> PI_objects;
+		std::vector<RTDP*> RT_objects;
+		std::vector<PolicyIteration*> PI_objects;
     for (int i=0; i<n_policies; ++i) {
 	DiscreteMDP* model = belief->generate();
+//for (int i=0; i<tree.n_states; i++) for (int j=0;j<tree.n_actions;j++) model->setFixedReward(i, j, tree.environment->getExpectedReward(i,j));
 #ifdef TBRL_DEBUG6
 	printf("sample no.%d \n",i);
 	model->ShowModel();
 #endif
-	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
-//	PI_objects.push_back(new RTDP(model, tree.gamma, state));
+if(tree.Use_RTDP)	RT_objects.push_back(new RTDP(model, tree.gamma, state));
+else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 	//delete model;		//cant delete as PI_objects depend on it
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
+	int runs = 2;
+	if (tree.T < 2000) runs = 1;
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
@@ -370,15 +461,16 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-1);
+if(tree.Use_RTDP)	RT_objects[i]->ComputeStateValues(runs,K_step*3); /// << param for RTDP
+else	PI_objects[i]->ComputeStateValues(1e-1);
 	//delete model;
     }
 
     // Saving policies if they are at the root
     if (t == 0) {
 	    for (int i=0; i<n_policies; ++i) {
-//		tree.root_policies.push_back(PI_objects[i]->getPolicy());
-		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
+if(tree.Use_RTDP)		tree.root_policies.push_back(RT_objects[i]->getPolicy());
+else		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
 	    }
     }
 
@@ -387,9 +479,8 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 
     // Deleting pointers and adding policies
     for (int i=0; i<n_policies; ++i) {
-	policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
-//	policies.push_back(PI_objects[i]->getPolicy());
-	delete PI_objects[i];
+if(tree.Use_RTDP)	{ policies.push_back(RT_objects[i]->getPolicy()); delete RT_objects[i];}
+else	{policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p)); delete PI_objects[i];}
 #ifdef TBRL_DEBUG
 	printf("depth of tree is %d\n",t);
 	printf("Printing policy i: %d\n",i);
@@ -417,6 +508,8 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 	    total_reward = 0.0;
 	    discount_factor = 1.0;
 	    MDPModel* belief_clone = belief->Clone();
+		real belief_dist = 0.0;
+bool cond = true;
 	    for (int k=0; k < K_step;++k)
 	        {
 	    
@@ -432,13 +525,16 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 */
 
 		    next_state = belief_clone->GenerateTransition(init_state,next_action);
-//		    real r = belief_clone->GenerateReward(next_state,next_action);
-			real r = tree.environment->getExpectedReward(init_state,next_action);
+		    real r = belief_clone->GenerateReward(init_state,next_action);
+//			real r = tree.environment->getExpectedReward(init_state,next_action);
 
 
 		    belief_clone->AddTransition(init_state,next_action,r,next_state);
 	#ifdef TBRL_DEBUG
 		printf("%d %d %d %f\n",init_state,next_action,r,next_state);
+	#endif
+	#ifdef TBRL_DEBUG9
+			belief_dist += belief->CalculateDistance(belief_clone,init_state,next_action);
 	#endif
 		    policy->Observe (r, next_state);
 		    total_reward += discount_factor*r;
@@ -446,9 +542,13 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
 		    init_state = next_state;
 		    next_action = policy->SelectAction();
 		    discount_factor *= gamma;
+	#ifdef TBRL_DEBUG9
+			if (belief_dist >= 1.0){ cond = false; break;}
+	#endif
 		}
-        if (tree.algorithm == PLC){ children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this)); }
-	else if (WRNGPLCAVG) { children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this)); }
+//if (cond) printf("not reached\n");
+        if (tree.algorithm == PLC){ children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this, discount_factor)); }
+	else if (WRNGPLCAVG) { children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor)); }
     	}	    
     }
 
@@ -458,7 +558,7 @@ void TreeBRLPolicy::BeliefState::SparserExpandAllActions(int n_samples,int n_pol
     }
 
     for (uint i=0; i<children.size(); ++i) {
-        children[i]->SparserExpandAllActions(n_samples*2,n_policies,K_step*2);
+        children[i]->SparserExpandAllActions(n_samples,n_policies,K_step);
     }
 }
 
@@ -474,7 +574,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 	printf("t: %d\n",t);
 //	belief->ShowModel();
 #endif
-#ifdef TBRL_DEBUG9
+#ifdef TBRL_DEBUG
 	printf("\nPolicy iteration called\n");
 #endif
     std::vector<PolicyIteration*> PI_objects;
@@ -577,7 +677,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 		    discount_factor *= gamma;
 		}
 	//children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this));
-	children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this));
+	children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor));
     	}	    
     }
 
@@ -654,7 +754,7 @@ void TreeBRLPolicy::BeliefState::SparserRandomExpandAllActions(int n_samples,int
 		    discount_factor *= gamma;
 		}
 	//children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this));
-	children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this));
+	children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor));
     	}	    
     }
 
@@ -744,6 +844,7 @@ real TreeBRLPolicy::BeliefState::CalculateValues(LeafNodeValue leaf_node, int bu
         for (uint i=0; i<children.size(); ++i) {
             int a = children[i]->prev_action;
 			real p = children[i]->probability;
+		    if (tree.algorithm == PLC) discount = children[i]->discount_factor;
 			real r = children[i]->prev_reward;
 			int s_next = children[i]->state;
 			real V_next = children[i]->CalculateValues(leaf_node,buffer);

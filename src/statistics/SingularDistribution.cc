@@ -59,7 +59,7 @@ UnknownSingularDistribution::UnknownSingularDistribution(const Distribution* pri
 
 UnknownSingularDistribution::~UnknownSingularDistribution()
 {
-    delete prior;
+//    delete prior;
 }
 void UnknownSingularDistribution::calculatePosterior(real x)
 {

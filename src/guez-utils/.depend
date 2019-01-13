@@ -1,0 +1,9 @@
+/home/div/Desktop/beliefbox/src/objs/anyoption.o: anyoption.cc \
+  /home/div/Desktop/beliefbox/src/guez-utils/anyoption.h
+/home/div/Desktop/beliefbox/src/objs/hr_time.o: hr_time.cc \
+  /home/div/Desktop/beliefbox/src/guez-utils/hr_time.h
+/home/div/Desktop/beliefbox/src/objs/rng.o: rng.cc /home/div/Desktop/beliefbox/src/guez-utils/rng.h
+/home/div/Desktop/beliefbox/src/objs/utils.o: utils.cc /home/div/Desktop/beliefbox/src/guez-utils/utils.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/rng.h
+/home/div/Desktop/beliefbox/src/objs/utils2.o: utils2.cc /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h

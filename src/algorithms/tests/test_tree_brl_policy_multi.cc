@@ -13,6 +13,12 @@
 /// Other things
 #include "MersenneTwister.h"
 
+/// For Guez Envs
+#include "GuezEnv.h"
+#include "grid.h"
+#include "simulator.h"
+#include "maze.h"
+
 /// Bayesian RL includes
 #include "DiscreteMDPCountsSparse.h"
 
@@ -61,7 +67,7 @@ int main(int argc, char** argv) {
     int n_actions = 2;
     int n_policies = 3;
     real discounting = 0.95;
-    int n_steps = 10000;
+    int n_steps = 200;
 
     // To remove any indexing bias
     std::vector<int> action_list;
@@ -77,10 +83,10 @@ int main(int argc, char** argv) {
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 2; 
+    int planning_horizon = 1; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
-    int n_experiments = 5;
+    int n_experiments = 1;
 
 	if (argc > 1) {
 		planning_horizon = atoi(argv[1]);
@@ -104,9 +110,12 @@ int main(int argc, char** argv) {
     //environment = make_shared<DoubleLoop>();
     //environment = make_shared<OptimisticTask>(0.1,0.7); //2nd argument is success probablity of transition
     //environment = make_shared<Gridworld>("../../../dat/maze01",0.2,0,1.0,0); //For GRID5,GRID10
-    environment = make_shared<Gridworld>("../../../dat/maze02",0.1,1.0,0,0); //For GRID5,GRID10
+    //environment = make_shared<Gridworld>("../../../dat/maze02",0.1,1.0,0,0); //For GRID5,GRID10
     //environment = make_shared<Mazeworld>("../../../dat/maze02",0.1,0,0.0,0); //For Maze
 
+	SIMULATOR* sim = new Maze(discounting);
+	//SIMULATOR* sim = new Grid(5,discounting);
+	environment = make_shared<GuezEnv>(sim);
     
     //environment = make_shared<ContextBandit>(n_states, n_actions, env_rng, false);
     //environment = make_shared<Blackjack>(env_rng);
@@ -162,7 +171,7 @@ int main(int argc, char** argv) {
          experiment<n_experiments;
          experiment++) {
         
-        TreeBRLPolicy tree (n_states, n_actions, discounting, &belief, rng, planning_horizon, (TreeBRLPolicy::LeafNodeValue) leaf_value,(TreeBRLPolicy::WhichAlgo) algorithm);
+        TreeBRLPolicy tree (environment, n_states, n_actions, discounting, &belief, rng, planning_horizon, (TreeBRLPolicy::LeafNodeValue) leaf_value,(TreeBRLPolicy::WhichAlgo) algorithm);
         // Set state to 0
 
 //        real total_reward = RunExperiment(environment, tree, n_steps,sampling,randomizer); ///<This real leaks memory
@@ -193,7 +202,7 @@ real RunExperiment(shared_ptr<DiscreteEnvironment> environment,
     for (int t=0; t<n_steps; ++t) {
         int state = environment->getState();
         int action = tree.Act(reward, state);
-	for (int j=0; j<2; ++j)
+	for (int j=0; j<10; ++j)
 	{
 
 	//int action = sampling->Act(reward,state);

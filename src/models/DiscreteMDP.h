@@ -131,7 +131,7 @@ public:
 		//int ID = getID (s, a);                
 		//assert (s2>=0 && s2<n_states);
 		//return P(ID, s2);
-		return transition_distribution.pdf(s, a, s2);
+		return transition_distribution.GetTransition(s, a, s2);
 	}
 	virtual real getExpectedReward (const int& s, const int& a) const
 	{
