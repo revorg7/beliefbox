@@ -15,7 +15,7 @@ DEP = clang -MM -D__DEPEND__
 LIBS_EXPORT=$(SMPL_DIR)/export/lib
 INCS_EXPORT=$(SMPL_DIR)/export/inc
 MYLIBS = -L$(LIBS_EXPORT)
-MYINCS = -I$(INCS_EXPORT) -I/home/div/Downloads/hopscotch-map-master/include 
+MYINCS = -I$(INCS_EXPORT) -I/home/div/Downloads/hopscotch-map-master/include -I/home/div/anaconda3/include/python3.6m #-I/home/div/Downloads/pybind11-master/include
 # Flags
 
 ## Use DBG to compile a debug version.
@@ -25,7 +25,7 @@ DBG_OPT=OPT
 
 # Add -pg flag for profiling
 CFLAGS_DBG = -fPIC -g -std=c++14 -Wall -DUSE_DOUBLE -Wno-overloaded-virtual -fopenmp
-CFLAGS_OPT = -fPIC -std=c++14 -O3 -Wall -DUSE_DOUBLE -DNDEBUG -Wno-overloaded-virtual -fopenmp
+CFLAGS_OPT = -fPIC `python3-config --cflags` -std=c++14 -O3 -Wall -DUSE_DOUBLE -DNDEBUG -Wno-overloaded-virtual -fopenmp
 #CFLAGS_DBG = -fPIC -g -Wall -pipe -pg
 #CFLAGS_OPT = -fPIC -g -O3 -Wall -DNDEBUG -pipe -pg
 CFLAGS=$(CFLAGS_$(DBG_OPT))

@@ -25,13 +25,27 @@ DiscreteMDP::MDP (int n_states_, int n_actions_, real** initial_transitions)
       N(n_states * n_actions),
 	  reward_distribution(n_states, n_actions),
       transition_distribution(n_states, n_actions)
-{  
+{
+/*  
 	if (initial_transitions) {
 		Serror("Not implemented\n");
 	}
+*/
     //real p = 1.0 / (real) n_states;
     reward = 0.0;
     state = 0;
+if(initial_transitions) {
+//    #pragma omp parallel for num_threads(4) if (n_states>25) ///<< not worth it
+    for (int s=0; s<n_states; s++) {
+        for (int a=0; a<n_actions; a++) {
+
+            for (int s2=0; s2<n_states; s2++) {
+               		transition_distribution.SetTransition(s,a,s2,initial_transitions[s+a*n_states][s2]);	/// <<<< Slowest operation
+            }
+        }
+    }
+}
+
 }
 
 /** Partially copies an MDP.

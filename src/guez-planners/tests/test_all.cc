@@ -19,6 +19,8 @@
 #include "simulator.h"
 #include "maze.h"
 #include "doubleloop.h"
+#include "chain.h"
+//#include "banditSim.h"
 
 /// Bayesian RL includes
 #include "DiscreteMDPCountsSparse.h"
@@ -54,8 +56,8 @@ int main(int argc, char** argv) {
 
     rng->seed();
     real discounting = 0.95;
-    int n_steps = 1000;
-    int n_experiments = 10;
+    int n_steps = 20000;
+    int n_experiments = 1;
 
 
 
@@ -63,19 +65,19 @@ int main(int argc, char** argv) {
     //int n_mdp_samples = 2; ///< number of MDP samples at leaf nodes
 
     // ---- user options ---- //
-    int planning_horizon = 2; 
+    int planning_horizon = 1; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
-    int n_policies = 2;
+    int n_policies = 4;
 	int n_samples = 2;
-	int K_step = 40;
+	int K_step = 20;
 	real dirichlet_mass = 2.0;	//INTIAL VALUE IN GUEZ CODE
 	int planner = 0; // 0 - Sparser, 1 - UCRL2, 2 - SampleBased
 	real delta = 0.99; // << For UCRL2
 	int max_samples = 2000; // << For SampleBased
 	real epsilon = 0.01; // << For SampleBased
-	bool useRTDP = true; // << Using RTDP for candidate policy generation
-	bool useFixedRewards = false; // << Using Fixed Rewards
+	bool useRTDP = false; // << Using RTDP for candidate policy generation
+	bool useFixedRewards = true; // << Using Fixed Rewards
 
 	if (argc > 1) {
 		n_policies = atoi(argv[1]);
@@ -101,9 +103,12 @@ int main(int argc, char** argv) {
     //printf("# Making environment\n");
     shared_ptr<DiscreteEnvironment> environment;
 
-	//SIMULATOR* sim = new Maze(discounting);
+	SIMULATOR* sim = new Maze(discounting);
 	//SIMULATOR* sim = new Grid(5,discounting);
-	SIMULATOR* sim = new Dloop(discounting);
+	//SIMULATOR* sim = new Dloop(discounting);
+	//SIMULATOR* sim = new Chain(discounting);
+	//double p[16] = {0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.9,0.6,0.6,0.6};
+	//SIMULATOR* sim = new BANDIT(16,p,discounting);
 	environment = make_shared<GuezEnv>(sim);
     
 	//Collecting information for belief

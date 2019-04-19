@@ -13,6 +13,7 @@
 #include "BetaDistribution.h"
 #include "SpecialFunctions.h"
 #include "ExponentialDistribution.h"
+#include <cstdlib>
 
 //#define TBRL_DEBUG
 
@@ -98,7 +99,8 @@ real BetaDistribution::generate() const
 /// Generate from the marginal distribution
 real BetaDistribution::generateMarginal() const
 {
-	if (urandom() < getMean()) {
+	//changing RNG to this from uniform() didn't change time or performance
+	if (drand48() < getMean()) {
 		return 1.0;
 	} else {
 		return 0.0;

@@ -79,10 +79,10 @@ void Pendulum::Reset()
   //	    state[1] = urandom(-0.001, 0.001);
 #if 1
   // Theta
-  state[0] =  urandom(-0.01, 0.01);
+  state[0] =  urandom((real)-0.01,(real) 0.01);
   //	state[0] =  (2*urandom() - 1)*0.2;
   // dTheta/dt
-  state[1] = urandom(-0.001, 0.001);
+  state[1] = urandom((real)-0.001,(real) 0.001);
   //	state[1] =  (2*urandom() - 1)*0.2;
 #else
   for (int i=0; i<2; ++i) {

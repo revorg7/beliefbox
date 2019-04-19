@@ -54,7 +54,7 @@ public:
               real gamma_,
               real lambda_,
               real alpha_,
-              VFExplorationPolicy* exploration_policy_,
+              VFExplorationPolicy* exploration_policy_ = NULL,
               real initial_value_= 0.0,
               real baseline_ = 0.0);
 	/// Destructor

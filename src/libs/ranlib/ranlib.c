@@ -6,10 +6,10 @@
 #define min(a,b) ((a) <= (b) ? (a) : (b))
 #define max(a,b) ((a) >= (b) ? (a) : (b))
 void ftnstop(const char*);
-float genbet(float aa,float bb)
+double genbet(double aa,double bb)
 /*
 **********************************************************************
-     float genbet(float aa,float bb)
+     double genbet(double aa,double bb)
                GeNerate BETa random deviate
                               Function
      Returns a single random deviate from the beta distribution with
@@ -30,15 +30,15 @@ float genbet(float aa,float bb)
 {
 #define expmax 89.0
 #define infnty 1.0E38
-static float olda = -1.0;
-static float oldb = -1.0;
-static float genbet,a,alpha,b,beta,delta,gamma,k1,k2,r,s,t,u1,u2,v,w,y,z;
+static double olda = -1.0;
+static double oldb = -1.0;
+static double genbet,a,alpha,b,beta,delta,gamma,k1,k2,r,s,t,u1,u2,v,w,y,z;
 static long qsame;
 
     qsame = olda == aa && oldb == bb;
     if(qsame) goto S20;
     if(!(aa <= 0.0 || bb <= 0.0)) goto S10;
-    fputs(" AA or BB <= 0 in GENBET - Abort!",stderr);
+    fputs(" AA or BB <= 0 in GENBET - Abort! no.1",stderr);
     fprintf(stderr," AA: %16.6E BB %16.6E\n",aa,bb);
     exit(1);
 S10:
@@ -169,10 +169,10 @@ S220:
 #undef expmax
 #undef infnty
 }
-float genchi(float df)
+double genchi(double df)
 /*
 **********************************************************************
-     float genchi(float df)
+     double genchi(double df)
                 Generate random value of CHIsquare variable
                               Function
      Generates random deviate from the distribution of a chisquare
@@ -186,20 +186,20 @@ float genchi(float df)
 **********************************************************************
 */
 {
-static float genchi;
+static double genchi;
 
     if(!(df <= 0.0)) goto S10;
-    fputs("DF <= 0 in GENCHI - ABORT",stderr);
+    fputs("DF <= 0 in GENCHI - ABORT no.2",stderr);
     fprintf(stderr,"Value of DF: %16.6E\n",df);
     exit(1);
 S10:
     genchi = 2.0*gengam(1.0,df/2.0);
     return genchi;
 }
-float genexp(float av)
+double genexp(double av)
 /*
 **********************************************************************
-     float genexp(float av)
+     double genexp(double av)
                     GENerate EXPonential random deviate
                               Function
      Generates a single random deviate from an exponential
@@ -218,15 +218,15 @@ float genexp(float av)
 **********************************************************************
 */
 {
-static float genexp;
+static double genexp;
 
     genexp = sexpo()*av;
     return genexp;
 }
-float genf(float dfn,float dfd)
+double genf(double dfn,double dfd)
 /*
 **********************************************************************
-     float genf(float dfn,float dfd)
+     double genf(double dfn,double dfd)
                 GENerate random deviate from the F distribution
                               Function
      Generates a random deviate from the F (variance ratio)
@@ -242,10 +242,10 @@ float genf(float dfn,float dfd)
 **********************************************************************
 */
 {
-static float genf,xden,xnum;
+static double genf,xden,xnum;
 
     if(!(dfn <= 0.0 || dfd <= 0.0)) goto S10;
-    fputs("Degrees of freedom nonpositive in GENF - abort!",stderr);
+    fputs("Degrees of freedom nonpositive in GENF - abort! no.3",stderr);
     fprintf(stderr,"DFN value: %16.6EDFD value: %16.6E\n",dfn,dfd);
     exit(1);
 S10:
@@ -265,10 +265,10 @@ S20:
 S30:
     return genf;
 }
-float gengam(float a,float r)
+double gengam(double a,double r)
 /*
 **********************************************************************
-     float gengam(float a,float r)
+     double gengam(double a,double r)
            GENerates random deviates from GAMma distribution
                               Function
      Generates random deviates from the gamma distribution whose
@@ -296,16 +296,16 @@ float gengam(float a,float r)
 **********************************************************************
 */
 {
-static float gengam;
+static double gengam;
 
     gengam = sgamma(r);
     gengam /= a;
     return gengam;
 }
-void genmn(float *parm,float *x,float *work)
+void genmn(double *parm,double *x,double *work)
 /*
 **********************************************************************
-     void genmn(float *parm,float *x,float *work)
+     void genmn(double *parm,double *x,double *work)
               GENerate Multivariate Normal random deviate
                               Arguments
      parm --> Parameters needed to generate multivariate normal
@@ -325,7 +325,7 @@ void genmn(float *parm,float *x,float *work)
 */
 {
 static long i,icount,j,p,D1,D2,D3,D4;
-static float ae;
+static double ae;
 
     p = (long) (*parm);
 /*
@@ -353,11 +353,11 @@ static float ae;
         *(x+i-1) = ae+*(parm+i);
     }
 }
-void genmul(long n,float *p,long ncat,long *ix)
+void genmul(long n,double *p,long ncat,long *ix)
 /*
 **********************************************************************
  
-     void genmul(int n,float *p,int ncat,int *ix)
+     void genmul(int n,double *p,int ncat,int *ix)
      GENerate an observation from the MULtinomial distribution
                               Arguments
      N --> Number of events that will be classified into one of
@@ -381,7 +381,7 @@ void genmul(long n,float *p,long ncat,long *ix)
 **********************************************************************
 */
 {
-static float prob,ptot,sum;
+static double prob,ptot,sum;
 static long i,icat,ntot;
     if(n < 0) ftnstop("N < 0 in GENMUL");
     if(ncat <= 1) ftnstop("NCAT <= 1 in GENMUL");
@@ -414,10 +414,10 @@ static long i,icat,ntot;
 */
     return;
 }
-float gennch(float df,float xnonc)
+double gennch(double df,double xnonc)
 /*
 **********************************************************************
-     float gennch(float df,float xnonc)
+     double gennch(double df,double xnonc)
            Generate random value of Noncentral CHIsquare variable
                               Function
      Generates random deviate  from the  distribution  of a  noncentral
@@ -435,20 +435,20 @@ float gennch(float df,float xnonc)
 **********************************************************************
 */
 {
-static float gennch;
+static double gennch;
 
     if(!(df <= 1.0 || xnonc < 0.0)) goto S10;
-    fputs("DF <= 1 or XNONC < 0 in GENNCH - ABORT",stderr);
+    fputs("DF <= 1 or XNONC < 0 in GENNCH - ABORT no.4",stderr);
     fprintf(stderr,"Value of DF: %16.6E Value of XNONC%16.6E\n",df,xnonc);
     exit(1);
 S10:
     gennch = genchi(df-1.0)+pow(gennor(sqrt(xnonc),1.0),2.0);
     return gennch;
 }
-float gennf(float dfn,float dfd,float xnonc)
+double gennf(double dfn,double dfd,double xnonc)
 /*
 **********************************************************************
-     float gennf(float dfn,float dfd,float xnonc)
+     double gennf(double dfn,double dfd,double xnonc)
            GENerate random deviate from the Noncentral F distribution
                               Function
      Generates a random deviate from the  noncentral F (variance ratio)
@@ -468,7 +468,7 @@ float gennf(float dfn,float dfd,float xnonc)
 **********************************************************************
 */
 {
-static float gennf,xden,xnum;
+static double gennf,xden,xnum;
 static long qcond;
 
     qcond = dfn <= 1.0 || dfd <= 0.0 || xnonc < 0.0;
@@ -497,10 +497,10 @@ S20:
 S30:
     return gennf;
 }
-float gennor(float av,float sd)
+double gennor(double av,double sd)
 /*
 **********************************************************************
-     float gennor(float av,float sd)
+     double gennor(double av,double sd)
          GENerate random deviate from a NORmal distribution
                               Function
      Generates a single random deviate from a normal distribution
@@ -519,50 +519,30 @@ float gennor(float av,float sd)
 **********************************************************************
 */
 {
-static float gennor;
+static double gennor;
 
     gennor = sd*snorm()+av;
     return gennor;
 }
-void genprm(long *iarray,int larray)
-/*
-**********************************************************************
-    void genprm(long *iarray,int larray)
-               GENerate random PeRMutation of iarray
-                              Arguments
-     iarray <--> On output IARRAY is a random permutation of its
-                 value on input
-     larray <--> Length of IARRAY
-**********************************************************************
-*/
-{
-static long i,itmp,iwhich,D1,D2;
 
-    for(i=1,D1=1,D2=(larray-i+D1)/D1; D2>0; D2--,i+=D1) {
-        iwhich = ignuin(i,larray);
-        itmp = *(iarray+iwhich-1);
-        *(iarray+iwhich-1) = *(iarray+i-1);
-        *(iarray+i-1) = itmp;
-    }
-}
-float genunf(float low,float high)
+double genunf(double low,double high)
 /*
 **********************************************************************
-     float genunf(float low,float high)
+     double genunf(double low,double high)
                GeNerate Uniform Real between LOW and HIGH
                               Function
-     Generates a float uniformly distributed between LOW and HIGH.
+     Generates a double uniformly distributed between LOW and HIGH.
                               Arguments
-     low --> Low bound (exclusive) on float value to be generated
-     high --> High bound (exclusive) on float value to be generated
+     low --> Low bound (exclusive) on double value to be generated
+     high --> High bound (exclusive) on double value to be generated
 **********************************************************************
 */
 {
-static float genunf;
+static double genunf;
 
     if(!(low > high)) goto S10;
     fprintf(stderr,"LOW > HIGH in GENUNF: LOW %16.6E HIGH: %16.6E\n",low,high);
-    fputs("Abort",stderr);
+    fputs("Abort no.5",stderr);
     exit(1);
 S10:
     genunf = low+(high-low)*ranf();
@@ -626,10 +606,10 @@ static long qstate = 0;
     if(getset != 0) qstate = 1;
     else  *qset = qstate;
 }
-long ignbin(long n,float pp)
+long ignbin(long n,double pp)
 /*
 **********************************************************************
-     long ignbin(long n,float pp)
+     long ignbin(long n,double pp)
                     GENerate BINomial random deviate
                               Function
      Generates a single random deviate from a binomial
@@ -732,10 +712,10 @@ long ignbin(long n,float pp)
 *****DETERMINE APPROPRIATE ALGORITHM AND WHETHER SETUP IS NECESSARY
 */
 {
-static float psave = -1.0;
+static double psave = -1.0;
 static long nsave = -1;
 static long ignbin,i,ix,ix1,k,m,mp,T1;
-static float al,alv,amaxp,c,f,f1,f2,ffm,fm,g,p,p1,p2,p3,p4,q,qn,r,u,v,w,w2,x,x1,
+static double al,alv,amaxp,c,f,f1,f2,ffm,fm,g,p,p1,p2,p3,p4,q,qn,r,u,v,w,w2,x,x1,
     x2,xl,xll,xlr,xm,xnp,xnpq,xr,ynorm,z,z2;
 
     if(pp != psave) goto S10;
@@ -883,11 +863,11 @@ S170:
     ignbin = ix;
     return ignbin;
 }
-long ignnbn(long n,float p)
+long ignnbn(long n,double p)
 /*
 **********************************************************************
  
-     long ignnbn(long n,float p)
+     long ignnbn(long n,double p)
                 GENerate Negative BiNomial random deviate
                               Function
      Generates a single random deviate from a negative binomial
@@ -907,7 +887,7 @@ long ignnbn(long n,float p)
 */
 {
 static long ignnbn;
-static float y,a,r;
+static double y,a,r;
 /*
      ..
      .. Executable Statements ..
@@ -921,7 +901,7 @@ static float y,a,r;
 /*
      Generate Y, a random gamma (n,(1-p)/p) variable
 */
-    r = (float)n;
+    r = (double)n;
     a = p/(1.0F-p);
     y = gengam(a,r);
 /*
@@ -930,10 +910,10 @@ static float y,a,r;
     ignnbn = ignpoi(y);
     return ignnbn;
 }
-long ignpoi(float mu)
+long ignpoi(double mu)
 /*
 **********************************************************************
-     long ignpoi(float mu)
+     long ignpoi(double mu)
                     GENerate POIsson random deviate
                               Function
      Generates a single random deviate from a Poisson
@@ -981,22 +961,22 @@ long ignpoi(float mu)
      SEPARATION OF CASES A AND B
 */
 {
-extern float fsign( float num, float sign );
-static float a0 = -0.5;
-static float a1 = 0.3333333;
-static float a2 = -0.2500068;
-static float a3 = 0.2000118;
-static float a4 = -0.1661269;
-static float a5 = 0.1421878;
-static float a6 = -0.1384794;
-static float a7 = 0.125006;
-static float muold = 0.0;
-static float muprev = 0.0;
-static float fact[10] = {
+extern double fsign( double num, double sign );
+static double a0 = -0.5;
+static double a1 = 0.3333333;
+static double a2 = -0.2500068;
+static double a3 = 0.2000118;
+static double a4 = -0.1661269;
+static double a5 = 0.1421878;
+static double a6 = -0.1384794;
+static double a7 = 0.125006;
+static double muold = 0.0;
+static double muprev = 0.0;
+static double fact[10] = {
     1.0,1.0,2.0,6.0,24.0,120.0,720.0,5040.0,40320.0,362880.0
 };
 static long ignpoi,j,k,kflag,l,m;
-static float b1,b2,c,c0,c1,c2,c3,d,del,difmuk,e,fk,fx,fy,g,omega,p,p0,px,py,q,s,
+static double b1,b2,c,c0,c1,c2,c3,d,del,difmuk,e,fk,fx,fy,g,omega,p,p0,px,py,q,s,
     t,u,v,x,xx,pp[35];
 
     if(mu == muprev) goto S10;
@@ -1027,7 +1007,7 @@ S10:
 /*
      STEP S. SQUEEZE ACCEPTANCE - SUNIF(IR) FOR (0,1)-SAMPLE U
 */
-    fk = (float)ignpoi;
+    fk = (double)ignpoi;
     difmuk = mu-fk;
     u = ranf();
     if(d*u >= difmuk*difmuk*difmuk) return ignpoi;
@@ -1074,7 +1054,7 @@ S50:
     t = 1.8+fsign(e,u);
     if(t <= -0.6744) goto S50;
     ignpoi = (long) (mu+s*t);
-    fk = (float)ignpoi;
+    fk = (double)ignpoi;
     difmuk = mu-fk;
 /*
              'SUBROUTINE' F IS CALLED (KFLAG=1 FOR CORRECT RETURN)
@@ -1156,7 +1136,7 @@ S150:
 */
     l += 1;
     for(k=l; k<=35; k++) {
-        p = p*mu/(float)k;
+        p = p*mu/(double)k;
         q += p;
         *(pp+k-1) = q;
         if(u <= q) goto S170;
@@ -1191,13 +1171,13 @@ long ignuin(long low,long high)
 static long ignuin,ign,maxnow,range,ranp1;
 
     if(!(low > high)) goto S10;
-    fputs(" low > high in ignuin - ABORT",stderr);
+    fputs(" low > high in ignuin - ABORT no.6",stderr);
     exit(1);
 
 S10:
     range = high-low;
     if(!(range > maxnum)) goto S20;
-    fputs(" high - low too large in ignuin - ABORT",stderr);
+    fputs(" high - low too large in ignuin - ABORT no.7",stderr);
     exit(1);
 
 S20:
@@ -1214,7 +1194,7 @@ S30:
     ranp1 = range+1;
     maxnow = maxnum/ranp1*ranp1;
 S40:
-    ign = ignlgi()-1;
+    ign = rand()-1;
     if(!(ign <= maxnow)) goto S50;
     ignuin = low+ign%ranp1;
     return ignuin;
@@ -1236,7 +1216,7 @@ for (i=0, i_nb= -1L; *(str+i); i++)
     if ( *(str+i) != ' ' ) i_nb = i;
 return (i_nb+1);
     }
-long mltmod(long a,long s,long m)
+
 /*
 **********************************************************************
      long mltmod(long a,long s,long m)
@@ -1250,86 +1230,7 @@ long mltmod(long a,long s,long m)
      a, s, m  -->
 **********************************************************************
 */
-{
-#define h 32768L
-static long mltmod,a0,a1,k,p,q,qh,rh;
-/*
-     H = 2**((b-2)/2) where b = 32 because we are using a 32 bit
-      machine. On a different machine recompute H
-*/
-    if(!(a <= 0 || a >= m || s <= 0 || s >= m)) goto S10;
-    fputs(" a, m, s out of order in mltmod - ABORT!",stderr);
-    fprintf(stderr," a = %12ld s = %12ld m = %12ld\n",a,s,m);
-    fputs(" mltmod requires: 0 < a < m; 0 < s < m",stderr);
-    exit(1);
-S10:
-    if(!(a < h)) goto S20;
-    a0 = a;
-    p = 0;
-    goto S120;
-S20:
-    a1 = a/h;
-    a0 = a-h*a1;
-    qh = m/h;
-    rh = m-h*qh;
-    if(!(a1 >= h)) goto S50;
-    a1 -= h;
-    k = s/qh;
-    p = h*(s-k*qh)-k*rh;
-S30:
-    if(!(p < 0)) goto S40;
-    p += m;
-    goto S30;
-S40:
-    goto S60;
-S50:
-    p = 0;
-S60:
-/*
-     P = (A2*S*H)MOD M
-*/
-    if(!(a1 != 0)) goto S90;
-    q = m/a1;
-    k = s/q;
-    p -= (k*(m-a1*q));
-    if(p > 0) p -= m;
-    p += (a1*(s-k*q));
-S70:
-    if(!(p < 0)) goto S80;
-    p += m;
-    goto S70;
-S90:
-S80:
-    k = p/qh;
-/*
-     P = ((A2*H + A1)*S)MOD M
-*/
-    p = h*(p-k*qh)-k*rh;
-S100:
-    if(!(p < 0)) goto S110;
-    p += m;
-    goto S100;
-S120:
-S110:
-    if(!(a0 != 0)) goto S150;
-/*
-     P = ((A2*H + A1)*H*S)MOD M
-*/
-    q = m/a0;
-    k = s/q;
-    p -= (k*(m-a0*q));
-    if(p > 0) p -= m;
-    p += (a0*(s-k*q));
-S130:
-    if(!(p < 0)) goto S140;
-    p += m;
-    goto S130;
-S150:
-S140:
-    mltmod = p;
-    return mltmod;
-#undef h
-}
+
 void phrtsd(char* phrase,long *seed1,long *seed2)
 /*
 **********************************************************************
@@ -1391,10 +1292,10 @@ extern long lennob(char *str);
     }
 #undef twop30
 }
-float ranf(void)
+double ranf(void)
 /*
 **********************************************************************
-     float ranf(void)
+     double ranf(void)
                 RANDom number generator as a Function
      Returns a random floating point number from a uniform distribution
      over 0 - 1 (endpoints of this interval are not returned) using the
@@ -1407,19 +1308,19 @@ float ranf(void)
 **********************************************************************
 */
 {
-static float ranf;
+static double ranf;
 /*
      4.656613057E-10 is 1/M1  M1 is set in a data statement in IGNLGI
       and is currently 2147483563. If M1 changes, change this also.
 */
-    ranf = ignlgi()*4.656613057E-10;
+    ranf = drand48();
     return ranf;
 }
 #if 0
-void setgmn(float *meanv,float *covm,long p,float *parm)
+void setgmn(double *meanv,double *covm,long p,double *parm)
 /*
 **********************************************************************
-     void setgmn(float *meanv,float *covm,long p,float *parm)
+     void setgmn(double *meanv,double *covm,long p,double *parm)
             SET Generate Multivariate Normal random deviate
                               Function
       Places P, MEANV, and the Cholesky factoriztion of COVM
@@ -1440,7 +1341,7 @@ void setgmn(float *meanv,float *covm,long p,float *parm)
 **********************************************************************
 */
 {
-extern void spofa(float *a,long lda,long n,long *info);
+extern void spofa(double *a,long lda,long n,long *info);
 static long T1;
 static long i,icount,info,j,D2,D3,D4,D5;
     T1 = p*(p+3)/2+1;
@@ -1483,7 +1384,7 @@ S30:
 }
 #endif
 
-float sexpo(void)
+double sexpo(void)
 /*
 **********************************************************************
                                                                       
@@ -1512,12 +1413,12 @@ float sexpo(void)
      (HERE 8) IS DETERMINED BY Q(N)=1.0 WITHIN STANDARD PRECISION
 */
 {
-static float q[8] = {
+static double q[8] = {
     0.6931472,0.9333737,0.9888778,0.9984959,0.9998293,0.9999833,0.9999986,1.0
 };
 static long i;
-static float sexpo,a,u,ustar,umin;
-static float *q1 = q;
+static double sexpo,a,u,ustar,umin;
+static double *q1 = q;
     a = 0.0;
     u = ranf();
     goto S30;
@@ -1542,7 +1443,7 @@ S70:
     sexpo = a+umin**q1;
     return sexpo;
 }
-float sgamma(float a)
+double sgamma(double a)
 /*
 **********************************************************************
                                                                       
@@ -1595,30 +1496,30 @@ float sgamma(float a)
      SQRT32 IS THE SQUAREROOT OF 32 = 5.656854249492380
 */
 {
-extern float fsign( float num, float sign );
-static float q1 = 4.166669E-2;
-static float q2 = 2.083148E-2;
-static float q3 = 8.01191E-3;
-static float q4 = 1.44121E-3;
-static float q5 = -7.388E-5;
-static float q6 = 2.4511E-4;
-static float q7 = 2.424E-4;
-static float a1 = 0.3333333;
-static float a2 = -0.250003;
-static float a3 = 0.2000062;
-static float a4 = -0.1662921;
-static float a5 = 0.1423657;
-static float a6 = -0.1367177;
-static float a7 = 0.1233795;
-static float e1 = 1.0;
-static float e2 = 0.4999897;
-static float e3 = 0.166829;
-static float e4 = 4.07753E-2;
-static float e5 = 1.0293E-2;
-static float aa = 0.0;
-static float aaa = 0.0;
-static float sqrt32 = 5.656854;
-static float sgamma,s2,s,d,t,x,u,r,q0,b,si,c,v,q,e,w,p;
+extern double fsign( double num, double sign );
+static double q1 = 4.166669E-2;
+static double q2 = 2.083148E-2;
+static double q3 = 8.01191E-3;
+static double q4 = 1.44121E-3;
+static double q5 = -7.388E-5;
+static double q6 = 2.4511E-4;
+static double q7 = 2.424E-4;
+static double a1 = 0.3333333;
+static double a2 = -0.250003;
+static double a3 = 0.2000062;
+static double a4 = -0.1662921;
+static double a5 = 0.1423657;
+static double a6 = -0.1367177;
+static double a7 = 0.1233795;
+static double e1 = 1.0;
+static double e2 = 0.4999897;
+static double e3 = 0.166829;
+static double e4 = 4.07753E-2;
+static double e5 = 1.0293E-2;
+static double aa = 0.0;
+static double aaa = 0.0;
+static double sqrt32 = 5.656854;
+static double sgamma,s2,s,d,t,x,u,r,q0,b,si,c,v,q,e,w,p;
     if(a == aa) goto S10;
     if(a < 1.0) goto S120;
 /*
@@ -1756,7 +1657,7 @@ S140:
     if(sexpo() < (1.0-a)*log(sgamma)) goto S130;
     return sgamma;
 }
-float snorm(void)
+double snorm(void)
 /*
 **********************************************************************
                                                                       
@@ -1785,27 +1686,27 @@ float snorm(void)
      H(K) ARE ACCORDING TO THE ABOVEMENTIONED ARTICLE
 */
 {
-static float a[32] = {
+static double a[32] = {
     0.0,3.917609E-2,7.841241E-2,0.11777,0.1573107,0.1970991,0.2372021,0.2776904,
     0.3186394,0.36013,0.4022501,0.4450965,0.4887764,0.5334097,0.5791322,
     0.626099,0.6744898,0.7245144,0.7764218,0.8305109,0.8871466,0.9467818,
     1.00999,1.077516,1.150349,1.229859,1.318011,1.417797,1.534121,1.67594,
     1.862732,2.153875
 };
-static float d[31] = {
+static double d[31] = {
     0.0,0.0,0.0,0.0,0.0,0.2636843,0.2425085,0.2255674,0.2116342,0.1999243,
     0.1899108,0.1812252,0.1736014,0.1668419,0.1607967,0.1553497,0.1504094,
     0.1459026,0.14177,0.1379632,0.1344418,0.1311722,0.128126,0.1252791,
     0.1226109,0.1201036,0.1177417,0.1155119,0.1134023,0.1114027,0.1095039
 };
-static float t[31] = {
+static double t[31] = {
     7.673828E-4,2.30687E-3,3.860618E-3,5.438454E-3,7.0507E-3,8.708396E-3,
     1.042357E-2,1.220953E-2,1.408125E-2,1.605579E-2,1.81529E-2,2.039573E-2,
     2.281177E-2,2.543407E-2,2.830296E-2,3.146822E-2,3.499233E-2,3.895483E-2,
     4.345878E-2,4.864035E-2,5.468334E-2,6.184222E-2,7.047983E-2,8.113195E-2,
     9.462444E-2,0.1123001,0.136498,0.1716886,0.2276241,0.330498,0.5847031
 };
-static float h[31] = {
+static double h[31] = {
     3.920617E-2,3.932705E-2,3.951E-2,3.975703E-2,4.007093E-2,4.045533E-2,
     4.091481E-2,4.145507E-2,4.208311E-2,4.280748E-2,4.363863E-2,4.458932E-2,
     4.567523E-2,4.691571E-2,4.833487E-2,4.996298E-2,5.183859E-2,5.401138E-2,
@@ -1813,7 +1714,7 @@ static float h[31] = {
     8.781922E-2,9.930398E-2,0.11556,0.1404344,0.1836142,0.2790016,0.7010474
 };
 static long i;
-static float snorm,u,s,ustar,aa,w,y,tt;
+static double snorm,u,s,ustar,aa,w,y,tt;
     u = ranf();
     s = 0.0;
     if(u > 0.5) s = 1.0;
@@ -1825,7 +1726,7 @@ static float snorm,u,s,ustar,aa,w,y,tt;
 /*
                                 START CENTER
 */
-    ustar = u-(float)i;
+    ustar = u-(double)i;
     aa = *(a+i-1);
 S40:
     if(ustar <= *(t+i-1)) goto S60;
@@ -1883,7 +1784,7 @@ S160:
     u = ranf();
     goto S140;
 }
-float fsign( float num, float sign )
+double fsign( double num, double sign )
 /* Transfers sign of argument sign to argument num */
 {
 if ( ( sign>0.0f && num<0.0f ) || ( sign<0.0f && num>0.0f ) )

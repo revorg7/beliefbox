@@ -83,7 +83,7 @@ real BernoulliDistribution::pdf(real x) const
 
 real LaplacianDistribution::generate() const
 {
-    real x = urandom(-1.0, 1.0);
+    real x = urandom((real)-1.0,(real) 1.0);
     real absx = fabs (x);
     real sgnx;
     if (x>0.0) {

@@ -82,7 +82,7 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse(const DiscreteMDPCountsSparse& 
 }
 
 /// CHECK: Some parameters are not copied
-DiscreteMDPCountsSparse* DiscreteMDPCountsSparse::Clone () const
+DiscreteMDPCountsSparse* DiscreteMDPCountsSparse::Clone() const
 {
 	DiscreteMDPCountsSparse* clone = new DiscreteMDPCountsSparse(*this);
 	return clone;

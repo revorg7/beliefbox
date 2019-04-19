@@ -450,8 +450,8 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
-	int runs = 2;
-	if (tree.T < 2000) runs = 1;
+	int runs = 10;
+//	if (tree.T < 2000) runs = 1;
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
@@ -526,6 +526,7 @@ bool cond = true;
 
 		    next_state = belief_clone->GenerateTransition(init_state,next_action);
 		    real r = belief_clone->GenerateReward(init_state,next_action);
+//			real r = belief_clone->getExpectedReward(init_state,next_action);
 //			real r = tree.environment->getExpectedReward(init_state,next_action);
 
 
