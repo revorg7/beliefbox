@@ -69,7 +69,9 @@ namespace std
 			std::size_t seed = 0;
 			hash_combine(seed, hash<int>()(s.state));
 			hash_combine(seed, hash<int>()(s.action));
-			hash_combine(seed, hash<int>()(s.next_state));
+			hash_combine(seed, hash<int>()(s.next_state));				///<<< This data-structure is too complicated, need to remove it from tsl::hopscotch at all
+																		/// doing this (https://stackoverflow.com/questions/1646807/quick-and-simple-hash-code-combinations (google:fast hash combine) )
+																		/// didn't help either (google: hash_combine c++11)
 			return seed;
 		}
 		

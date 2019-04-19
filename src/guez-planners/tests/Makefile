@@ -5,5 +5,5 @@ include $(SMPL_DIR)/Make-default.mk
 %: %.cc
 	cd $(SMPL_DIR); ${MAKE}
 	mkdir -p bin/
-	$(CXX) $(CFLAGS) $(INCS) -DMAKE_MAIN -o bin/$@ $< ${MAIN_LIB} $(LIBS)
+	$(CXX) $(CFLAGS) -shared $(INCS) -DMAKE_MAIN -o bin/$@.so $< ${MAIN_LIB} $(LIBS) `python3-config --ldflags`
 

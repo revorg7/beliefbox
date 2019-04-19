@@ -34,6 +34,12 @@
   /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
   /home/div/Desktop/beliefbox/src/environments/utils.h \
   /home/div/Desktop/beliefbox/src/environments/rng.h
+/home/div/Desktop/beliefbox/src/objs/chain.o: chain.cc /home/div/Desktop/beliefbox/src/guez-env/chain.h \
+  /home/div/Desktop/beliefbox/src/guez-env/simulator.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/utils2.h \
+  /home/div/Desktop/beliefbox/src/guez-utils/memorypool.h \
+  /home/div/Desktop/beliefbox/src/environments/utils.h \
+  /home/div/Desktop/beliefbox/src/environments/rng.h
 /home/div/Desktop/beliefbox/src/objs/doubleloop.o: doubleloop.cc \
   /home/div/Desktop/beliefbox/src/guez-env/doubleloop.h \
   /home/div/Desktop/beliefbox/src/guez-env/simulator.h \

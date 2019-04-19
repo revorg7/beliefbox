@@ -42,6 +42,8 @@ QLearning::QLearning(int n_states_,
             Q(s, a) = initial_value;
         }
     }
+	if (exploration_policy == NULL) exploration_policy = new EpsilonGreedy(n_actions, 0.99);
+	exploration_policy->setGeometricSchedule(0.01, 1.0);
     exploration_policy->setValueMatrix(&Q);
     Reset();
 }

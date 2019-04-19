@@ -258,7 +258,7 @@ real Bike::calc_dist_to_goal(real xf, real xb, real yf, real yb)
 {
 	real temp;
 	
-	temp = sqrt(std::max(0.0, (parameters.x_goal-xf)*(parameters.x_goal-xf) + (parameters.y_goal-yf)*(parameters.y_goal-yf) 
+	temp = sqrt(std::max((real)0.0, (parameters.x_goal-xf)*(parameters.x_goal-xf) + (parameters.y_goal-yf)*(parameters.y_goal-yf) 
 					- parameters.radius_goal*parameters.radius_goal)); 
 	return(temp);
 }

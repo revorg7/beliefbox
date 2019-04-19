@@ -38,7 +38,7 @@ void DiscreteTransitionDistribution::SetTransition(int state,
 	assert(probability >= 0 && probability <= 1);
 	DiscreteTransition transition = DiscreteTransition(state, action, next_state);
 	if (probability > 0) {
-		P[transition] = probability;
+		P[transition] = probability;						/// <<< As I guessed, just commenting this out works superfast
 		DiscreteStateAction SA(state, action);
 		next_states[SA].insert(next_state);
 	} else {

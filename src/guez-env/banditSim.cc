@@ -6,6 +6,7 @@ using namespace UTILS;
 BANDIT::BANDIT(int _numArms, double* _p, double discount)
 :   numArms(_numArms), p(_p)
 {
+	R = p;
     NumActions = numArms;
     NumObservations = 2;
     RewardRange = 1;
