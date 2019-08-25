@@ -92,7 +92,7 @@ SampleBasedRL::~SampleBasedRL()
     printf(" # SampleBasedRL lower bound\n");
 #endif
     for (int i=0; i<max_samples; ++i) {
-        delete mdp_list[i];
+//        delete mdp_list[i];
         delete value_iteration[i];
     }
     delete multi_value_iteration;

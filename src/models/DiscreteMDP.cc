@@ -57,7 +57,10 @@ DiscreteMDP::MDP(const MDP<int,int>& mdp)
     : n_states(mdp.n_states),
       n_actions(mdp.n_actions),
 	  reward_distribution(n_states, n_actions),
-	  transition_distribution(mdp.transition_distribution)
+	  transition_distribution(mdp.transition_distribution)	/*	<< This is the meat of error, this method doesn't exist in SimpleTranDist >>>	==8629==    by 0x43741B: SimpleTransitionDistribution::SimpleTransitionDistribution(SimpleTransitionDistribution const&) (SimpleTransitionDistribution.h:28)
+==8629==    by 0x4365DD: MDP<int, int>::MDP(MDP<int, int> const&) (DiscreteMDP.cc:60)
+==8629==    by 0x4329D5: DiscreteMDPCounts::DiscreteMDPCounts(DiscreteMDPCounts const&) (DiscreteMDPCounts.cc:72)
+==8629==    by 0x432B9E: DiscreteMDPCounts::Clone() const (DiscreteMDPCounts.cc:111) */ /*CHECK WHY TS DOESNT WORK WITH SIMPLETRANSITIONDIST, AND CHECK WHY PI DOESNT GIVE OPTIMAL POLICY AT ALL*/
 {
     reward = 0.0;
 	state = 0;
@@ -76,7 +79,7 @@ DiscreteMDP::MDP (const std::vector<const MDP<int,int>*> &mdp_list,
     for (int i=0; i<n_mdps; ++i) {
         if (n_states != mdp_list[i]->n_states) {
             Serror("Number of states don't match\n");
-            exit(-1);
+            exit(-1);								
         }
         if (n_actions != mdp_list[i]->n_actions) {
             Serror("Number of actions don't match\n");

@@ -42,7 +42,7 @@ public:
                     real baseline_ = 0.0);
     ~PolicyIteration();
     void Reset();
-    void ComputeStateValues(real threshold, int max_iter=-1);
+    void ComputeStateValues(int max_iter,real evaluation_threshold); //<<< Max iter should be the most imp parameter, not evaluation_threshold (which when reduced makes it look like more and more VI)
     inline real getValue (int state, int action)
     {
         return evaluation->getValue(state, action);

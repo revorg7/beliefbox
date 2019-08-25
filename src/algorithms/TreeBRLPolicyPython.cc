@@ -66,14 +66,14 @@ TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real disc
 				gamma(discounting),
 				T(0),
 				size(0),
-				n_policies(4),
-				n_samples(2),
-				K_step(10)
+				n_policies(2),
+				n_samples(20),
+				K_step(100)
  {
 
 	    // ---- user options ---- //
 	    horizon = 1; // << Search Tree depth
-		Use_RTDP = true; // << Using RTDP for candidate policy generation
+		Use_RTDP = false; // << Using RTDP for candidate policy generation
 	    leaf_node_expansion = LeafNodeValue::NONE;
 	    algorithm = WhichAlgo::PLC;
 	    current_state = -1;
@@ -87,7 +87,7 @@ TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real disc
 
 		//Making belief inside
 		real dirichlet_mass = 2.0;	//INTIAL VALUE IN GUEZ CODE
-		enum DiscreteMDPCountsSparse::RewardFamily reward_prior = DiscreteMDPCountsSparse::BETA;
+		enum DiscreteMDPCountsSparse::RewardFamily reward_prior = DiscreteMDPCountsSparse::NORMAL; //Doing Fixed here
 	    belief = new DiscreteMDPCountsSparse(n_states, n_actions, dirichlet_mass, reward_prior);
 
 		bool useFixedRewards = false; // << Using Fixed Rewards
@@ -398,8 +398,8 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
-	int runs = 2;
-	if (tree.T < 2000) runs = 1;
+	int runs = 5;
+//	if (tree.T < 2000) runs = 1;
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
@@ -409,8 +409,8 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-if(tree.Use_RTDP)	RT_objects[i]->ComputeStateValues(runs,K_step*3); /// << param for RTDP
-else	PI_objects[i]->ComputeStateValues(1e-1);
+if(tree.Use_RTDP)	RT_objects[i]->ComputeStateValues(runs,K_step*5); /// << param for RTDP
+else	PI_objects[i]->ComputeStateValues(-1,1e-3);
 	//delete model;
     }
 
@@ -473,8 +473,8 @@ bool cond = true;
 */
 
 		    next_state = belief_clone->GenerateTransition(init_state,next_action);
-		    real r = belief_clone->GenerateReward(init_state,next_action);
-//			real r = belief_clone->getExpectedReward(init_state,next_action);
+//		    real r = belief_clone->GenerateReward(init_state,next_action);
+			real r = belief_clone->getExpectedReward(init_state,next_action);
 //			real r = tree.environment->getExpectedReward(init_state,next_action);
 
 
@@ -548,7 +548,7 @@ void TreeBRLPolicyPython::BeliefState::SparserAverageExpandAllActions(int n_samp
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-0);
+	PI_objects[i]->ComputeStateValues(-1,1e-3);
 	//delete model;
     }
 //}

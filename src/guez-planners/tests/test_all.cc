@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 
     rng->seed();
     real discounting = 0.95;
-    int n_steps = 20000;
+    int n_steps = 2000;
     int n_experiments = 1;
 
 
@@ -68,9 +68,9 @@ int main(int argc, char** argv) {
     int planning_horizon = 1; 
     int leaf_value = TreeBRLPolicy::LeafNodeValue::NONE;
     int algorithm = TreeBRLPolicy::WhichAlgo::PLC;
-    int n_policies = 4;
+    int n_policies = 2;
 	int n_samples = 2;
-	int K_step = 20;
+	int K_step = 100;
 	real dirichlet_mass = 2.0;	//INTIAL VALUE IN GUEZ CODE
 	int planner = 0; // 0 - Sparser, 1 - UCRL2, 2 - SampleBased
 	real delta = 0.99; // << For UCRL2
@@ -89,13 +89,13 @@ int main(int argc, char** argv) {
 		K_step = atoi(argv[3]);
 	}
 	if (argc > 4) {
-		planning_horizon = atoi(argv[4]);
+		useRTDP = atoi(argv[4]);
 	}
 	if (argc > 5) {
-		planner = atoi(argv[5]);
+		planning_horizon = atoi(argv[5]);
 	}
 	if (argc > 6 && planner==0) {
-		useRTDP = atoi(argv[6]);
+		planner = atoi(argv[6]);
 	}
 	if (argc > 7) {
 		useFixedRewards = atoi(argv[7]);
@@ -103,8 +103,8 @@ int main(int argc, char** argv) {
     //printf("# Making environment\n");
     shared_ptr<DiscreteEnvironment> environment;
 
-	SIMULATOR* sim = new Maze(discounting);
-	//SIMULATOR* sim = new Grid(5,discounting);
+	//SIMULATOR* sim = new Maze(discounting);
+	SIMULATOR* sim = new Grid(10,discounting);
 	//SIMULATOR* sim = new Dloop(discounting);
 	//SIMULATOR* sim = new Chain(discounting);
 	//double p[16] = {0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.9,0.6,0.6,0.6};

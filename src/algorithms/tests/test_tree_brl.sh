@@ -9,7 +9,7 @@ do
 	for leaf in 0
 	do
 		fname=out-${horizon}-${leaf}
-		sem -j6 ./bin/test_tree_brl ${horizon} ${leaf} $n $T $gamma >$fname 
+		sem -j6 ./bin/test_tree_brl ${horizon} ${leaf} $n $T $gamma >$fname
 	done
 done
 

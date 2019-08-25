@@ -43,7 +43,7 @@ Student::Student(const int degrees, const Vector& location, const Matrix& precis
 
 Student::~Student()
 {
-    delete sampler;
+//    delete sampler;
 }
 
 /// Set the degrees

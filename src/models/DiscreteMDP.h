@@ -53,7 +53,7 @@ public:
 	/// Reward distribution
 	DiscreteSpaceRewardDistribution reward_distribution;
 	/// Transition distribution
-	SimpleTransitionDistribution transition_distribution; 
+	DiscreteTransitionDistribution transition_distribution; 
 
 	/// Default constructor
 	MDP<int, int>(int n_states_, int n_actions_,

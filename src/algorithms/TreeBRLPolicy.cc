@@ -450,7 +450,7 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 //	models[i] = model;	//So have to collect here to delete them later 
     }
 
-	int runs = 10;
+	int runs = 5;
 //	if (tree.T < 2000) runs = 1;
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
@@ -462,7 +462,7 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 
 	//PolicyIteration PI(model, tree.gamma);
 if(tree.Use_RTDP)	RT_objects[i]->ComputeStateValues(runs,K_step*3); /// << param for RTDP
-else	PI_objects[i]->ComputeStateValues(1e-1);
+else	PI_objects[i]->ComputeStateValues(4,1e-9);
 	//delete model;
     }
 
@@ -600,7 +600,7 @@ void TreeBRLPolicy::BeliefState::SparserAverageExpandAllActions(int n_samples,in
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-0);
+	PI_objects[i]->ComputeStateValues(-1,1e-3);
 	//delete model;
     }
 //}
@@ -892,7 +892,7 @@ real TreeBRLPolicy::BeliefState::UTSValue()
     #pragma omp parallel for num_threads(n_samples)
 	for (int i=0; i<n_samples; ++i) {
 //	printf("Threads: %d \n",omp_get_num_threads());
-		VI_objects[i]->ComputeStateValuesStandard(1e-2);
+		VI_objects[i]->ComputeStateValuesStandard(1e-3);
 	}
 	for (int i=0; i<n_samples; ++i) {
 		V += VI_objects[i]->getValue(state);

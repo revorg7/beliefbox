@@ -80,15 +80,18 @@ PolicyIteration::~PolicyIteration()
     The policy iteration itself stops whenever the policy has been the same for a bit.
 
 */
-void PolicyIteration::ComputeStateValues(real threshold, int max_iter)
+void PolicyIteration::ComputeStateValues(int max_iter,real evaluation_threshold)
 {
+//	if (max_iter < 0) max_iter = 1e8;
     bool policy_stable = true;
     int iter = 0;
     do {
         policy_stable = true;
         Delta = 0.0;
         // evaluate policy
-        evaluation->ComputeStateValues(threshold, max_iter);
+//printf("begin\n");
+        evaluation->ComputeStateValues(evaluation_threshold, max_iter);
+//printf("end\n");
         // improve policy
         for (int s=0; s<n_states; s++) {
             real max_Qa = evaluation->getValue(s, 0);
@@ -117,7 +120,7 @@ void PolicyIteration::ComputeStateValues(real threshold, int max_iter)
         }
     } while(policy_stable == false && iter < max_iter);
 
-    //printf ("iter left = %d\n", max_iter - iter);
+//    printf ("max_iter:%d, iter:%d , policy_stable:%d\n",max_iter, iter,policy_stable);
 }
 
 

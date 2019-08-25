@@ -253,7 +253,8 @@ DiscreteMDP* DiscreteMDPCountsSparse::generate() const
         for (int a=0; a<n_actions; a++) {
             //Vector C =  P[getID (s,a)].getMarginal();
             Vector C =  transitions.generate(s,a);
-            real expected_reward = GenerateReward(s,a);
+//            real expected_reward = GenerateReward(s,a);
+            real expected_reward = ER[getID (s, a)]->generate();
             mdp->reward_distribution.addFixedReward(s, a, expected_reward);
             for (int s2=0; s2<n_states; s2++) {
                 if (C[s2]) {
@@ -270,10 +271,22 @@ DiscreteMDP* DiscreteMDPCountsSparse::generate() const
 /// Get a pointer to the mean MDP
 const DiscreteMDP * DiscreteMDPCountsSparse::getMeanMDP() const
 {
-	//DiscreteMDP* mdp = new DiscreteMDP(n_states, n_actions);
-	//CopyMeanMDP(mdp);
-    //    return mdp;
-    return nullptr;
+	DiscreteMDP* mean_mdp = new DiscreteMDP(n_states, n_actions);
+
+    for (int s=0; s<n_states; s++) {
+		for (int a=0; a<n_actions; a++) {
+			for (int s_next=0; s_next<n_states; s_next++) {
+				real p = transitions.marginal_pdf(s, a, s_next);
+				mean_mdp->setTransitionProbability(s, a, s_next, p);
+				real expected_reward = getExpectedReward(s,a);
+				mean_mdp->reward_distribution.setFixedReward(s, a, expected_reward);
+			}
+		}
+	}
+
+
+    return mean_mdp;
+//    return nullptr;
 }
 
 

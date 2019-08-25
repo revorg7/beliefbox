@@ -136,7 +136,9 @@ void RandomMDP::Reset()
 /// returns true if the action succeeds, false if we are in a terminal state
 bool RandomMDP::Act(const int& action)
 {
-  reward = mdp->Act(action); //mdp->generateReward(state, action);
+//  reward = mdp->Act(action); << This is wrong, since Act() returns bool
+  mdp->Act(action);
+  reward = mdp->getReward();//mdp->generateReward(state, action);
   state = mdp->getState();//mdp->generateState(state, action);
   if (state==terminal_state) {
       return false;

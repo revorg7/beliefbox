@@ -44,6 +44,12 @@ public:
     }
 
     virtual DiscreteMDP* getMDP() const;
+
+    virtual real getExpectedReward(const int& state, const int& action) const
+    {
+        return model->getExpectedReward(state, action);
+    }
+
 };
 
 #endif

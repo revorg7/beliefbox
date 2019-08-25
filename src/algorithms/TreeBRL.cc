@@ -296,7 +296,7 @@ void TreeBRL::BeliefState::SparserExpandAllActions(int n_samples,int K_step)
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-1);
+	PI_objects[i]->ComputeStateValues(-1,1e-3);
 	//delete model;
     }
 

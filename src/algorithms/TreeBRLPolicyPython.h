@@ -74,6 +74,7 @@ public:
     MDPModel* belief; ///< pointer to the base MDP model
     const int K_step;
     FixedDiscretePolicy* root_policy;	//used for taking multiple-steps in real environment in PSRL style
+	int getAction(int state) {return ArgMax( root_policy->getActionProbabilities(state) ) ;}
     class BeliefState
     {
     protected:

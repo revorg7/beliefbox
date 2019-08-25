@@ -269,7 +269,7 @@ TreeBRLPolicyAvg::BeliefState::BeliefState(TreeBRLPolicyAvg& tree_,
     }
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
-	PI_objects[i]->ComputeStateValues(1e-0);
+	PI_objects[i]->ComputeStateValues(-1,1e-6);
     }
 
     // Creating n_policies policy
@@ -412,7 +412,7 @@ void TreeBRLPolicyAvg::BeliefState::SparserExpandAllActions(int n_samples,int n_
 	//FixedDiscretePolicy* policy = VI.getPolicy();
 
 	//PolicyIteration PI(model, tree.gamma);
-	PI_objects[i]->ComputeStateValues(1e-1);
+	PI_objects[i]->ComputeStateValues(-1,1e-6);
 	//delete model;
     }
 
@@ -587,7 +587,7 @@ if (t!= tree.horizon-1) {
     }
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
-	PI_objects[i]->ComputeStateValues(1e-0);
+	PI_objects[i]->ComputeStateValues(-1,1e-6);
     }
 
     // Creating n_policies policy

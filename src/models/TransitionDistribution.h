@@ -91,8 +91,11 @@ public:
 	int n_actions; ///< the maximum number of actions
 	DiscreteStateSet empty_set; ///< included for convenience
 	/// The implementation of the discrete transition distribution
-	tsl::hopscotch_map<DiscreteTransition, real> P;  ///< gives the actual probabilities
-	tsl::hopscotch_map<DiscreteStateAction, DiscreteStateSet> next_states; ///< next states for quick access
+	/*
+		Removed "tsl::hopsctoch_map<DiscreteTransition, real> P" as it was too slow to "belief->generate()" an MDP of size (500,4). See test_mdp.cc
+	*/
+	std::unordered_map<DiscreteTransition, real> P;  ///< gives the actual probabilities
+	std::unordered_map<DiscreteStateAction, DiscreteStateSet> next_states; ///< next states for quick access
 	TransitionDistribution(int n_states_, int n_actions_)
 		: n_states(n_states_),
 		  n_actions(n_actions_)

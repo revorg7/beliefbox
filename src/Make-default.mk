@@ -25,7 +25,7 @@ DBG_OPT=OPT
 
 # Add -pg flag for profiling
 CFLAGS_DBG = -fPIC -g -std=c++14 -Wall -DUSE_DOUBLE -Wno-overloaded-virtual -fopenmp
-CFLAGS_OPT = -fPIC `python3-config --cflags` -std=c++14 -O3 -Wall -DUSE_DOUBLE -DNDEBUG -Wno-overloaded-virtual -fopenmp
+CFLAGS_OPT = -fPIC `python3-config --cflags` -std=c++14 -O3 -Qunused-arguments -Wall -DUSE_DOUBLE -DNDEBUG -Wno-overloaded-virtual -fopenmp
 #CFLAGS_DBG = -fPIC -g -Wall -pipe -pg
 #CFLAGS_OPT = -fPIC -g -O3 -Wall -DNDEBUG -pipe -pg
 CFLAGS=$(CFLAGS_$(DBG_OPT))
