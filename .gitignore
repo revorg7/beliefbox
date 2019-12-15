@@ -1,3 +1,2 @@
-# Don't track content of these folders
-# src/algorithms/tests/results/
+src/algorithms/tests/results/
 *.txt

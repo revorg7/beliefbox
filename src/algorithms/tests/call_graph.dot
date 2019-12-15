@@ -1,8 +1,0 @@
-digraph {
-	graph [fontname=Arial, nodesep=0.125, ranksep=0.25];
-	node [fontcolor=white, fontname=Arial, height=0, shape=box, style=filled, width=0];
-	edge [fontname=Arial];
-	1 [color="#fb1c01", fontcolor="#ffffff", fontsize="10.00", label="TransitionDistribution<int, int>::GetTransition(int, int, int) const\n97.24%\n(97.24%)"];
-	2 [color="#0d1274", fontcolor="#ffffff", fontsize="10.00", label="std::_Rb_tree_node<int>* std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_M_copy<std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node>(std::_Rb_tree_node<int> const*, std::_Rb_tree_node_base*, std::_Rb_tree<int, int, std::_Identity<int>, std::less<int>, std::allocator<int> >::_Alloc_node&)\n1.19%\n(1.19%)"];
-	3 [color="#0d0f74", fontcolor="#ffffff", fontsize="10.00", label="PolicyEvaluation::getValue(int, int) const\n0.62%\n(0.62%)"];
-}
