@@ -35,7 +35,7 @@ Gridworld::Gridworld(const char* fname,
     n_actions = 4;
     
     CalculateDimensions(fname);
-    n_states = width * height + 1; // plus a terminal state
+    n_states = width * height; // plus a terminal state
     state_upper_bound = n_states;
     terminal_state = n_states - 1;
     //reward = 0.0;

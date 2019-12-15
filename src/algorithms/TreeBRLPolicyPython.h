@@ -26,6 +26,8 @@
 #include "MultiMDPValueIteration.h"
 #include "ValueIteration.h"
 #include "PolicyIteration.h"
+#include "PPVI.h"
+#include "PPI.h"
 #include "RTDP.h"
 #include "PolicyEvaluation.h"
 #include "QLearning.h"
@@ -38,9 +40,9 @@
 
 /// \ingroup ReinforcementLearning
 /// @{
-    
+
 /** Direct model-based reinforcement learning using trees.
-  
+
  */
 class TreeBRLPolicyPython : public OnlineAlgorithm<int, int>
 {
@@ -66,7 +68,7 @@ protected:
     LeafNodeValue leaf_node_expansion; ///< how to expand the leaf node
     WhichAlgo algorithm; //< which algorithm to use
     std::vector<FixedDiscretePolicy*> root_policies;///< polcies sampled at the root
-    const int n_policies; ///< number of policies sampled in algorithm 
+    const int n_policies; ///< number of policies sampled in algorithm
     const int n_samples;
 public:
 	QLearning* qlearning;
@@ -74,7 +76,7 @@ public:
     MDPModel* belief; ///< pointer to the base MDP model
     const int K_step;
     FixedDiscretePolicy* root_policy;	//used for taking multiple-steps in real environment in PSRL style
-	int getAction(int state) {return ArgMax( root_policy->getActionProbabilities(state) ) ;}
+	int getAction(int state);
     class BeliefState
     {
     protected:
@@ -128,7 +130,10 @@ public:
     };
 
 	//Custom constructor according to Pybind11 docs
-	TreeBRLPolicyPython(int n_states,int n_actions, real discounting);
+	TreeBRLPolicyPython(int n_states,int n_actions, real discounting,int n_policies, int n_samples, int K_step);
+  //Function for Dumping Belief to a File
+  void saveBelief(int timestep);
+  void loadBelief(int timestep);
 
 
     TreeBRLPolicyPython(std::shared_ptr<DiscreteEnvironment> environment_,
@@ -148,7 +153,7 @@ public:
     virtual void Reset(int state);
     /// Full observation
     virtual real Observe (int state, int action, real reward, int next_state, int next_action);
-    /// Partial observation 
+    /// Partial observation
     virtual real Observe (real reward, int next_state, int next_action);
     /// Get an action using the current exploration policy.
     /// it calls Observe as a side-effect.
@@ -176,10 +181,9 @@ public:
     TreeBRLPolicyPython::BeliefState CalculateSparseBeliefTree(int n_samples, int n_TS);
     TreeBRLPolicyPython::BeliefState CalculateBeliefTree();
     TreeBRLPolicyPython::BeliefState CalculateSparserBeliefTree(int n_samples, int K_step, int n_TS);
-    
+
 };
 
 
 /// @}
 #endif
-

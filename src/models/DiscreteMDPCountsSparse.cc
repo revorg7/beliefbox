@@ -20,7 +20,7 @@
 //#define SPARSE_DEBUG
 
 /** Create a counting model of an MDP.
-	
+
 	\arg n_states the number of MDP states
 	\arg n_actions the number of MDP actions
 	\arg init_transition_count the prior for the Dirichlet. The higher this is, the more the model will expect to see unseen transitions.
@@ -28,12 +28,13 @@
 	\arg The prior reward average. This can be used to bias the average to some particular value.
 */
 DiscreteMDPCountsSparse::DiscreteMDPCountsSparse (int n_states, int n_actions, real init_transition_count, RewardFamily reward_family_)
-    : 
+    :
     MDPModel(n_states, n_actions),
 	transitions(n_states, n_actions, init_transition_count),
     reward_family(reward_family_)
+
 {
-    logmsg("Creating DiscreteMDPCountsSparse with %d states and %d actions\n",  n_states, n_actions);
+    logmsg("Creating DiscreteMDPCountsSparse with %d states and %d actions and init-trans %f\n",  n_states, n_actions,init_transition_count);
     N = n_states * n_actions;
     ER.resize(N);
     for (int i=0; i<N; ++i) {
@@ -62,7 +63,7 @@ DiscreteMDPCountsSparse::DiscreteMDPCountsSparse(const DiscreteMDPCountsSparse& 
 	N(model.N)
 {
 	//logmsg("Copying DiscreteMDPCountsSparse with %d states and %d actions\n",  n_states, n_actions);
-	
+
 	ER.resize(N);
 	for (int i=0; i<N; ++i) {
 		switch(reward_family) {
@@ -89,7 +90,7 @@ DiscreteMDPCountsSparse* DiscreteMDPCountsSparse::Clone() const
 }
 
 real DiscreteMDPCountsSparse::CalculateDistance(MDPModel* target_belief,int s, int a) const
-{			
+{
 	Vector v1 = getTransitionProbabilities (s, a);
 	Vector v2 = target_belief->getTransitionProbabilities (s, a);
 
@@ -147,7 +148,7 @@ void DiscreteMDPCountsSparse::AddTransition(int s, int a, real r, int s2)
     ER[ID]->Observe(r);
 
     real expected_reward = getExpectedReward(s,a);
-    
+
 }
 
 //void DiscreteMDPCounts::SetNextReward(int s, int a, real r)
@@ -155,7 +156,7 @@ void DiscreteMDPCountsSparse::AddTransition(int s, int a, real r, int s2)
 //    ER[getID (s, a)].mean = r;
 //}
 
-/// Generate a reward from the marginal distribution 
+/// Generate a reward from the marginal distribution
 real DiscreteMDPCountsSparse::GenerateReward (int s, int a) const
 {
     return ER[getID (s, a)]->generateMarginal();
@@ -191,7 +192,7 @@ real DiscreteMDPCountsSparse::getExpectedReward (int s, int a) const
     return ER[getID (s,a)]->getMean();
 }
 
-/// Reset at the end of an episode 
+/// Reset at the end of an episode
 void DiscreteMDPCountsSparse::Reset()
 {
 }
@@ -216,10 +217,10 @@ void DiscreteMDPCountsSparse::ShowModel() const
 
 	for (int a=0; a<n_actions; a++) {
         for (int i=0; i<n_states; i++) {
-            std::cout << "R(" << a << "," << i 
+            std::cout << "R(" << a << "," << i
                       << ") = " << getExpectedReward(i, a)
 				//<< " [" << ER[getID(i,a)].n_samples << "]"
-                      << std::endl; 
+                      << std::endl;
         }
 	}
 }
@@ -237,10 +238,10 @@ void DiscreteMDPCountsSparse::ShowModelStatistics() const
 
 	for (int a=0; a<n_actions; a++) {
         for (int i=0; i<n_states; i++) {
-            std::cout << "R(" << a << "," << i 
+            std::cout << "R(" << a << "," << i
                       << ") = " << getExpectedReward(i, a)
 				//<< " [" << ER[getID(i,a)].n_samples << "]"
-                      << std::endl; 
+                      << std::endl;
         }
 	}
 }
@@ -254,7 +255,7 @@ DiscreteMDP* DiscreteMDPCountsSparse::generate() const
             //Vector C =  P[getID (s,a)].getMarginal();
             Vector C =  transitions.generate(s,a);
 //            real expected_reward = GenerateReward(s,a);
-            real expected_reward = ER[getID (s, a)]->generate();
+            real expected_reward = ER[getID (s, a)]->generate();///< This is wrong, GenerateReward() is right
             mdp->reward_distribution.addFixedReward(s, a, expected_reward);
             for (int s2=0; s2<n_states; s2++) {
                 if (C[s2]) {
@@ -263,7 +264,7 @@ DiscreteMDP* DiscreteMDPCountsSparse::generate() const
             }
         }
     }
-    
+
     return mdp;
 }
 
@@ -288,6 +289,3 @@ const DiscreteMDP * DiscreteMDPCountsSparse::getMeanMDP() const
     return mean_mdp;
 //    return nullptr;
 }
-
-
-

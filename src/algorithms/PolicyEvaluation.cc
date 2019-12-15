@@ -64,9 +64,7 @@ void PolicyEvaluation::ComputeStateValues(real threshold, int max_iter)
             //printf ("S: %d ", s);
             for (int a=0; a<n_actions; a++) {
                 real p_sa = policy->getActionProbability(s, a);
-                real V_sa = getValue(s, a);
-                //printf ("+ %f*%f \n", p_sa, V_sa);
-                pV += p_sa * V_sa;
+				if (p_sa > 0.0) pV += p_sa * getValue(s, a);
             }
             //printf (" =  %f\n", pV[s]);
             Delta += fabs(V[s] - pV);

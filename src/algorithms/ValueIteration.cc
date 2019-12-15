@@ -41,7 +41,7 @@ void ValueIteration::Reset()
     dQ.Resize(n_states, n_actions);
     pQ.Resize(n_states, n_actions);
 
-    
+
     for (int s=0; s<n_states; s++) {
         V(s) = 0.0;
         dV(s) = 0.0;
@@ -82,13 +82,13 @@ void ValueIteration::ComputeStateValuesStandard(real threshold, int max_iter)
                     real P = mdp->getTransitionProbability(s, a, s2);
                     V_next_sa += P * pV(s2);
                 }
-                Q(s, a) = mdp->getExpectedReward(s, a) - baseline 
+                Q(s, a) = mdp->getExpectedReward(s, a) - baseline
 					+ gamma * V_next_sa;
             }
             V(s) = Max(Q.getRow(s));
             Delta += fabs(V(s) - pV(s));
         }
-        
+
         if (max_iter > 0) {
             max_iter--;
         }
@@ -162,7 +162,7 @@ void ValueIteration::PartialUpdateOnPolicy(real step_size)
     \f]
     If, for some state-action pair \f$s,a\f$, it holds that:
     \f[
-    \frac{\gamma}{1 - \gamma} \mathrm{span}(B) 
+    \frac{\gamma}{1 - \gamma} \mathrm{span}(B)
     <
     V'(s) - Q(s,a)
     \f]
@@ -195,7 +195,7 @@ void ValueIteration::ComputeStateValuesElimination(real threshold, int max_iter)
             dV(s) = V(s) - pV(s);
             Delta += fabs(dV(s));
         }
-        
+
         real scale = Span(dV) * gamma / (1.0 - gamma);
         for (int s=0; s<n_states; s++) {
             for (int a=0; a<n_actions; a++) {
@@ -277,7 +277,7 @@ FixedDiscretePolicy* ValueIteration::getPolicy()
     for (int s=0; s<n_states; s++) {
         int argmax_Qa = ArgMax(Q.getRow(s));
         Vector* p = policy->getActionProbabilitiesPtr(s);
-        for (int a=0; a<n_actions; a++) { 
+        for (int a=0; a<n_actions; a++) {
             (*p)(a) = 0.0;
         }
         (*p)(argmax_Qa) = 1.0;

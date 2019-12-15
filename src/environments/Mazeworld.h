@@ -19,6 +19,7 @@
 #include <vector>
 
 /* Dearden Mazeword - 1998, Bayesian Q-learning, refer to Strens(2002) description as well*/
+/*Only difference btw this is GridWorld is that states are enumerated by (x,y) coordinates as well as the status of flags*/
 
 class Mazeworld : public Environment<int, int>
 {

@@ -18,43 +18,43 @@
 #include <cassert>
 
 PolicyIteration::PolicyIteration(PolicyEvaluation* evaluation_,
-                                 const DiscreteMDP* mdp_, 
+                                 const DiscreteMDP* mdp_,
                                  real gamma_,
-                                 real baseline_) 
+                                 real baseline_)
     : evaluation(evaluation_), mdp(mdp_), gamma(gamma_), baseline(baseline_)
 {
     assert (mdp);
     assert (gamma>=0 && gamma <=1);
-    
+
     n_actions = mdp->getNActions();
     n_states = mdp->getNStates();
-    
+
     policy = new FixedDiscretePolicy(n_states, n_actions);
     evaluation->policy = policy;
     _evaluation = NULL;
-    
+
     a_max.resize(n_states);
-    
+
     Reset();
 }
 
-PolicyIteration::PolicyIteration(const DiscreteMDP* mdp_, 
+PolicyIteration::PolicyIteration(const DiscreteMDP* mdp_,
                                  real gamma_,
-                                 real baseline_) 
+                                 real baseline_)
     : mdp(mdp_), gamma(gamma_), baseline(baseline_)
 {
     assert (mdp);
     assert (gamma>=0 && gamma <=1);
-    
+
     n_actions = mdp->getNActions();
     n_states  = mdp->getNStates();
-    
+
     policy = new FixedDiscretePolicy(n_states, n_actions);
     _evaluation = new PolicyEvaluation(policy, mdp, gamma, baseline);
     evaluation = _evaluation;
-    
+
     a_max.resize(n_states);
-    
+
     Reset();
 }
 
@@ -74,7 +74,7 @@ PolicyIteration::~PolicyIteration()
 }
 
 /** ComputeStateValues
-   
+
     threshold - exit policy estimation when difference in Q is smaller than the threshold
     max_iter - exit policy estimation when the number of iterations reaches max_iter
     The policy iteration itself stops whenever the policy has been the same for a bit.
@@ -104,7 +104,7 @@ void PolicyIteration::ComputeStateValues(int max_iter,real evaluation_threshold)
                 }
             }
             Vector* p = policy->getActionProbabilitiesPtr(s);
-            for (int a=0; a<n_actions; a++) { 
+            for (int a=0; a<n_actions; a++) {
                 (*p)[a] = 0.0;
             }
             (*p)[argmax_Qa] = 1.0;
@@ -118,10 +118,7 @@ void PolicyIteration::ComputeStateValues(int max_iter,real evaluation_threshold)
         if (max_iter >= 0) {
             iter++;
         }
-    } while(policy_stable == false && iter < max_iter);
+    } while(policy_stable == false );
 
 //    printf ("max_iter:%d, iter:%d , policy_stable:%d\n",max_iter, iter,policy_stable);
 }
-
-
-

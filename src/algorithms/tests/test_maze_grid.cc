@@ -17,7 +17,7 @@ int main(void)
     //environment = make_shared<DoubleLoop>();
     //environment = make_shared<OptimisticTask>(0.1,0.7); //2nd argument is success probablity of transition
     //environment = make_shared<Gridworld>("../../../dat/maze01",0.2,0,1.0,0); //For GRID5,GRID10
-    Mazeworld environment = Mazeworld("../../../dat/maze02",0.1,0,0.0,0); //For Maze
+    Mazeworld environment = Mazeworld("../../../dat/maze02",0.1,0,0.0,0); //For Dearden Maze with flag-status encoded in the state
 
 	printf("checking flags %d %d %d are at correct position, should be no. 3\n",environment.whatIs(0,5),environment.whatIs(6,4),environment.whatIs(2,0));
 	printf("checking flags state-value %d %d %d\n",environment.getState(0,5),environment.getState(6,4),environment.getState(2,0));

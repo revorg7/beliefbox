@@ -10,6 +10,8 @@
  ***************************************************************************/
 
 #include "TreeBRLPolicyPython.h"
+#include <chrono>
+#include "fstream"
 
 //Although the previous way of averaging over first actions was better, it is incorrect, since it essentially added the values functions of each policy with same action
 // Consider, 3 policy, 2 samples, with 2 policy having same 1st action, now weighting by 1/n_samples for each policy, we are essntially calculating V(pi_1),V(pi_2) and V(pi_3)
@@ -57,18 +59,17 @@ environment = environment_;
 	case PLC:  Qs(n_policies); break;
 	default: Qs(n_actions); break;
 	}
-
 }
 
-TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real discounting): 
+TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real discounting,int n_policies_, int n_samples_, int K_step_):
 				n_states(n_states_),
 				n_actions(n_actions_),
 				gamma(discounting),
 				T(0),
 				size(0),
-				n_policies(2),
-				n_samples(20),
-				K_step(100)
+				n_policies(n_policies_),
+				n_samples(n_samples_),
+				K_step(K_step_)
  {
 
 	    // ---- user options ---- //
@@ -78,6 +79,7 @@ TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real disc
 	    algorithm = WhichAlgo::PLC;
 	    current_state = -1;
     	std::shared_ptr<DiscreteEnvironment> environment=NULL;
+		root_policy = NULL;
 		qlearning = new QLearning(n_states,n_actions,gamma,0.3,0.2,new EpsilonGreedy(n_actions,0.3));
 
 	    switch(algorithm) {
@@ -88,12 +90,22 @@ TreeBRLPolicyPython::TreeBRLPolicyPython(int n_states_,int n_actions_, real disc
 		//Making belief inside
 		real dirichlet_mass = 2.0;	//INTIAL VALUE IN GUEZ CODE
 		enum DiscreteMDPCountsSparse::RewardFamily reward_prior = DiscreteMDPCountsSparse::NORMAL; //Doing Fixed here
+
 	    belief = new DiscreteMDPCountsSparse(n_states, n_actions, dirichlet_mass, reward_prior);
 
 		bool useFixedRewards = false; // << Using Fixed Rewards
 //		if(useFixedRewards) belief.setFixedRewards(rewards);
 
 }
+
+int TreeBRLPolicyPython::getAction(int state)
+{
+	int action = 0;
+	if (root_policy != NULL)
+	action = ArgMax( root_policy->getActionProbabilities(state) ) ;
+	return action;
+}
+
 
 // Note that the belief tree is only created within Act() and
 // destroyed immediately. Hence there is no need to remove
@@ -136,7 +148,7 @@ real TreeBRLPolicyPython::Observe (int state, int action, real reward, int next_
     current_action = next_action;
     return 0.0;
 }
-/// Partial observation 
+/// Partial observation
 real TreeBRLPolicyPython::Observe (real reward, int next_state, int next_action)
 {
     if (current_state >= 0 && current_action >= 0) {
@@ -288,7 +300,7 @@ TreeBRLPolicyPython::BeliefState::BeliefState(TreeBRLPolicyPython& tree_,
                                   const MDPModel* belief_,
                                   int state_) : tree(tree_), state(state_), probability(1), t(0)
 {
-	belief = belief_->Clone();  
+	belief = belief_->Clone();
     tree.size++;
 }
 
@@ -301,12 +313,12 @@ TreeBRLPolicyPython::BeliefState::BeliefState(TreeBRLPolicyPython& tree_,
                                   real r,
                                   real p,
                                   BeliefState* prev_)
-	: tree(tree_), 
+	: tree(tree_),
 	  state(state_),
 	  prev_action(prev_action_),
 	  prev_reward(r), probability(p), prev(prev_), t(prev_->t + 1)
 {
-	
+
 #ifdef TBRL_DEBUG
 	logmsg("Cloning belief");
 #endif
@@ -341,7 +353,7 @@ TreeBRLPolicyPython::BeliefState::BeliefState(TreeBRLPolicyPython& tree_,
 				  real p,
                                   BeliefState* prev_,
 				real discount_factor_				)
-	: tree(tree_), 
+	: tree(tree_),
 	  belief(belief_),
 	  state(state_),
 	  prev_action(prev_action_),
@@ -350,7 +362,7 @@ TreeBRLPolicyPython::BeliefState::BeliefState(TreeBRLPolicyPython& tree_,
 
 
 	tree.size++;
-	
+
 #ifdef TBRL_DEBUG
 	logmsg("Already cloned belief\n");
 //	belief_->ShowModelStatistics();
@@ -382,9 +394,10 @@ void TreeBRLPolicyPython::BeliefState::SparserExpandAllActions(int n_samples,int
 	printf("t: %d\n",t);
 //	belief->ShowModel();
 #endif
-	
+
 		std::vector<RTDP*> RT_objects;
 		std::vector<PolicyIteration*> PI_objects;
+		std::vector<PPVI*> PPVI_objects;
     for (int i=0; i<n_policies; ++i) {
 	DiscreteMDP* model = belief->generate();
 //for (int i=0; i<tree.n_states; i++) for (int j=0;j<tree.n_actions;j++) model->setFixedReward(i, j, tree.environment->getExpectedReward(i,j));
@@ -393,12 +406,15 @@ void TreeBRLPolicyPython::BeliefState::SparserExpandAllActions(int n_samples,int
 	model->ShowModel();
 #endif
 if(tree.Use_RTDP)	RT_objects.push_back(new RTDP(model, tree.gamma, state));
+//else	PPVI_objects.push_back(new PPVI(model, tree.gamma, 20, 10));
 else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
+
 	//delete model;		//cant delete as PI_objects depend on it
-//	models[i] = model;	//So have to collect here to delete them later 
+//	models[i] = model;	//So have to collect here to delete them later
     }
 
 	int runs = 5;
+  auto start = std::chrono::high_resolution_clock::now();
 //	if (tree.T < 2000) runs = 1;
     #pragma omp parallel for num_threads(n_policies)
     for (int i=0; i<n_policies; ++i) {
@@ -410,15 +426,22 @@ else	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 
 	//PolicyIteration PI(model, tree.gamma);
 if(tree.Use_RTDP)	RT_objects[i]->ComputeStateValues(runs,K_step*5); /// << param for RTDP
-else	PI_objects[i]->ComputeStateValues(-1,1e-3);
+//else	PPVI_objects[i]->ComputeStateValues(1e-3); ///< For PPVI
+else	PI_objects[i]->ComputeStateValues(10,1e-3);
 	//delete model;
     }
+  auto finish = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
+//  printf("PPVI time-taken:%d\n",duration);
+
 
     // Saving policies if they are at the root
     if (t == 0) {
 	    for (int i=0; i<n_policies; ++i) {
 if(tree.Use_RTDP)		tree.root_policies.push_back(RT_objects[i]->getPolicy());
+//else		tree.root_policies.push_back(PPVI_objects[i]->getPolicy());
 else		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p));
+
 	    }
     }
 
@@ -428,6 +451,7 @@ else		tree.root_policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_
     // Deleting pointers and adding policies
     for (int i=0; i<n_policies; ++i) {
 if(tree.Use_RTDP)	{ policies.push_back(RT_objects[i]->getPolicy()); delete RT_objects[i];}
+//else	{policies.push_back(PPVI_objects[i]->getPolicy()); delete PPVI_objects[i];}
 else	{policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI_objects[i]->policy->p)); delete PI_objects[i];}
 #ifdef TBRL_DEBUG
 	printf("depth of tree is %d\n",t);
@@ -452,7 +476,7 @@ else	{policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI
 	    int next_state = init_state;
 	    //int next_action = policy->SelectAction();
     	    int next_action = ArgMax( policy->getActionProbabilities(underlying_state) ) ;
-	    int initial_action = next_action; 
+	    int initial_action = next_action;
 	    total_reward = 0.0;
 	    discount_factor = 1.0;
 	    MDPModel* belief_clone = belief->Clone();
@@ -460,7 +484,7 @@ else	{policies.push_back(new FixedDiscretePolicy(tree.n_states,tree.n_actions,PI
 bool cond = true;
 	    for (int k=0; k < K_step;++k)
 	        {
-	    
+
 		    //int next_action = ArgMax(policy->getActionProbabilities(state)); //choosing max_prob_action
 //		    mean_mdp->Act(next_action);
 //		    real r = mean_mdp->getReward();
@@ -498,7 +522,7 @@ bool cond = true;
 //if (cond) printf("not reached\n");
         if (tree.algorithm == PLC){ children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this, discount_factor)); }
 	else if (WRNGPLCAVG) { children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor)); }
-    	}	    
+    	}
     }
 
     // Delete pointers
@@ -535,7 +559,7 @@ void TreeBRLPolicyPython::BeliefState::SparserAverageExpandAllActions(int n_samp
 #endif
 	PI_objects.push_back(new PolicyIteration(model, tree.gamma));
 	//delete model;		//cant delete as PI_objects depend on it
-//	models[i] = model;	//So have to collect here to delete them later 
+//	models[i] = model;	//So have to collect here to delete them later
     }
 
 //if (t==0){
@@ -594,13 +618,13 @@ void TreeBRLPolicyPython::BeliefState::SparserAverageExpandAllActions(int n_samp
 	    int next_state = init_state;
 	    //int next_action = policy->SelectAction();
     	    int next_action = ArgMax( policy->getActionProbabilities(underlying_state) ) ;
-	    int initial_action = next_action; 
+	    int initial_action = next_action;
 	    total_reward = 0.0;
 	    discount_factor = 1.0;
 	    MDPModel* belief_clone = belief->Clone();
 	    for (int k=0; k < K_step;++k)
 	        {
-	    
+
 		    //int next_action = ArgMax(policy->getActionProbabilities(state)); //choosing max_prob_action
 //		    mean_mdp->Act(next_action);
 //		    real r = mean_mdp->getReward();
@@ -627,7 +651,7 @@ void TreeBRLPolicyPython::BeliefState::SparserAverageExpandAllActions(int n_samp
 		}
 	//children.push_back(new BeliefState(tree, belief_clone, j, next_state, total_reward, p, this));
 	children.push_back(new BeliefState(tree, belief_clone, initial_action, next_state, total_reward, p, this, discount_factor));
-    	}	    
+    	}
     }
 
     // Delete pointers
@@ -687,14 +711,14 @@ void TreeBRLPolicyPython::BeliefState::ExpandAllActions()
 			}
 		}
     }
-            
+
     for (uint i=0; i<children.size(); ++i) {
         children[i]->ExpandAllActions();
     }
 }
 
-            
-        
+
+
 /// Return the values using Backwards induction on the already
 /// constructed MDP.
 ///
@@ -703,7 +727,7 @@ void TreeBRLPolicyPython::BeliefState::ExpandAllActions()
 ///
 /// \f$V_t(w) = \max_a Q_t(w, a) = \max_a E\{r(w,a,w') + \gamma V_{t+1} (w')\}\f$,
 ///
-/// where the expectation is 
+/// where the expectation is
 /// \f$Q_t(w, a) = \sum_{s'} {r(w,a,s') + \gamma P(s' | a, s) V_{t+1} (w')\}\f$ and \f$w' = w( | s, a, s')\f$.
 real TreeBRLPolicyPython::BeliefState::CalculateValues(LeafNodeValue leaf_node, int buffer)
 {
@@ -712,7 +736,7 @@ real TreeBRLPolicyPython::BeliefState::CalculateValues(LeafNodeValue leaf_node, 
     Vector Q(buffer);
     real V = 0;
     real discount = tree.gamma;
-	
+
     if (t < tree.horizon) {
         for (uint i=0; i<children.size(); ++i) {
             int a = children[i]->prev_action;
@@ -742,7 +766,7 @@ real TreeBRLPolicyPython::BeliefState::CalculateValues(LeafNodeValue leaf_node, 
 		case V_LTS: V = LTSValue(); break;
 		}
     }
-	
+
 
 
     if (t==0) {
@@ -811,7 +835,7 @@ real TreeBRLPolicyPython::BeliefState::LTSValue()
 
     return V;
 }
-        
+
 /// Return the values using the mean MDP
 real TreeBRLPolicyPython::BeliefState::MeanMDPValue()
 {
@@ -821,7 +845,7 @@ real TreeBRLPolicyPython::BeliefState::MeanMDPValue()
 	VI.ComputeStateValuesStandard(1e-3);
 	return VI.getValue(state);
 }
-        
+
 /// Return the values using the mean MDP
 real TreeBRLPolicyPython::BeliefState::Qlearning()
 {
@@ -832,7 +856,7 @@ real TreeBRLPolicyPython::BeliefState::Qlearning()
 	for (int i=0; i<n_samples; ++i) {
 
 		policy->Observe(0,state);
-		
+
 		int init_state,next_state,K_step,next_action;
 		K_step = 80 - int(t*tree.K_step);
 		init_state = state;
@@ -866,6 +890,32 @@ real TreeBRLPolicyPython::BeliefState::Qlearning()
 	return vals.Sum()/n_samples;
 }
 
+void TreeBRLPolicyPython::saveBelief(int timestep)
+{
+	std::ofstream file_obj;
+	std::string name("Belief-"+std::to_string(timestep));
+  file_obj.open(name, std::ios::trunc);
 
+	DiscreteMDPCountsSparse* pd;
+  pd = static_cast<DiscreteMDPCountsSparse*>(belief);//Before writing to file, downcasting (Base to Derived) is necessary. Dynamic or Static both should work
+	file_obj.write((char*)pd, sizeof(*pd));
 
+	file_obj.close();
+}
 
+void TreeBRLPolicyPython::loadBelief(int timestep)
+{
+	std::fstream is;
+	std::string name("Belief-"+std::to_string(timestep));
+	is.open(name, std::ios::in);
+
+	is.seekg (0, is.end);
+	int length = is.tellg();
+	is.seekg (0, is.beg);
+	char * buffer = new char [length];
+	is.read(buffer, length);
+	is.close();
+
+	MDPModel *obj = reinterpret_cast<MDPModel *>(buffer);
+//	obj->ShowModelStatistics();
+}

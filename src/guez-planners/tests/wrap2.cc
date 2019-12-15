@@ -16,9 +16,11 @@ PYBIND11_MODULE(wrap2, m) {
 //		base.def("Reset",&OnlineAlgorithm<int, int>::Reset);
 
  	py::class_<TreeBRLPolicyPython>(m, "derived",base)
-		.def(py::init<int,int,real>())
+		.def(py::init<int,int,real,int,int,int>())
 		.def("Observe",py::overload_cast<int,int,real,int,int>(&TreeBRLPolicyPython::Observe))
 		.def("Reset",py::overload_cast<int>(&TreeBRLPolicyPython::Reset))
+    .def("saveBelief",&TreeBRLPolicyPython::saveBelief)
+    .def("loadBelief",&TreeBRLPolicyPython::loadBelief)
 		.def("getAction",&TreeBRLPolicyPython::getAction);
 //		.def("Act",&TreeBRLPolicyPython::Act);
 
