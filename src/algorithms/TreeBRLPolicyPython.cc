@@ -890,10 +890,18 @@ real TreeBRLPolicyPython::BeliefState::Qlearning()
 	return vals.Sum()/n_samples;
 }
 
-void TreeBRLPolicyPython::saveBelief(int timestep)
+void TreeBRLPolicyPython::saveBelief(int timestep,int other_encoding,std::string path)
 {
 	std::ofstream file_obj;
-	std::string name("Belief-"+std::to_string(timestep));
+	std::string name;
+	if (path == "") {
+		if (other_encoding!=-1) name = std::string("Belief-"+std::to_string(timestep)+"-"+std::to_string(other_encoding));
+		else name = std::string("Belief-"+std::to_string(timestep));
+	}
+	else {
+		if (other_encoding!=-1) name = std::string(path+"Belief-"+std::to_string(timestep)+"-"+std::to_string(other_encoding));
+		else name = std::string(path+"Belief-"+std::to_string(timestep));
+	}
   file_obj.open(name, std::ios::trunc);
 
 	DiscreteMDPCountsSparse* pd;
@@ -903,10 +911,10 @@ void TreeBRLPolicyPython::saveBelief(int timestep)
 	file_obj.close();
 }
 
-void TreeBRLPolicyPython::loadBelief(int timestep)
+void TreeBRLPolicyPython::loadBelief(std::string name)
 {
 	std::fstream is;
-	std::string name("Belief-"+std::to_string(timestep));
+//	std::string name("Belief-"+std::to_string(timestep));
 	is.open(name, std::ios::in);
 
 	is.seekg (0, is.end);

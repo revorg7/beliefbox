@@ -89,10 +89,15 @@ DiscreteMDPCountsSparse* DiscreteMDPCountsSparse::Clone() const
 	return clone;
 }
 
-real DiscreteMDPCountsSparse::CalculateDistance(MDPModel* target_belief,int s, int a) const
+Vector DiscreteMDPCountsSparse::getDirichletParameters (int s, int a) const
 {
-	Vector v1 = getTransitionProbabilities (s, a);
-	Vector v2 = target_belief->getTransitionProbabilities (s, a);
+  return transitions.getParameters(s,a);
+}
+
+real DiscreteMDPCountsSparse::CalculateMdpDistance(MDPModel* target_dist,int s, int a) const
+{
+	Vector v1 = getTransitionProbabilities (s, a); //BECAUSE WE USE MARGINAL PROBABILTIES OF SA HERE AND NOT THE ALPHA PARAMETERS OVER MODEL
+	Vector v2 = target_dist->getTransitionProbabilities (s, a);
 
 	real min_ratio = 1.0;
 	real max_ratio = 0.0;

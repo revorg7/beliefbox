@@ -37,11 +37,11 @@ public:
 protected:
 	bool use_sampling = false;
 	/// Dirichlet distribution for transitions
-    DirichletTransitionsSparse transitions; 
+    DirichletTransitionsSparse transitions;
 	/// Vector of estimators on ER.
-    std::vector<ConjugatePrior*> ER; 
+    std::vector<ConjugatePrior*> ER;
 //    DiscreteMDP mean_mdp; ///< a model of the mean MDP
-//    DiscreteMDP* sampled_mdp; ///< a model of the mean MDP 
+//    DiscreteMDP* sampled_mdp; ///< a model of the mean MDP
     RewardFamily reward_family; ///< reward family to be used
     int N;
     int getID (int s, int a) const
@@ -50,7 +50,6 @@ protected:
         assert(a>=0 && a<n_actions);
         return s*n_actions + a;
     }
-    Vector getDirichletParameters (int s, int a) const;
 public:
     DiscreteMDPCountsSparse (int n_states, int n_actions, real init_transition_count= 0.5, RewardFamily reward_family=NORMAL);
 /*
@@ -73,10 +72,11 @@ public:
     virtual real getRewardProbability (int s, int a, real r) const;
     virtual Vector getTransitionProbabilities (int s, int a) const;
     virtual real getExpectedReward (int s, int a) const;
-	virtual real CalculateDistance(MDPModel* target_belief,int s, int a) const;
+	virtual real CalculateMdpDistance(MDPModel* target_dist,int s, int a) const; //Explained in implementation why this is distance btw MDPs and not belief
     virtual void Reset();
     virtual void ShowModel() const;
-	virtual void ShowModelStatistics() const;
+  Vector getDirichletParameters (int s, int a) const;
+	  virtual void ShowModelStatistics() const;
     virtual DiscreteMDP* generate() const;
     virtual const DiscreteMDP* getMeanMDP() const;
     //virtual DiscreteMDP* CreateMDP() const;
@@ -89,4 +89,3 @@ public:
 
 
 #endif
-

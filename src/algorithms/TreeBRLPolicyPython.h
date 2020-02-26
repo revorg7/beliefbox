@@ -132,8 +132,8 @@ public:
 	//Custom constructor according to Pybind11 docs
 	TreeBRLPolicyPython(int n_states,int n_actions, real discounting,int n_policies, int n_samples, int K_step);
   //Function for Dumping Belief to a File
-  void saveBelief(int timestep);
-  void loadBelief(int timestep);
+  void saveBelief(int timestep,int other_encoding=-1,std::string path="");
+  void loadBelief(std::string name);
 
 
     TreeBRLPolicyPython(std::shared_ptr<DiscreteEnvironment> environment_,
