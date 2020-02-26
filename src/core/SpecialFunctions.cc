@@ -40,7 +40,13 @@ real logBeta(const Vector& x)
     return exp(logsum - sum);
 }
 
-
+real HellingerDistanceDirichlet(Vector alpha,Vector beta)
+{
+	Vector mean_params;
+	Add(&alpha,&beta,&mean_params);
+	mean_params /= 2.0;
+	return 1.0 - exp ( logBeta(mean_params) - logBeta(alpha) - logBeta(beta) );
+}
 
 float betacf(float a, float b, float x)
 //Used by betai: Evaluates continued fraction for incomplete beta function by modified Lentz's method (§5.2).

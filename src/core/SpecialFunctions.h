@@ -48,6 +48,7 @@ inline double logGamma(double x)
     return lgamma(x);
 }
 
+real HellingerDistanceDirichlet(Vector alpha,Vector beta);
 /** The log two-variable Beta function */
 real logBeta(real x, real y);
 /** The two-variable Beta function */
